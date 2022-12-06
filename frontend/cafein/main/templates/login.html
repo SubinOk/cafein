@@ -1,1 +1,30 @@
-test
+{% extends "layout.html" %}
+{% block content %}
+<main class="container-fluid">
+    <div class="col-4 container">
+        <div class="blank"></div>
+        <div class="blank"></div>
+        <div class="blank"></div>
+        <div class="container">
+            <div class="col text-center h3">
+                환영합니다<br>
+                원하시는 로그인을 선택해 주세요
+            </div>
+            <div class="contents-blank"></div>
+            <div class="contents-blank"></div>
+            <div class="row">
+                <div class="col-md-4">
+                    <button class="border cafein-button login-box">카페인 손님<br>로그인</button>
+                </div>
+                <div class="col-md-4 offset-md-4">
+                    <button class="border float-end cafein-button login-box">카페인 사장<br>로그인</button>
+                </div>
+            </div>
+            <div class="contents-blank"></div>
+        </div>
+        <div class="blank"></div>
+        <div class="blank"></div>
+        <div class="blank"></div>
+    </div>
+</main>
+{% endblock %}
