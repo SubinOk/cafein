@@ -132,3 +132,10 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+# gmail을 통해서 메일 전송 세팅
+# EMAIL_HOST = 'smtp.gmail.com'
+# EMAIL_POST = '587'
+# EMAIL_HOST_USER = # 이용하려는 gmail 이메일 주소
+# EMAIL_HOST_PASSWORD = # 이용하려는 gmail 앱 비밀번호 >> 'rfdktwcuupqmvbhr' ※ https://dev.grapecity.co.kr/bbs/board.php?bo_table=forguncy_free&wr_id=49 참조
+# EMAIL_USE_TLS = True
