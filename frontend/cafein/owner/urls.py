@@ -3,5 +3,7 @@ from django.urls import path, include
 
 app_name = 'owner'
 urlpatterns = [
-    path('login/', views.ownerlogin, name='ownerlogin'),
+    path('login/', views.ownerLogin, name='ownerLogin'),
+    path('findPassword/', views.findPassword, name='findPassword'),
+
 ]
