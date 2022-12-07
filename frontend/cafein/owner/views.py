@@ -6,7 +6,8 @@ from .forms import loginPostForm
 
 def ownerLogin(request):
     if request.method == 'POST':
-        return render(request, 'findPassword.html')
+        form = loginPostForm()
+        return render(request, 'ownerLogin.html', {'form': form, 'flg': True})
     else:
         form = loginPostForm()
         return render(request, 'ownerLogin.html', {'form': form, 'flg': False})
