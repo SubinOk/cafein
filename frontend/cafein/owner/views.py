@@ -6,10 +6,10 @@ from .forms import loginPostForm
 
 def ownerLogin(request):
     if request.method == 'POST':
-        pass
+        return render(request, 'findPassword.html')
     else:
         form = loginPostForm()
-        return render(request, 'ownerLogin.html', {'form': form})
+        return render(request, 'ownerLogin.html', {'form': form, 'flg': False})
 
 
 def findPassword(request):
