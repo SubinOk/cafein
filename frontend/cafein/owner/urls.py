@@ -4,7 +4,7 @@ from django.urls import path, include
 app_name = 'owner'
 urlpatterns = [
     path('login/', views.ownerLogin, name='ownerLogin'),
+    path('logout/', views.ownerLogout, name='ownerLogout'),
     path('findPassword/', views.findPassword, name='findPassword'),
     path('signup/', views.signup, name='signup'),
-
 ]

@@ -16,9 +16,21 @@
                     <img class="head-logo" src="/media/layout/logo.png">
                 </a>
             </div>
+            {% if request.session.user == None %}
             <div class="col-4">
                 <a class="login-button btn btn-outline-brown float-end nav-item nav-link" href="#">로그인</a>
             </div>
+            {% else %}
+            <div class="col-4 dropdown">
+                <a class="status-button border-0 btn float-end nav-item nav-link dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">사장 A</a>
+                <ul class="dropdown-menu dropdown-menu-end shadow border border-300">
+                    <div class="head-menu">
+                        <li><a class="dropdown-item" href="#"><img class="login-menu" src="/media/layout/logout_customer3.jpg"></a></li>
+                        <li><a class="dropdown-item" href="/owner/logout"><img class="login-menu" src="/media/layout/logout_customer2.jpg"></a></li>
+                    </div>
+                </ul>
+            </div>
+            {% endif %}
         </div>
     </header>
     

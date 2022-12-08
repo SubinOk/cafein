@@ -1,4 +1,4 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from django.template.loader import render_to_string
 from django.core.mail import EmailMessage
 
@@ -41,17 +41,25 @@ def ownerLogin(request):
             return render(request, 'ownerLogin.html', {'form': form, 'flg': True})
         
         if bcrypt.checkpw(password.encode('utf-8'), owner.password.encode('utf-8')):
+            # 위의 체크를 문제없이 통과하면 이후 페이지로 전송
+            request.session['user'] = email
+            return render(request, 'ownerLogin.html', {'form': form, 'flg': True})
+        else:
             # 입력한 encoding 패스워드가 불일치 할때 return
             return render(request, 'ownerLogin.html', {'form': form, 'flg': True})
-        
-        # 위의 체크를 문제없이 통과하면 이후 페이지로 전송
-        return render(request, 'ownerLogin.html', {'form': form, 'flg': True})
     else:
         form = loginPostForm()
         return render(request, 'ownerLogin.html', {'form': form, 'flg': False})
 
+def ownerLogout(request):
+    if request.session.get('user'):
+        del(request.session['user'])
+
+    return redirect('/')
 
 def findPassword(request):
+    if request.session.get('user'):
+        del(request.session['user'])
     if request.method == 'POST':
 
         # 일치 하는 이메일이 있는 경우 이메일 전송 방법 setting은 cafein settings.py 참조
@@ -124,12 +132,12 @@ def signup(request):
 #         if not validate_phone(phone):
 #             return JsonResponse({'message': 'PHONE_VALIDATION_ERROR'}, status=422)
 
-        
+
 #         # unique check
 #         if Owner.objects.filter(Q(owner_id=owner_id)).exists():
 #             return JsonResponse({'message': 'USER_ALREADY_EXISTS'}, status=409)
 
-        
+
 
 #         Owner.objects.create(
 #             cafe = cafe,
@@ -147,7 +155,7 @@ def signup(request):
 #             cafe_phone = Cafe.cafe_phone
 #             )
 
-        
+
 #         if Cafe_image.objects.filter(cafe_id = Cafe_image.cafe_id):
 #             Cafe_image.objects.create(
 #             cafe = Cafe_image.cafe,
@@ -162,30 +170,30 @@ def signup(request):
 #         data     = json.loads(request.body)
 #         owner_id    = data.get('owner_id', None)
 #         password = data.get('password', None)
-        
+
 #         # key error check
 #         if not (password and owner_id):
 #             return JsonResponse({'message': 'KEY_ERROR'}, status=400)        
-            
+
 #         # valid user check  
 #         if Owner.objects.filter(Q(owner_id=owner_id)).exists():
 #             user = Owner.objects.get(Q(owner_id=owner_id))
 
 #             # password check
 #             if bcrypt.checkpw(password.encode('utf-8'), user.password.encode('utf-8')):
-                
+
 #                 # JSON Web Token
 #                 token = jwt.encode({'owner_id': owner_id},  algorithm='HS256')
 #                 #token =jwt.encode({'user_id': user.id}, SECRET['secret'], algorithm='HS256')
 #                 return JsonResponse({'message': 'SUCCESS', 'access_token': token}, status=200) 
-            
+
 #             return JsonResponse({'message': 'INVALID_PASSWORD'}, status=401)
-        
+
 #         return JsonResponse({'message': 'INVALID_USER'}, status=401)
 
-
+#
 # class testSignupView():
-
+#
 #     Owner.objects.create(
 #         cafe = None,
 #         owner_id    = 'tunta3586@naver.com',
