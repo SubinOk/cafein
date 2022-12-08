@@ -58,8 +58,6 @@ def ownerLogout(request):
     return redirect('/')
 
 def findPassword(request):
-    if request.session.get('user'):
-        del(request.session['user'])
     if request.method == 'POST':
 
         # 일치 하는 이메일이 있는 경우 이메일 전송 방법 setting은 cafein settings.py 참조
