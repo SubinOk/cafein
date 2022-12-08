@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.template.loader import render_to_string
 from django.core.mail import EmailMessage
 
@@ -7,6 +7,7 @@ from .forms import loginPostForm
 #403 오류해결
 from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
+
 #추가
 import re
 import json
@@ -17,7 +18,7 @@ from django.http            import JsonResponse
 from django.db.models       import Q
 
 #모델
-from .models                import Owner
+from .models     import Owner
 from cafe.models import Cafe,Cafe_image
 
 MINIMUM_PASSWORD_LENGTH = 8
@@ -26,7 +27,24 @@ MINIMUM_PASSWORD_LENGTH = 8
 
 def ownerLogin(request):
     if request.method == 'POST':
-        form = loginPostForm()
+        form = loginPostForm(request.POST)
+        email = request.POST.get('email', '')
+        password = request.POST.get('password', '')
+        
+        # 서버로 들어온 데이터가 비어있는지 확인
+        if (email == "") or (password == ""):
+            return render(request, 'ownerLogin.html', {'form': form, 'flg': True})
+        try:
+            owner = get_object_or_404(Owner, owner_id=email)
+        except:
+            # DB에 해당 이메일이 존재하지 않았을때 return
+            return render(request, 'ownerLogin.html', {'form': form, 'flg': True})
+        
+        if bcrypt.checkpw(password.encode('utf-8'), owner.password.encode('utf-8')):
+            # 입력한 encoding 패스워드가 불일치 할때 return
+            return render(request, 'ownerLogin.html', {'form': form, 'flg': True})
+        
+        # 위의 체크를 문제없이 통과하면 이후 페이지로 전송
         return render(request, 'ownerLogin.html', {'form': form, 'flg': True})
     else:
         form = loginPostForm()
@@ -166,3 +184,11 @@ def signup(request):
 #         return JsonResponse({'message': 'INVALID_USER'}, status=401)
 
 
+# class testSignupView():
+
+#     Owner.objects.create(
+#         cafe = None,
+#         owner_id    = 'tunta3586@naver.com',
+#         phone    = '01021354681',
+#         password = bcrypt.hashpw('1234'.encode('utf-8'), bcrypt.gensalt()).decode('utf-8')
+#     )
