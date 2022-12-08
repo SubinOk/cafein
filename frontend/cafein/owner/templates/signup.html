@@ -1,0 +1,54 @@
+{% extends "layout.html" %}
+{% block content %}
+<main class="container-fluid">
+    <div class="col-4 container">
+        <div class="blank"></div>
+        <div class="contents-blank"></div>
+        <input type="email" class="form-control" placeholder="아이디">
+        <div class="contents-blank"></div>
+        <div class="d-flex">
+            <input type="password" class="form-control" placeholder="비밀번호">
+            <input type="password" class="offset-md-1 form-control" placeholder="비밀번호 확인">
+        </div>
+        <div class="contents-blank"></div>
+        <input type="text" class="form-control" placeholder="전화번호">
+        <div class="contents-blank"></div>
+        <hr>
+        <div class="contents-blank"></div>
+        <div class="d-flex">
+            <input type="text" class="form-control pe-150" placeholder="카페명">
+            <button class="offset-md-1 form-control">이미지 첨부</button>
+        </div>
+        <div class="contents-blank"></div>
+        <input type="text" class="form-control" id="address_kakao" name="address" maxlength="20" readonly placeholder="주소">
+        <div class="contents-blank"></div>
+        <input type="text" class="form-control" name="address_detail" placeholder="상세 주소">
+        <div class="contents-blank"></div>
+        <input type="text" class="form-control" placeholder="전화번호">
+        <div class="contents-blank"></div>
+        <input type="text" class="form-control" maxlength="4" placeholder="최대수용인원">
+        <div class="contents-blank"></div>
+        <div class="text-right">    
+            <button class="form-control border cafein-button px-5">회원가입</button>
+        </div>
+        <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+        <script>
+        window.onload = function(){
+            document.getElementById("address_kakao").addEventListener("click", function(){ //주소입력칸을 클릭하면
+                //카카오 지도 발생
+                new daum.Postcode({
+                    oncomplete: function(data) { //선택시 입력값 세팅
+                        document.getElementById("address_kakao").value = data.address; // 주소 넣기
+                        document.querySelector("input[name=address_detail]").focus(); //상세입력 포커싱
+                    }
+                }).open();
+            });
+        }
+        </script>
+        <div class="blank"></div>
+        <div class="blank"></div>
+        <div class="blank"></div>
+    </div>
+</main>
+
+{% endblock %}

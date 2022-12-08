@@ -27,3 +27,5 @@ def findPassword(request):
     else:
         return render(request, 'findPassword.html', {'flg': False})
 
+def signup(request):
+    return render(request, 'signup.html')
