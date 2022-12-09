@@ -2,6 +2,7 @@ from django import forms
 from .models     import Owner
 from cafe.models import Cafe,Cafe_image
 import bcrypt
+import re
 
 class loginPostForm(forms.Form):
     email = forms.EmailField(widget=forms.EmailInput(attrs={'class': 'form-control','placeholder': '이메일'}))
@@ -33,20 +34,34 @@ class signupPostForm(forms.Form):
                                                              'placeholder':'상세 주소'}))
     
 
-    # email이 이미 등록되었는지에 대한 validation
+    # email이 이미 등록되었는지, 그리고 이메일 형식에 맞는지에 대한 validation
     def clean_email(self):
         email = self.cleaned_data.get("email")
         if Owner.objects.get(owner_id=email): # 필드에 email 값이 db에 존재하는지 확인
-            raise forms.ValidationError("User already exists with that email")
+            raise forms.ValidationError("이미 등록된 이메일 입니다.")
         else:
-            return email  # 존재하지 않는다면, 데이터를 반환
+            pattern = re.compile('^.+@+.+\.+.+$') #이메일 '@'앞에는 아무 문자가 제한 없이 들어올 수 있음
+            if not pattern.match(email):
+                 raise forms.ValidationError("이메일 주소에 '@를 포함해 주세요")
+            else:
+                return email  #db에 존재하지 않고, 이메일 형식이 맞다면 데이터를 반환
     
+    # 입력한 password가 조건에 맞는지에 대한 validation
+    def check_password(self):
+        password = self.cleaned_data.get("password") 
+        # 영어,숫자,특수문자 포함하고 8~25자리수를 허용
+        pattern = re.compile('^(?=.*[\d])(?=.*[A-Z])(?=.*[a-z])(?=.*[!@#$%^&*()])[\w\d!@#$%^&*()]{8,25}$')
+        if not pattern.match(password):
+            raise forms.ValidationError("비밀번호는 영문(소문자, 대문자), 숫자, 특수문자를 조합하여 8~25까지 가능합니다.")
+        else:
+            return password
+            
     # 두개의 password가 일치한지에 대한 validation 
     def clean_password1(self):
         password = self.cleaned_data.get("password") 
         password2 = self.cleaned_data.get("password2") 
         if password != password2:
-            raise forms.ValidationError("Password confirmation does not match")
+            raise forms.ValidationError("비밀번호가 다릅니다.")
         else:
             return password
 
@@ -86,7 +101,3 @@ class signupPostForm(forms.Form):
             image = image,
             cafe = make.cafe_id
         )
-    
-    
-    
-
