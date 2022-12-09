@@ -32,7 +32,9 @@ class signupPostForm(forms.Form):
     address2 = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control',
                                                              'name': 'address_detail',
                                                              'placeholder':'상세 주소'}))
-    
+                                                            
+    # 카페 이미지 추가해야함 
+
 
     # email이 이미 등록되었는지, 그리고 이메일 형식에 맞는지에 대한 validation
     def clean_email(self):
