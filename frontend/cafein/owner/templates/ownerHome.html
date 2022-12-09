@@ -1,0 +1,86 @@
+{% extends "layout.html" %}
+{% block content %}
+    <main>
+        <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+        <script type="text/javascript">
+            google.charts.load('current', {'packages':['corechart']});
+            google.charts.setOnLoadCallback(drawChart);
+            function drawChart() {
+                var data = google.visualization.arrayToDataTable([
+                    ['Year', 'Sales', 'Expenses'],
+                    ['2004',  1000,      400],
+                    ['2005',  1170,      460],
+                    ['2006',  660,       1120],
+                    ['2007',  1030,      540]
+                ]);
+                var options = {
+                    title: 'Company Performance',
+                    curveType: 'function',
+                    legend: { position: 'bottom' }
+                };
+                var chart = new google.visualization.LineChart(document.getElementById('curve_chart'));
+                chart.draw(data, options);
+
+                var chart2 = new google.visualization.LineChart(document.getElementById('curve_chart2'));
+                chart2.draw(data, options);
+            }
+        </script>
+        <div class="row">
+            <div class="col side-bar border-end border-brown">
+                <div class="side-menu">리뷰 확인</div>
+                <div class="side-menu">고객 </div>
+            </div>
+            <div class="col contents-padding">
+                <h1>카페 A</h1>
+                <div class="row">
+                    <div class="contents-header col-md-6">
+                        <div class="content-detail">
+                            <div id="curve_chart"></div>
+                        </div>
+                    </div>
+                    <div class="contents-header col-md-6">
+                        <div class="content-detail">
+                            <div id="curve_chart2"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="blank"></div>
+                <div class="row pe-5">
+                    <h2 class="col-6 align-self-center">최근 리뷰</h2>
+                    <div class="col">
+                        <a class="login-button btn btn-outline-brown float-end nav-item nav-link" href="#" data-bs-toggle="dropdown" aria-expanded="false">상세보기</a>
+                    </div>
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">제목</th>
+                            <th scope="col">별점</th>
+                            <th scope="col">날자</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <th scope="row">1</th>
+                            <td>Mark</td>
+                            <td>Otto</td>
+                            <td>@mdo</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">2</th>
+                            <td>Jacob</td>
+                            <td>Thornton</td>
+                            <td>@fat</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">3</th>
+                            <td colspan="2">Larry the Bird</td>
+                            <td>@twitter</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </main>
+{% endblock %}
