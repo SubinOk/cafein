@@ -90,6 +90,23 @@ def signup(request):
     
     return render(request, 'signup.html')
 
+def checkPassword(request):
+    if request.session.get('user'):
+        if request.method == 'POST':
+            try:
+                owner = get_object_or_404(Owner, owner_id=request.session.get('user'))
+                print(owner)
+                if bcrypt.checkpw(request.POST.get('id_password').encode('utf-8'), owner.password.encode('utf-8')):
+                    # 위의 체크를 문제없이 통과하면 이후 페이지로 전송
+                    return render(request, 'checkPassword.html', {'flg': False})
+                else:
+                    return render(request, 'checkPassword.html', {'flg': True})
+            except:
+                return redirect('/')
+        else:
+            return render(request, 'checkPassword.html')
+    return redirect('/')
+
 #추가부분
 # def validate_email(email):
 #     pattern = re.compile('^.+@+.+\.+.+$') #이메일 '@'앞에는 아무 문자가 제한 없이 들어올 수 있음
