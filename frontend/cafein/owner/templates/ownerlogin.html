@@ -13,9 +13,20 @@
             <form action="" method="post">
                 {% csrf_token %}
                 {{ form.email }}
+                {% if error_flg.email == True %}
+                    <p class="text-danger">&nbsp;해당 이메일은 존재하지 않습니다.</p>
+                    <script>
+                        document.getElementById('id_email').classList.add("border-danger")
+                        window.onload = function(){
+                            document.getElementById("id_email").addEventListener("focusout", function(){
+                                document.getElementById('id_email').classList.remove("border-danger")
+                            });
+                        }
+                    </script>
+                {% endif %}
                 <div class="contents-blank"></div>
                 {{ form.password }}
-                {% if flg == True %}
+                {% if error_flg.password == True %}
                     <p class="text-danger">&nbsp;비밀번호가 일치 하지 않습니다.</p>
                     <script>
                         document.getElementById('id_password').classList.add("border-danger")
