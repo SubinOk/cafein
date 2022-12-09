@@ -43,7 +43,7 @@ def ownerLogin(request):
         if bcrypt.checkpw(password.encode('utf-8'), owner.password.encode('utf-8')):
             # 위의 체크를 문제없이 통과하면 이후 페이지로 전송
             request.session['user'] = email
-            return render(request, 'ownerLogin.html', {'form': form, 'flg': True})
+            return render(request, 'ownerHome.html', {'form': form})
         else:
             # 입력한 encoding 패스워드가 불일치 할때 return
             return render(request, 'ownerLogin.html', {'form': form, 'flg': True})
@@ -56,6 +56,12 @@ def ownerLogout(request):
         del(request.session['user'])
 
     return redirect('/')
+
+def ownerHome(request):
+    if request.session.get('user'):
+        return render(request, 'ownerHome.html')
+    else:
+        return redirect('/')
 
 def findPassword(request):
     if request.method == 'POST':

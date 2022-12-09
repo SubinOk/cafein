@@ -9,35 +9,41 @@
     <link href="{% static '/css/cafe.css' %}" rel="stylesheet">
 </head>
 <body>
-    <header class="navbar navbar-expand-lg navbar-dark bd-navbar border-bottom border-brown rounded nav-head-height">
-        <div class="container">
-            <div class="col-4">
-                <a href="/">
-                    <img class="head-logo" src="/media/layout/logo.png">
-                </a>
-            </div>
-            {% if request.session.user == None %}
-            <div class="col-4">
-                <a class="login-button btn btn-outline-brown float-end nav-item nav-link" href="#">로그인</a>
-            </div>
-            {% else %}
-            <div class="col-4 dropdown">
-                <a class="status-button border-0 btn float-end nav-item nav-link dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">사장 A</a>
-                <ul class="dropdown-menu dropdown-menu-end shadow border border-300">
-                    <div class="head-menu">
-                        <li><a class="dropdown-item" href="#"><img class="login-menu" src="/media/layout/logout_customer3.jpg"></a></li>
-                        <li><a class="dropdown-item" href="/owner/logout"><img class="login-menu" src="/media/layout/logout_customer2.jpg"></a></li>
-                    </div>
-                </ul>
-            </div>
-            {% endif %}
+    <header class="navbar navbar-expand-lg navbar-dark bd-navbar border-bottom border-brown rounded nav-head-height navbar-fixed-top row px-5">
+        {% if request.session.user == True %}
+        <div class="col">
+            <a href="/owner/home">
+                <img class="head-logo" src="/media/layout/logo_seller.png">
+            </a>
         </div>
+        {% else %}
+        <div class="col">
+            <a href="/">
+                <img class="head-logo" src="/media/layout/logo.png">
+            </a>
+        </div>
+        {% endif %}
+        {% if request.session.user == None %}
+        <div class="col-4">
+            <a class="login-button btn btn-outline-brown float-end nav-item nav-link" href="#">로그인</a>
+        </div>
+        {% else %}
+        <div class="col-4 dropdown">
+            <a class="status-button border-0 btn float-end nav-item nav-link dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">사장 A</a>
+            <ul class="dropdown-menu dropdown-menu-end shadow border border-300">
+                <div class="head-menu">
+                    <li><a class="dropdown-item" href="#"><img class="login-menu" src="/media/layout/logout_customer3.jpg"></a></li>
+                    <li><a class="dropdown-item" href="/owner/logout"><img class="login-menu" src="/media/layout/logout_customer2.jpg"></a></li>
+                </div>
+            </ul>
+        </div>
+        {% endif %}
     </header>
     
     {% block content %}
     {% endblock %}
 
-    <div class="cafein-footer">
+    <div class="navbar-fixed-bottom cafein-footer">
         <p class="text-muted">
             Copyright © 2020 KINO Data Systems All Right Reserved
         </p>
