@@ -2,7 +2,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.template.loader import render_to_string
 from django.core.mail import EmailMessage
 
-from .forms import loginPostForm,signupPostForm
+from .forms import loginPostForm, signupPostForm
 
 #403 오류해결
 from django.views.decorators.csrf import csrf_exempt
@@ -87,8 +87,9 @@ def signup(request):
         form = signupPostForm(request.POST)
         if form.is_valid():
             form.save()
-    
-    return render(request, 'signup.html')
+    else :
+        form = signupPostForm()
+        return render(request, 'signup.html', {'form':form})
 
 #추가부분
 # def validate_email(email):

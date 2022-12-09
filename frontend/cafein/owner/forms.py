@@ -23,6 +23,14 @@ class signupPostForm(forms.Form):
     human = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control',
                                                                 'maxlength': '4',
                                                                 'placeholder': '최대수용인원'}))
+    address = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control',
+                                                            'maxlength': '20',
+                                                            'id': 'address_kakao',
+                                                            'readonly':'True',
+                                                            'placeholder': '주소'}))
+    address2 = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control',
+                                                             'name': 'address_detail',
+                                                             'placeholder':'상세 주소'}))
     
 
     # email이 이미 등록되었는지에 대한 validation
@@ -78,4 +86,7 @@ class signupPostForm(forms.Form):
             image = image,
             cafe = make.cafe_id
         )
+    
+    
+    
 
