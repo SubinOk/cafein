@@ -95,7 +95,6 @@ def checkPassword(request):
         if request.method == 'POST':
             try:
                 owner = get_object_or_404(Owner, owner_id=request.session.get('user'))
-                print(owner)
                 if bcrypt.checkpw(request.POST.get('id_password').encode('utf-8'), owner.password.encode('utf-8')):
                     # 위의 체크를 문제없이 통과하면 이후 페이지로 전송
                     return render(request, 'checkPassword.html', {'flg': False})
