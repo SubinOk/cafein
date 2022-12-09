@@ -30,32 +30,46 @@ def ownerLogin(request):
         form = loginPostForm(request.POST)
         email = request.POST.get('email', '')
         password = request.POST.get('password', '')
-        
+        error_flg = {
+            'email': False,
+            'password': False
+        }
+
         # 서버로 들어온 데이터가 비어있는지 확인
         if (email == "") or (password == ""):
-            return render(request, 'ownerLogin.html', {'form': form, 'flg': True})
+            error_flg['email'] = True
+            error_flg['password'] = True
+            return render(request, 'ownerLogin.html', {'form': form, 'error_flg': error_flg})
         try:
             owner = get_object_or_404(Owner, owner_id=email)
         except:
             # DB에 해당 이메일이 존재하지 않았을때 return
-            return render(request, 'ownerLogin.html', {'form': form, 'flg': True})
+            error_flg['email'] = True
+            return render(request, 'ownerLogin.html', {'form': form, 'error_flg': error_flg})
         
         if bcrypt.checkpw(password.encode('utf-8'), owner.password.encode('utf-8')):
             # 위의 체크를 문제없이 통과하면 이후 페이지로 전송
             request.session['user'] = email
-            return render(request, 'ownerLogin.html', {'form': form, 'flg': True})
+            return render(request, 'ownerHome.html', {'form': form})
         else:
             # 입력한 encoding 패스워드가 불일치 할때 return
-            return render(request, 'ownerLogin.html', {'form': form, 'flg': True})
+            error_flg['password'] = True
+            return render(request, 'ownerLogin.html', {'form': form, 'error_flg': error_flg})
     else:
         form = loginPostForm()
-        return render(request, 'ownerLogin.html', {'form': form, 'flg': False})
+        return render(request, 'ownerLogin.html', {'form': form})
 
 def ownerLogout(request):
     if request.session.get('user'):
         del(request.session['user'])
 
     return redirect('/')
+
+def ownerHome(request):
+    if request.session.get('user'):
+        return render(request, 'ownerHome.html')
+    else:
+        return redirect('/')
 
 def findPassword(request):
     if request.method == 'POST':
