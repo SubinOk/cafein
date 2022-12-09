@@ -2,7 +2,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.template.loader import render_to_string
 from django.core.mail import EmailMessage
 
-from .forms import loginPostForm
+from .forms import loginPostForm,signupPostForm
 
 #403 오류해결
 from django.views.decorators.csrf import csrf_exempt
@@ -69,6 +69,11 @@ def findPassword(request):
         return render(request, 'findPassword.html', {'flg': False})
 
 def signup(request):
+    if request.method == 'POST':
+        form = signupPostForm(request.POST)
+        if form.is_valid():
+            form.save()
+    
     return render(request, 'signup.html')
 
 #추가부분
