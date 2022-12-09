@@ -39,9 +39,10 @@ class signupPostForm(forms.Form):
     # email이 이미 등록되었는지, 그리고 이메일 형식에 맞는지에 대한 validation
     def clean_email(self):
         email = self.cleaned_data.get("email")
-        if Owner.objects.get(owner_id=email): # 필드에 email 값이 db에 존재하는지 확인
+        try:
+            Owner.objects.get(owner_id=email): # 필드에 email 값이 db에 존재하는지 확인
             raise forms.ValidationError("이미 등록된 이메일 입니다.")
-        else:
+        except Owner.DoesNotExist:
             pattern = re.compile('^.+@+.+\.+.+$') #이메일 '@'앞에는 아무 문자가 제한 없이 들어올 수 있음
             if not pattern.match(email):
                  raise forms.ValidationError("이메일 주소에 '@를 포함해 주세요")
@@ -78,28 +79,28 @@ class signupPostForm(forms.Form):
         name = self.cleaned_data.get("name")
         human = self.cleaned_data.get("human")
         address = self.cleaned_data.get("address")
-        datail_add = self.cleaned_data.get("datail_add")
+        address2 = self.cleaned_data.get("address2")
         cafe_phone = self.cleaned_data.get("cafe_phone")
 
         # 카페이미지
-        image = self.cleaned_data.get("image")
+        # image = self.cleaned_data.get("image")
 
         make = Cafe.objects.create(
             name = name,
             max_occupancy = human,
             address = address,
-            datail_add = datail_add,
+            datail_add = address2,
             cafe_phone = cafe_phone
         )
 
         Owner.objects.create(           
-            owner_id    = email,
-            phone    = phone,
+            owner_id = email,
+            phone = phone,
             password = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt()).decode('utf-8'),
             cafe = make.cafe_id
         )
 
-        Cafe_image.objects.create(
-            image = image,
-            cafe = make.cafe_id
-        )
+        # Cafe_image.objects.create(
+        #     image = image,
+        #     cafe = make.cafe_id
+        # )
