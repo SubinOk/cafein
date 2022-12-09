@@ -1,0 +1,37 @@
+{% extends "layout.html" %}
+{% block content %}
+    <main>
+        <div class="row">
+            <div class="col side-bar border-end border-brown">
+                <div class="side-menu">회원 정보 수정</div>
+                <div class="side-menu">카페 관리</div>
+            </div>
+            <div class="col contents-padding">
+                <h1>회원 정보 수정</h1>
+                <div class="contents-blank"></div>
+                <hr>
+                <div class="contents-blank"></div>
+                <div>
+                    <a class="login-button btn btn-outline-brown float-end nav-item nav-link" href="#" data-bs-toggle="dropdown" aria-expanded="false">상세보기</a>
+                </div>
+                <table class="table border-top mt-2">
+                    <tbody>
+                    <tr>
+                        <th scope="row">아이디</th>
+                        <td colspan="2"><input class="form-control"></td>
+                    </tr>
+                    <tr>
+                        <th scope="row">비밀번호</th>
+                        <td><input class="form-control"></td>
+                        <td><input class="form-control"></td>
+                    </tr>
+                    <tr>
+                        <th scope="row">전화번호</th>
+                        <td colspan="2"><input class="form-control"></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </main>
+{% endblock %}

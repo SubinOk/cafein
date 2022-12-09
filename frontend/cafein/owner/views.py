@@ -46,7 +46,7 @@ def ownerLogin(request):
             # DB에 해당 이메일이 존재하지 않았을때 return
             error_flg['email'] = True
             return render(request, 'ownerLogin.html', {'form': form, 'error_flg': error_flg})
-        
+
         if bcrypt.checkpw(password.encode('utf-8'), owner.password.encode('utf-8')):
             # 위의 체크를 문제없이 통과하면 이후 페이지로 전송
             request.session['user'] = email
@@ -98,7 +98,7 @@ def checkPassword(request):
                 owner = get_object_or_404(Owner, owner_id=request.session.get('user'))
                 if bcrypt.checkpw(request.POST.get('id_password').encode('utf-8'), owner.password.encode('utf-8')):
                     # 위의 체크를 문제없이 통과하면 이후 페이지로 전송
-                    return render(request, 'checkPassword.html', {'flg': False})
+                    return render(request, 'ownerChange.html')
                 else:
                     return render(request, 'checkPassword.html', {'flg': True})
             except:
