@@ -10,16 +10,16 @@
 </head>
 <body>
     <header class="navbar navbar-expand-lg navbar-dark bd-navbar border-bottom border-brown rounded nav-head-height navbar-fixed-top row px-5">
-        {% if request.session.user == True %}
+        {% if request.session.user == None %}
         <div class="col">
-            <a href="/owner/home">
-                <img class="head-logo" src="/media/layout/logo_seller.png">
+            <a href="/">
+                <img class="head-logo" src="/media/layout/logo.png">
             </a>
         </div>
         {% else %}
         <div class="col">
-            <a href="/">
-                <img class="head-logo" src="/media/layout/logo.png">
+            <a href="/owner/home">
+                <img class="head-logo" src="/media/layout/logo_seller.png">
             </a>
         </div>
         {% endif %}
