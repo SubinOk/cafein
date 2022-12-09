@@ -40,7 +40,7 @@ class signupPostForm(forms.Form):
     def clean_email(self):
         email = self.cleaned_data.get("email")
         try:
-            Owner.objects.get(owner_id=email): # 필드에 email 값이 db에 존재하는지 확인
+            Owner.objects.get(owner_id=email) # 필드에 email 값이 db에 존재하는지 확인
             raise forms.ValidationError("이미 등록된 이메일 입니다.")
         except Owner.DoesNotExist:
             pattern = re.compile('^.+@+.+\.+.+$') #이메일 '@'앞에는 아무 문자가 제한 없이 들어올 수 있음
@@ -80,7 +80,7 @@ class signupPostForm(forms.Form):
         human = self.cleaned_data.get("human")
         address = self.cleaned_data.get("address")
         address2 = self.cleaned_data.get("address2")
-        cafe_phone = self.cleaned_data.get("cafe_phone")
+        #cafe_phone = self.cleaned_data.get("cafe_phone")
 
         # 카페이미지
         # image = self.cleaned_data.get("image")
@@ -90,14 +90,14 @@ class signupPostForm(forms.Form):
             max_occupancy = human,
             address = address,
             datail_add = address2,
-            cafe_phone = cafe_phone
+            cafe_phone = phone
         )
 
         Owner.objects.create(           
             owner_id = email,
             phone = phone,
             password = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt()).decode('utf-8'),
-            cafe = make.cafe_id
+            cafe = make #모델 id만 넘기도록 작성하기
         )
 
         # Cafe_image.objects.create(
