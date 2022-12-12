@@ -1,5 +1,5 @@
 from django.db import models
-
+from owner.models import Owner
 
 class Cafe(models.Model):
 
@@ -9,6 +9,7 @@ class Cafe(models.Model):
     address = models.CharField('주소', max_length=100, null=True)
     datail_add = models.CharField('상세주소', max_length=100, null=True)
     cafe_phone = models.CharField(max_length=50, null=True)
+    owner = models.ForeignKey(Owner,on_delete=models.CASCADE, blank=True, null=True)
     
     class Meta:
         db_table = 'cafe'
