@@ -9,6 +9,12 @@ class loginPostForm(forms.Form):
     password = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'form-control',
                                                                  'placeholder': '비밀번호'}))
 
+class ownerDelete(forms.Form):
+    email = forms.EmailField(widget=forms.EmailInput(attrs={'class': 'form-control','placeholder': '이메일'}))
+    def delete(self):
+        email = self.cleaned_data.get("email")
+        owner = Owner.objects.get(owner_id = email)
+        owner.delete()
 
 class signupPostForm(forms.Form):
     email = forms.EmailField(widget=forms.EmailInput(attrs={'class': 'form-control',
@@ -68,6 +74,15 @@ class signupPostForm(forms.Form):
             raise forms.ValidationError("비밀번호가 다릅니다.")
         else:
             return password
+    
+    #전화번호 '-'없이 숫자만 입력하도록 
+    def validate_phone(self):
+        phone = self.cleaned_data.get("phone") 
+        pattern = re.compile('^[0]\d{2}\d{3,4}\d{4}$')
+        if not pattern.match(phone):
+            raise forms.ValidationError("전화번호는 - 없이 입력해 주세요")
+        return phone
+
 
     #DB에 저장
     def save(self):
