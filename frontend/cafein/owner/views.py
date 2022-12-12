@@ -61,7 +61,7 @@ def ownerLogin(request):
 
 def ownerLogout(request):
     if request.session.get('user'):
-        del(request.session['user'])
+        request.session.pop('user')
 
     return redirect('/')
 
@@ -83,14 +83,18 @@ def findPassword(request):
         return render(request, 'findPassword.html', {'flg': False})
 
 def signup(request):
-    if request.method == 'POST':
-        form = ownerPostForm(request.POST)
-        if form.is_valid():
-            form.save()
-        return render(request, 'ownerHome.html')
-    else :
-        form = ownerPostForm()
-        return render(request, 'signup.html', {'form':form})
+    if not(request.session.get('user')):
+        if request.method == 'POST':
+            form = ownerPostForm(request.POST)
+            if form.is_valid():
+                form.save()
+            request.session['user'] = request.POST.get('email')
+            return render(request, 'ownerHome.html')
+        else :
+            form = ownerPostForm()
+            return render(request, 'signup.html', {'form':form})
+
+    return render(request, 'ownerHome.html')
 
 def checkPassword(request):
     if request.session.get('user'):
@@ -108,6 +112,21 @@ def checkPassword(request):
             return render(request, 'checkPassword.html')
     return redirect('/')
 
+def ownerDelete(request):
+    if request.method == 'POST':
+        try:
+            owner = get_object_or_404(Owner, owner_id=request.session.get('user'))
+            if bcrypt.checkpw(request.POST.get('id_password').encode('utf-8'), owner.password.encode('utf-8')):
+                # 위의 체크를 문제없이 통과하면 이후 페이지로 전송
+                owner.delete()
+                request.session.pop('user')
+                return redirect('/')
+            else:
+                return render(request, 'ownerDelete.html', {'flg': True})
+        except:
+            return redirect('/')
+    else:
+        return render(request, 'ownerDelete.html')
 
 
   
