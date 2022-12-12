@@ -34,7 +34,7 @@ class ownerPostForm(forms.Form):
     cafe_phone = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control',
                                                           'placeholder': '전화번호'}))                                                       
     # 카페 이미지 추가해야함 
-
+    image =forms.ImageField(upload_to = "cafe/")
 
     # email이 이미 등록되었는지, 그리고 이메일 형식에 맞는지에 대한 validation
     def check_email(self):
@@ -58,6 +58,7 @@ class ownerPostForm(forms.Form):
             return False
         else:
             return True
+
     # 카페 이름 같은 게 있는지 확인하기 
     def check_cafename(self):
         cafename = self.cleaned_data.get("name")
@@ -87,9 +88,15 @@ class ownerPostForm(forms.Form):
     # 회원 정보 수정 
     def update(self):
         email = self.cleaned_data.get("email")
+        password = self.cleaned_data.get("password")
+        phone = self.cleaned_data.get("phone")
+
         owner = Owner.objects.get(owner_id = email)
-     
- 
+        owner.password = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt()).decode('utf-8')
+        owner.phone = phone
+
+        owner.save()
+
     # DB 삭제 탈퇴 회원 정보 
     def delete(self):
         email = self.cleaned_data.get("email")
@@ -111,7 +118,7 @@ class ownerPostForm(forms.Form):
         cafe_phone = self.cleaned_data.get("cafe_phone")
 
         # 카페이미지
-        # image = self.cleaned_data.get("image")
+        image = self.cleaned_data.get("image")
         
 
         make = Owner.objects.create(           
@@ -132,7 +139,7 @@ class ownerPostForm(forms.Form):
 
     
 
-        # Cafe_image.objects.create(
-        #     image = image,
-        #     cafe = cafe
-        # 
+        Cafe_image.objects.create(
+            image = image,
+            cafe = cafe
+        )
