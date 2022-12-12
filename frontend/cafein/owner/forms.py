@@ -104,4 +104,4 @@ class signupPostForm(forms.Form):
         # Cafe_image.objects.create(
         #     image = image,
         #     cafe = make.cafe_id
-        # )
+        # 

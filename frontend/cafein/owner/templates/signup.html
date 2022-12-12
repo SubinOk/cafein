@@ -25,9 +25,8 @@
         {{ form.address }}
         <div class="contents-blank"></div>
         {{ form.address2 }}
-        <input type="text" class="form-control" name="address_detail" placeholder="상세 주소">
         <div class="contents-blank"></div>
-        {{ form.phone }}
+        {{ form.cafe_phone }}
         <div class="contents-blank"></div>
         {{ form.human }}
         <div class="contents-blank"></div>
@@ -42,7 +41,7 @@
                 new daum.Postcode({
                     oncomplete: function(data) { //선택시 입력값 세팅
                         document.getElementById("address_kakao").value = data.address; // 주소 넣기
-                        document.querySelector("input[name=address_detail]").focus(); //상세입력 포커싱
+                        document.querySelector("input[name=address2]").focus(); //상세입력 포커싱
                     }
                 }).open();
             });
