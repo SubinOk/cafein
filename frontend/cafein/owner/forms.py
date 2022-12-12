@@ -28,9 +28,8 @@ class signupPostForm(forms.Form):
                                                             'id': 'address_kakao',
                                                             'readonly':'True',
                                                             'placeholder': '주소'}))
-    address2 = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control',
-                                                             'name': 'address_detail',
-                                                             'placeholder':'상세 주소'}))
+    address_detail = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control', 
+                                                                   'placeholder':'상세 주소'}))
     
 
     # email이 이미 등록되었는지에 대한 validation
