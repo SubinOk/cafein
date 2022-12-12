@@ -45,9 +45,9 @@ class ownerPostForm(forms.Form):
         except Owner.DoesNotExist:
             pattern = re.compile('^.+@+.+\.+.+$') #이메일 '@'앞에는 아무 문자가 제한 없이 들어올 수 있음
             if not pattern.match(email):
-                 raise forms.ValidationError("이메일 주소에 '@를 포함해 주세요")
+                return False
             else:
-                return email  #db에 존재하지 않고, 이메일 형식이 맞다면 데이터를 반환
+                return True  #db에 존재하지 않고, 이메일 형식이 맞다면 데이터를 반환
     
     # 입력한 password가 조건에 맞는지에 대한 validation
     def check_password(self):
@@ -55,27 +55,29 @@ class ownerPostForm(forms.Form):
         # 영어,숫자,특수문자 포함하고 8~25자리수를 허용
         pattern = re.compile('^(?=.*[\d])(?=.*[A-Z])(?=.*[a-z])(?=.*[!@#$%^&*()])[\w\d!@#$%^&*()]{8,25}$')
         if not pattern.match(password):
-            raise forms.ValidationError("비밀번호는 영문(소문자, 대문자), 숫자, 특수문자를 조합하여 8~25까지 가능합니다.")
+            return False
         else:
-            return password
+            return True
             
     # 두개의 password가 일치한지에 대한 validation 
     def clean_password1(self):
         password = self.cleaned_data.get("password") 
         password2 = self.cleaned_data.get("password2") 
         if password != password2:
-            raise forms.ValidationError("비밀번호가 다릅니다.")
+            return False
         else:
-            return password
+            return True
     
     #전화번호 '-'없이 숫자만 입력하도록 
     def validate_phone(self):
         phone = self.cleaned_data.get("phone") 
         pattern = re.compile('^[0]\d{2}\d{3,4}\d{4}$')
         if not pattern.match(phone):
-            raise forms.ValidationError("전화번호는 - 없이 입력해 주세요")
-        return phone
+            return False
+        return True
     
+    
+
     # DB 삭제 탈퇴 회원 정보 
     def delete(self):
         email = self.cleaned_data.get("email")
