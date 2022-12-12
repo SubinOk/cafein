@@ -37,7 +37,7 @@ class ownerPostForm(forms.Form):
 
 
     # email이 이미 등록되었는지, 그리고 이메일 형식에 맞는지에 대한 validation
-    def clean_email(self):
+    def check_email(self):
         email = self.cleaned_data.get("email")
         try:
             Owner.objects.get(owner_id=email) # 필드에 email 값이 db에 존재하는지 확인
@@ -60,7 +60,7 @@ class ownerPostForm(forms.Form):
             return True
             
     # 두개의 password가 일치한지에 대한 validation 
-    def clean_password1(self):
+    def check_password1(self):
         password = self.cleaned_data.get("password") 
         password2 = self.cleaned_data.get("password2") 
         if password != password2:
@@ -69,14 +69,16 @@ class ownerPostForm(forms.Form):
             return True
     
     #전화번호 '-'없이 숫자만 입력하도록 
-    def validate_phone(self):
+    def check_phone(self):
         phone = self.cleaned_data.get("phone") 
         pattern = re.compile('^[0]\d{2}\d{3,4}\d{4}$')
         if not pattern.match(phone):
             return False
         return True
     
-    
+    def update(self):
+        email = self.cleaned_data.get("email")
+        
 
     # DB 삭제 탈퇴 회원 정보 
     def delete(self):
