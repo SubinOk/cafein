@@ -58,7 +58,15 @@ class ownerPostForm(forms.Form):
             return False
         else:
             return True
-    # 카페 이름 같은게 있는지 확인하기         
+    # 카페 이름 같은 게 있는지 확인하기 
+    def check_cafename(self):
+        cafename = self.cleaned_data.get("name")
+        cafename2 = Cafe.objects.get(name= cafename)
+        if cafename2 in locals():
+            return False
+        else:
+            return True
+            
     # 두개의 password가 일치한지에 대한 validation 
     def check_password1(self):
         password = self.cleaned_data.get("password") 
