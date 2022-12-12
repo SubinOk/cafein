@@ -32,7 +32,8 @@ class signupPostForm(forms.Form):
     address2 = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control',
                                                              'name': 'address_detail',
                                                              'placeholder':'상세 주소'}))
-                                                            
+    cafe_phone = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control',
+                                                          'placeholder': '전화번호'}))                                                       
     # 카페 이미지 추가해야함 
 
 
@@ -80,7 +81,7 @@ class signupPostForm(forms.Form):
         human = self.cleaned_data.get("human")
         address = self.cleaned_data.get("address")
         address2 = self.cleaned_data.get("address2")
-        #cafe_phone = self.cleaned_data.get("cafe_phone")
+        cafe_phone = self.cleaned_data.get("cafe_phone")
 
         # 카페이미지
         # image = self.cleaned_data.get("image")
@@ -90,14 +91,14 @@ class signupPostForm(forms.Form):
             max_occupancy = human,
             address = address,
             datail_add = address2,
-            cafe_phone = phone
+            cafe_phone = cafe_phone
         )
 
         Owner.objects.create(           
             owner_id = email,
             phone = phone,
             password = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt()).decode('utf-8'),
-            cafe = make #모델 id만 넘기도록 작성하기
+            cafe = make #모델 id만 넘기도록 작성하기 -> 안해도 될듯
         )
 
         # Cafe_image.objects.create(

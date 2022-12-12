@@ -11,6 +11,5 @@ class Owner(models.Model):
     class Meta:
         db_table = 'owner'
 
-
         
 

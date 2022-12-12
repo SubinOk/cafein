@@ -12,7 +12,7 @@ class Cafe(models.Model):
     
     class Meta:
         db_table = 'cafe'
-
+    
 
 class Cafe_image(models.Model):
 
@@ -22,3 +22,4 @@ class Cafe_image(models.Model):
     
     class Meta:
         db_table = 'cafe_image'
+    
