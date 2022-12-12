@@ -58,7 +58,7 @@ class ownerPostForm(forms.Form):
             return False
         else:
             return True
-            
+    # 카페 이름 같은게 있는지 확인하기         
     # 두개의 password가 일치한지에 대한 validation 
     def check_password1(self):
         password = self.cleaned_data.get("password") 
@@ -76,10 +76,12 @@ class ownerPostForm(forms.Form):
             return False
         return True
     
+    # 회원 정보 수정 
     def update(self):
         email = self.cleaned_data.get("email")
-        
-
+        owner = Owner.objects.get(owner_id = email)
+     
+ 
     # DB 삭제 탈퇴 회원 정보 
     def delete(self):
         email = self.cleaned_data.get("email")
@@ -104,24 +106,25 @@ class ownerPostForm(forms.Form):
         # image = self.cleaned_data.get("image")
         
 
-        make = Cafe.objects.create(
+        make = Owner.objects.create(           
+            owner_id = email,
+            phone = phone,
+            password = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt()).decode('utf-8'),
+            #cafe = make #모델 id만 넘기도록 작성하기 -> 안해도 될듯
+        )
+
+        Cafe.objects.create(
             name = name,
             max_occupancy = human,
             address = address,
             datail_add = address2,
-            cafe_phone = cafe_phone
+            cafe_phone = cafe_phone,
+            owner = make
         )
 
-        Owner.objects.create(           
-            owner_id = email,
-            phone = phone,
-            password = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt()).decode('utf-8'),
-            cafe = make #모델 id만 넘기도록 작성하기 -> 안해도 될듯
-        )
-
-        
+    
 
         # Cafe_image.objects.create(
         #     image = image,
-        #     cafe = make.cafe_id
+        #     cafe = cafe
         # 
