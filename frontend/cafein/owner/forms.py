@@ -9,14 +9,7 @@ class loginPostForm(forms.Form):
     password = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'form-control',
                                                                  'placeholder': '비밀번호'}))
 
-class ownerDelete(forms.Form):
-    email = forms.EmailField(widget=forms.EmailInput(attrs={'class': 'form-control','placeholder': '이메일'}))
-    def delete(self):
-        email = self.cleaned_data.get("email")
-        owner = Owner.objects.get(owner_id = email)
-        owner.delete()
-
-class signupPostForm(forms.Form):
+class ownerPostForm(forms.Form):
     email = forms.EmailField(widget=forms.EmailInput(attrs={'class': 'form-control',
                                                             'placeholder': '이메일'}))
     password = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'form-control',
@@ -82,9 +75,14 @@ class signupPostForm(forms.Form):
         if not pattern.match(phone):
             raise forms.ValidationError("전화번호는 - 없이 입력해 주세요")
         return phone
+    
+    # DB 삭제 탈퇴 회원 정보 
+    def delete(self):
+        email = self.cleaned_data.get("email")
+        owner = Owner.objects.get(owner_id = email)
+        owner.delete()
 
-
-    #DB에 저장
+    #DB에 회원가입 값 저장
     def save(self):
         # 사장
         email = self.cleaned_data.get("email")
@@ -100,6 +98,7 @@ class signupPostForm(forms.Form):
 
         # 카페이미지
         # image = self.cleaned_data.get("image")
+        
 
         make = Cafe.objects.create(
             name = name,
@@ -115,6 +114,8 @@ class signupPostForm(forms.Form):
             password = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt()).decode('utf-8'),
             cafe = make #모델 id만 넘기도록 작성하기 -> 안해도 될듯
         )
+
+        
 
         # Cafe_image.objects.create(
         #     image = image,
