@@ -87,7 +87,7 @@ def signup(request):
         form = signupPostForm(request.POST)
         if form.is_valid():
             form.save()
-            return render(request, 'ownerHome.html')
+        return render(request, 'ownerHome.html')
     else :
         form = signupPostForm()
         return render(request, 'signup.html', {'form':form})
