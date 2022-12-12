@@ -83,14 +83,18 @@ def findPassword(request):
         return render(request, 'findPassword.html', {'flg': False})
 
 def signup(request):
-    if request.method == 'POST':
-        form = ownerPostForm(request.POST)
-        if form.is_valid():
-            form.save()
-        return render(request, 'ownerHome.html')
-    else :
-        form = ownerPostForm()
-        return render(request, 'signup.html', {'form':form})
+    if not(request.session.get('user')):
+        if request.method == 'POST':
+            form = ownerPostForm(request.POST)
+            if form.is_valid():
+                form.save()
+            request.session['user'] = request.POST.get('email')
+            return render(request, 'ownerHome.html')
+        else :
+            form = ownerPostForm()
+            return render(request, 'signup.html', {'form':form})
+
+    return render(request, 'ownerHome.html')
 
 def checkPassword(request):
     if request.session.get('user'):
