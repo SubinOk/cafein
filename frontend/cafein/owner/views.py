@@ -53,7 +53,7 @@ def ownerLogin(request):
         if bcrypt.checkpw(password.encode('utf-8'), owner.password.encode('utf-8')):
             # 위의 체크를 문제없이 통과하면 이후 페이지로 전송
             request.session['user'] = email
-            return render(request, 'ownerHome.html', {'form': form, 'side': homeSideBar})
+            return render(request, 'ownerHome.html', {'form': form, 'side': homeSideBar, 'side_select': 'Home'})
         else:
             # 입력한 encoding 패스워드가 불일치 할때 return
             error_flg['password'] = True
@@ -70,7 +70,7 @@ def ownerLogout(request):
 
 def ownerHome(request):
     if request.session.get('user'):
-        return render(request, 'ownerHome.html', {'side': homeSideBar})
+        return render(request, 'ownerHome.html', {'side': homeSideBar, 'side_select': 'Home'})
     else:
         return redirect('/')
 
@@ -92,12 +92,12 @@ def signup(request):
             if form.is_valid():
                 form.save()
             request.session['user'] = request.POST.get('email')
-            return render(request, 'ownerHome.html', {'side': homeSideBar})
+            return render(request, 'ownerHome.html', {'side': homeSideBar, 'side_select': 'Home'})
         else :
             form = ownerPostForm()
             return render(request, 'signup.html', {'form':form})
 
-    return render(request, 'ownerHome.html', {'side': homeSideBar})
+    return render(request, 'ownerHome.html', {'side': homeSideBar, 'side_select': 'Home'})
 
 
 def checkPassword(request):
@@ -108,7 +108,7 @@ def checkPassword(request):
                 if bcrypt.checkpw(request.POST.get('id_password').encode('utf-8'), owner.password.encode('utf-8')):
                     # 위의 체크를 문제없이 통과하면 이후 페이지로 전송
                     form = ownerChangeForm()
-                    return render(request, 'ownerChange.html', {'form': form,'side': changeSideBar})
+                    return render(request, 'ownerChange.html', {'form': form, 'side': changeSideBar, 'side_select': '회원 정보 수정'})
                 else:
                     return render(request, 'checkPassword.html', {'flg': True})
             except:
