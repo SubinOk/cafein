@@ -2,7 +2,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.template.loader import render_to_string
 from django.core.mail import EmailMessage
 
-from .forms import loginPostForm, ownerPostForm
+from .forms import loginPostForm, ownerPostForm, ownerChangeForm
 
 #403 오류해결
 from django.views.decorators.csrf import csrf_exempt
@@ -107,7 +107,8 @@ def checkPassword(request):
                 owner = get_object_or_404(Owner, owner_id=request.session.get('user'))
                 if bcrypt.checkpw(request.POST.get('id_password').encode('utf-8'), owner.password.encode('utf-8')):
                     # 위의 체크를 문제없이 통과하면 이후 페이지로 전송
-                    return render(request, 'ownerChange.html', {'side': changeSideBar})
+                    form = ownerChangeForm()
+                    return render(request, 'ownerChange.html', {'form': form,'side': changeSideBar})
                 else:
                     return render(request, 'checkPassword.html', {'flg': True})
             except:
@@ -137,10 +138,13 @@ def ownerUpdate(request):
     if request.session.get('user'):
         if request.method == 'POST': 
             owner_id=request.session.get('user')
-            form = ownerPostForm()
+            form = ownerChangeForm(request.POST)
             form.update(owner_id)
+            return render(request, 'ownerHome.html', {'side': homeSideBar})
         else:
-            return render(request,'ownerChage')
+            return render(request, 'ownerHome.html', {'side': homeSideBar})
+    else:
+        return render(request, 'ownerLogin.html', {'form': form})
         
 
             

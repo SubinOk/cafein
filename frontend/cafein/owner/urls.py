@@ -10,4 +10,6 @@ urlpatterns = [
     path('findPassword/', views.findPassword, name='findPassword'),
     path('signup/', views.signup, name='signup'),
     path('delete/', views.ownerDelete, name='ownerDelete'),
+    path('update/', views.ownerUpdate, name='ownerUpdate'),
+    
 ]

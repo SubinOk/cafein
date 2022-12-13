@@ -9,6 +9,26 @@ class loginPostForm(forms.Form):
     password = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'form-control',
                                                                  'placeholder': '비밀번호'}))
 
+class ownerChangeForm(forms.Form):
+    password = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'form-control',
+                                                                 'placeholder': '비밀번호'}))
+    password2 = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'form-control',
+                                                                 'placeholder': '비밀번호확인'}))
+    phone = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control'}))
+    
+    # 회원 정보 수정 
+    def update(self, id):
+        try:
+            email = id
+            password = self.cleaned_data.get("password")
+            phone = self.cleaned_data.get("phone")
+            owner = Owner.objects.get(owner_id = email)
+            owner.password = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt()).decode('utf-8')
+            owner.phone = phone
+            owner.save()
+        except:
+            return False
+
 class ownerPostForm(forms.Form):
     email = forms.EmailField(widget=forms.EmailInput(attrs={'class': 'form-control',
                                                             'placeholder': '이메일'}))
@@ -85,18 +105,6 @@ class ownerPostForm(forms.Form):
             return False
         return True
     
-    # 회원 정보 수정 
-    def update(self, id):
-        email = id
-        password = self.cleaned_data.get("password")
-        phone = self.cleaned_data.get("phone")
-        try:
-            owner = Owner.objects.get(owner_id = email)
-            owner.password = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt()).decode('utf-8')
-            owner.phone = phone
-            owner.save()
-        except:
-            return False
 
 
     # DB 삭제 탈퇴 회원 정보 

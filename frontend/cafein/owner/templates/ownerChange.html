@@ -8,29 +8,32 @@
                 <div class="contents-blank"></div>
                 <hr>
                 <div class="contents-blank"></div>
-                <div>
-                    <a class="login-button btn btn-outline-brown float-end" href="/owner/delete" aria-expanded="false">탈퇴하기</a>
-                </div>
-                <table class="table border-top mt-2">
-                    <tbody>
-                    <tr>
-                        <th scope="row">아이디</th>
-                        <td colspan="2"><input disabled class="form-control"></td>
-                    </tr>
-                    <tr>
-                        <th scope="row">비밀번호</th>
-                        <td><input class="form-control"></td>
-                        <td><input class="form-control"></td>
-                    </tr>
-                    <tr>
-                        <th scope="row">전화번호</th>
-                        <td colspan="2"><input class="form-control"></td>
-                    </tr>
-                    </tbody>
-                </table>
-                <div class="text-center">
-                    <a class="login-button btn btn-outline-brown" href="#" data-bs-toggle="dropdown" aria-expanded="false">변경사항 저장</a>
-                </div>
+                <form action="/owner/update/" method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div>
+                        <a class="login-button btn btn-outline-brown float-end" href="/owner/delete" aria-expanded="false">탈퇴하기</a>
+                    </div>
+                    <table class="table border-top mt-2">
+                        <tbody>
+                        <tr>
+                            <th scope="row">아이디</th>
+                            <td colspan="2"><input disabled class="form-control"></td>
+                        </tr>
+                        <tr>
+                            <th scope="row">비밀번호</th>
+                            <td>{{ form.password }}</td>
+                            <td>{{ form.password2 }}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">전화번호</th>
+                            <td colspan="2">{{ form.phone }}</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <div class="text-center">
+                        <button type="submit" class="login-button btn btn-outline-brown">변경사항 저장</a>
+                    </div>
+                </form>
             </div>
         </div>
     </main>
