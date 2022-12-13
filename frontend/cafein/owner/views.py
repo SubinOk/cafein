@@ -23,6 +23,9 @@ from cafe.models import Cafe,Cafe_image
 
 MINIMUM_PASSWORD_LENGTH = 8
 
+changeSideBar=['회원 정보 수정', '카페 관리']
+homeSideBar=['Home','리뷰 확인', '고객 통계']
+
 # Create your views here.
 
 def ownerLogin(request):
@@ -50,7 +53,7 @@ def ownerLogin(request):
         if bcrypt.checkpw(password.encode('utf-8'), owner.password.encode('utf-8')):
             # 위의 체크를 문제없이 통과하면 이후 페이지로 전송
             request.session['user'] = email
-            return render(request, 'ownerHome.html', {'form': form})
+            return render(request, 'ownerHome.html', {'form': form, 'side': homeSideBar})
         else:
             # 입력한 encoding 패스워드가 불일치 할때 return
             error_flg['password'] = True
@@ -67,7 +70,7 @@ def ownerLogout(request):
 
 def ownerHome(request):
     if request.session.get('user'):
-        return render(request, 'ownerHome.html')
+        return render(request, 'ownerHome.html', {'side': homeSideBar})
     else:
         return redirect('/')
 
@@ -89,12 +92,13 @@ def signup(request):
             if form.is_valid():
                 form.save()
             request.session['user'] = request.POST.get('email')
-            return render(request, 'ownerHome.html')
+            return render(request, 'ownerHome.html', {'side': homeSideBar})
         else :
             form = ownerPostForm()
             return render(request, 'signup.html', {'form':form})
 
-    return render(request, 'ownerHome.html')
+    return render(request, 'ownerHome.html', {'side': homeSideBar})
+
 
 def checkPassword(request):
     if request.session.get('user'):
@@ -103,7 +107,7 @@ def checkPassword(request):
                 owner = get_object_or_404(Owner, owner_id=request.session.get('user'))
                 if bcrypt.checkpw(request.POST.get('id_password').encode('utf-8'), owner.password.encode('utf-8')):
                     # 위의 체크를 문제없이 통과하면 이후 페이지로 전송
-                    return render(request, 'ownerChange.html')
+                    return render(request, 'ownerChange.html', {'side': changeSideBar})
                 else:
                     return render(request, 'checkPassword.html', {'flg': True})
             except:
