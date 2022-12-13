@@ -139,7 +139,8 @@ def ownerUpdate(request):
         if request.method == 'POST': 
             owner_id=request.session.get('user')
             form = ownerChangeForm(request.POST)
-            form.update(owner_id)
+            if form.is_valid():
+                form.update(owner_id)
             return render(request, 'ownerHome.html', {'side': homeSideBar})
         else:
             return render(request, 'ownerHome.html', {'side': homeSideBar})

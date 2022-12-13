@@ -18,10 +18,10 @@ class ownerChangeForm(forms.Form):
     
     # 회원 정보 수정 
     def update(self, id):
+        email = id
+        password = self.cleaned_data.get("password")
+        phone = self.cleaned_data.get("phone")
         try:
-            email = id
-            password = self.cleaned_data.get("password")
-            phone = self.cleaned_data.get("phone")
             owner = Owner.objects.get(owner_id = email)
             owner.password = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt()).decode('utf-8')
             owner.phone = phone
