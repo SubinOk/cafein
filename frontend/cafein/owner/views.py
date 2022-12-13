@@ -141,11 +141,11 @@ def ownerUpdate(request):
             form = ownerChangeForm(request.POST)
             if form.is_valid():
                 form.update(owner_id)
-            return render(request, 'ownerHome.html', {'side': homeSideBar})
+            return redirect('/owner/home/', {'side': homeSideBar})
         else:
-            return render(request, 'ownerHome.html', {'side': homeSideBar})
+            return render(request, 'ownerChange.html', {'side': homeSideBar})
     else:
-        return render(request, 'ownerLogin.html', {'form': form})
+        return redirect('/')
         
 
             
