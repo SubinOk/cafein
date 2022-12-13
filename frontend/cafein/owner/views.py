@@ -16,6 +16,7 @@ import jwt
 from django.views           import View
 from django.http            import JsonResponse
 from django.db.models       import Q
+from django.core.mail.message import EmailMessage
 
 #모델
 from .models     import Owner

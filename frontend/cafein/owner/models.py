@@ -3,6 +3,7 @@ from django.db import models
 class Owner(models.Model):
     
     owner_id = models.EmailField(max_length = 100,primary_key=True ,default='')
+    email = models.EmailField(max_length = 100 ,default='')
     password = models.CharField(max_length=300, default='')
     phone = models.CharField(max_length=25, unique = True , default='')
     #cafe = models.ForeignKey(Cafe,on_delete=models.CASCADE, blank=True, null=True)

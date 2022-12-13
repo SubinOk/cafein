@@ -20,6 +20,9 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('main.urls')),
     path('owner/', include('owner.urls')),
+    path('main/', include('django.contrib.auth.urls')),
+    
+    
 ]
 
 from django.conf import settings
