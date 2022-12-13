@@ -39,11 +39,11 @@ class ownerManageForm(forms.Form):
         address2 = self.cleaned_data.get("address2")
         cafe_phone = self.cleaned_data.get("cafe_phone")
         #카페이미지
-        image = self.FILES.getlist("image")
+        #image = self.files.getlist("image")
 
         try:
             cafe = Cafe.objects.get(owner_id = owner_id)
-            cafeImage = Cafe_image.objects.get(cafe_id = cafe.cafe_id)
+            #cafeImage = Cafe_image.objects.get(cafe_id = cafe.cafe_id)
 
             cafe.name = name
             cafe.human = human
@@ -66,7 +66,7 @@ class ownerManageForm(forms.Form):
         cafe = Cafe.objects.get(owner_id = owner_id)
         cafeImage = Cafe_image.objects.get(cafe_id = cafe.cafe_id)
 
-        image = self.FILES.getlist("image")
+        image = self.files.getlist("image")
         try:
             for image in image:
                 cafeImage.image = image
