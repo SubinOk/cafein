@@ -143,3 +143,13 @@ class ownerPostForm(forms.Form):
             image = image,
             cafe = cafe
         )
+    
+    # 4MB 용량제한 & 확장자 제한
+    def imagelimit(self):
+        image = self.cleaned_data.get("image")
+        if image.size < 4 * 1024 * 1024: 
+            image_extensions = ['.png', '.jpg', '.jpeg']
+            is_allowed_extension = [image_extension in str(image) for image_extension in image_extensions]
+            if True in is_allowed_extension:
+                return True
+        return False
