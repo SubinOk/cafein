@@ -157,5 +157,22 @@ def ownerManage(request):
         return render(request, 'ownerManage.html', {'form': form,'side': homeSideBar})
     else:
         return render(request, 'ownerManage.html')
+#수정 중 
+def cafeUpdate(request):
+    if request.session.get('user'):
+        if request.method == 'POST': 
+            owner_id=request.session.get('user')
+            form = ownerManageForm(request.POST)
+            if form.is_valid(): #is_valid 필수로 쓰기 
+                form.update(owner_id)
+                form.imageUpdate(owner_id)
+            return redirect('/owner/home/', {'side': homeSideBar})
+        else:
+            return render(request, 'ownerChange.html', {'side': homeSideBar})
+    else:
+        return redirect('/')
+        
+            
+        
 
   
