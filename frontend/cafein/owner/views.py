@@ -129,6 +129,19 @@ def ownerDelete(request):
         return render(request, 'ownerDelete.html')
 
 
+def ownerUpdate(request):
+    if request.session.get('user'):
+        if request.method == 'POST': 
+            owner_id=request.session.get('user')
+            form = ownerPostForm()
+            form.update(owner_id)
+        else:
+            return render(request,'ownerChage')
+        
+
+            
+        
+
   
 
 

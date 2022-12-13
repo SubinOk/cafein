@@ -86,16 +86,18 @@ class ownerPostForm(forms.Form):
         return True
     
     # 회원 정보 수정 
-    def update(self):
-        email = self.cleaned_data.get("email")
+    def update(self, id):
+        email = id
         password = self.cleaned_data.get("password")
         phone = self.cleaned_data.get("phone")
+        try:
+            owner = Owner.objects.get(owner_id = email)
+            owner.password = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt()).decode('utf-8')
+            owner.phone = phone
+            owner.save()
+        except:
+            return False
 
-        owner = Owner.objects.get(owner_id = email)
-        owner.password = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt()).decode('utf-8')
-        owner.phone = phone
-
-        owner.save()
 
     # DB 삭제 탈퇴 회원 정보 
     def delete(self):
@@ -138,7 +140,6 @@ class ownerPostForm(forms.Form):
         )
 
     
-
         Cafe_image.objects.create(
             image = image,
             cafe = cafe
