@@ -82,13 +82,13 @@ body{margin-bottom: 60px}
 .side-menu {
     max-width: 100%;
     color: rgba(88, 58, 35, 1);
-    padding-top: 6px;
-    padding-bottom: 6px;
+    padding-top: 9px;
+    padding-bottom: 9px;
     font-size: 21px;
     text-indent: 1em;
     text-align: left;
     font-family: "Inter", sans-serif;
-
+    text-decoration: none;
 }
 .side-menu-detail {
     max-width: 100%;
@@ -171,8 +171,8 @@ body{margin-bottom: 60px}
 }
 .side-bar{
     background-color: #f8f0dd;
-    margin-top: -20px;
-    padding-top: 40px;
+    margin-top: -50px;
+    padding-top: 30px;
     padding-bottom: 40px;
     position: fixed;
     width: 220px;
