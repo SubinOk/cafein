@@ -162,6 +162,15 @@ body{margin-bottom: 60px}
     width: 360px;
     height: 180px;
 }
+.imagebox{
+    object-fit: scale-down;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    width: 300px;
+    height: 200px;
+    border: 4px;
+}
 .modify-page-padding{
     padding-left: 100px;
     padding-right: 120px;

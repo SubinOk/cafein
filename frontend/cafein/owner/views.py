@@ -2,7 +2,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.template.loader import render_to_string
 from django.core.mail import EmailMessage
 
-from .forms import loginPostForm, ownerPostForm, ownerChangeForm
+from .forms import loginPostForm, ownerPostForm, ownerChangeForm, ownerManageForm
 
 #403 오류해결
 from django.views.decorators.csrf import csrf_exempt
@@ -147,7 +147,12 @@ def ownerUpdate(request):
     else:
         return redirect('/')
         
-
+def ownerManage(request):
+    if request.session.get('user'):
+        form = ownerManageForm(request.POST)
+        return render(request, 'ownerManage.html', {'form': form,'side': homeSideBar})
+    else:
+        return render(request, 'ownerManage.html')
             
         
 

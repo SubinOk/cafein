@@ -1,0 +1,52 @@
+{% extends "layout.html" %}
+{% block content %}
+    <main>
+        <div>
+            {% include "sideBar.html" %}
+            <div class="col contents-padding">
+                <h1>카페 관리</h1>
+                <form action="/owner/update/" method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div>
+                        <a class="login-button btn btn-outline-brown float-end" href="/owner/delete" aria-expanded="false">수정</a>
+                    </div>
+                    <div class=blank></div>
+                    <div class=contents-blank></div>
+                    <div class='row'>
+                        <div class='col'>
+                            <div class='imagebox'>
+                                <img src='\media\cafe\KakaoTalk_20221124_162600485.jpg' alt=''>
+                                {% comment %} {% for image in form.images%}
+                                    <img src="{{ image.url }}" />
+                                {% endfor %} {% endcomment %}
+                            </div>
+                        </div>
+                        <div class='col'>
+                            {{ form.name }}
+                            {{ form.image }}
+                            <div class=contents-blank></div>
+                            {{ form.address }}
+                            {{ form.address2 }}
+                            {{ form.cafe_phone }}
+                            {{ form.human }}
+                        </div>
+                    </div>
+                </form>
+                <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+                <script>
+                window.onload = function(){
+                    document.getElementById("address_kakao").addEventListener("click", function(){ //주소입력칸을 클릭하면
+                        //카카오 지도 발생
+                        new daum.Postcode({
+                            oncomplete: function(data) { //선택시 입력값 세팅
+                                document.getElementById("address_kakao").value = data.address; // 주소 넣기
+                                document.querySelector("input[name=address2]").focus(); //상세입력 포커싱
+                            }
+                        }).open();
+                    });
+                }
+                </script>
+            </div>
+        </div>
+    </main>
+{% endblock %}
