@@ -1,5 +1,10 @@
+{% comment %} bg-secondary bg-opacity-25 {% endcomment %}
 <div class="side-bar">
     {% for sidemenu in side %}
+    {% if sidemenu == side_select %}
+    <a class='side-menu' href='#'><div class='side-menu bg-secondary bg-opacity-25'>{{ sidemenu }}</div></a>
+    {% else %}
     <a class='side-menu' href='#'><div class='side-menu'>{{ sidemenu }}</div></a>
+    {% endif %}
     {% endfor %}
 </div>

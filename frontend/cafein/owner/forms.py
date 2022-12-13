@@ -9,12 +9,97 @@ class loginPostForm(forms.Form):
     password = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'form-control',
                                                                  'placeholder': '비밀번호'}))
 
+class ownerManageForm(forms.Form):
+    name = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control pe-150',
+                                                         'placeholder': '카페명'}))
+    human = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control',
+                                                                'maxlength': '4',
+                                                                'placeholder': '최대수용인원'}))
+    address = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control',
+                                                            'maxlength': '20',
+                                                            'id': 'address_kakao',
+                                                            'readonly':'True',
+                                                            'placeholder': '주소'}))
+    address2 = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control',
+                                                             'name': 'address_detail',
+                                                             'placeholder':'상세 주소'}))
+    cafe_phone = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control',
+                                                          'placeholder': '전화번호'}))                                                       
+    # 카페 이미지 추가해야함 
+    image =forms.ImageField(widget=forms.FileInput(attrs={'multiple':''}))
+
+    #  카페 수정 
+    def cafeUpdate(self, id):
+
+        #카페정보
+        owner_id = id
+        name = self.cleaned_data.get("name")
+        human = self.cleaned_data.get("human")
+        address = self.cleaned_data.get("address")
+        address2 = self.cleaned_data.get("address2")
+        cafe_phone = self.cleaned_data.get("cafe_phone")
+        #카페이미지
+        #image = self.files.getlist("image")
+
+        try:
+            cafe = Cafe.objects.get(owner_id = owner_id)
+            #cafeImage = Cafe_image.objects.get(cafe_id = cafe.cafe_id)
+
+            cafe.name = name
+            cafe.human = human
+            cafe.address = address
+            cafe.datail_add = address2
+            cafe.cafe_phone = cafe_phone
+            cafe.save()
+
+            # for image in image:
+            #     cafeImage.image = image
+            #     cafeImage.cafe = cafe
+            #     cafeImage.save()
+
+        except:
+            return False
+
+    # 카페 이미지 수정 
+    def imageUpdate(self, id):
+        owner_id = id
+        cafe = Cafe.objects.get(owner_id = owner_id)
+        cafeImage = Cafe_image.objects.get(cafe_id = cafe.cafe_id)
+
+        image = self.files.getlist("image")
+        try:
+            for image in image:
+                cafeImage.image = image
+                cafeImage.cafe = cafe
+                cafeImage.save()
+        except:
+            return False
+
+
+
 class ownerChangeForm(forms.Form):
     password = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'form-control',
                                                                  'placeholder': '비밀번호'}))
     password2 = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'form-control',
                                                                  'placeholder': '비밀번호확인'}))
     phone = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control'}))
+    
+    # 두개의 password가 일치한지에 대한 validation 
+    def check_password1(self):
+        password = self.cleaned_data.get("password") 
+        password2 = self.cleaned_data.get("password2") 
+        if password != password2:
+            return False
+        else:
+            return True
+    
+    #전화번호 '-'없이 숫자만 입력하도록 
+    def check_phone(self):
+        phone = self.cleaned_data.get("phone") 
+        pattern = re.compile('^[0]\d{2}\d{3,4}\d{4}$')
+        if not pattern.match(phone):
+            return False
+        return True
     
     # 회원 정보 수정 
     def update(self, id):
@@ -28,6 +113,7 @@ class ownerChangeForm(forms.Form):
             owner.save()
         except:
             return False
+    
 
 class ownerManageForm(forms.Form):
     image = forms.ImageField()
@@ -71,8 +157,10 @@ class ownerPostForm(forms.Form):
                                                              'placeholder':'상세 주소'}))
     cafe_phone = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control',
                                                           'placeholder': '전화번호'}))                                                       
+    
+
     # 카페 이미지 추가해야함 
-    image =forms.ImageField()
+    image = forms.ImageField(widget=forms.FileInput(attrs={'multiple':''}))
 
     # email이 이미 등록되었는지, 그리고 이메일 형식에 맞는지에 대한 validation
     def check_email(self):
@@ -122,8 +210,6 @@ class ownerPostForm(forms.Form):
         if not pattern.match(phone):
             return False
         return True
-    
-
 
     # DB 삭제 탈퇴 회원 정보 
     def delete(self):
@@ -146,7 +232,7 @@ class ownerPostForm(forms.Form):
         cafe_phone = self.cleaned_data.get("cafe_phone")
 
         # 카페이미지
-        image = self.cleaned_data.get("image")
+        image = self.files.getlist("image")
         
 
         make = Owner.objects.create(           
@@ -164,12 +250,15 @@ class ownerPostForm(forms.Form):
             cafe_phone = cafe_phone,
             owner = make
         )
+        
+        for image in image:
+            Cafe_image.objects.create(
+                image = image,
+                cafe = cafe
+            )
 
-    
-        Cafe_image.objects.create(
-            image = image,
-            cafe = cafe
-        )
+        
+
     
     # 4MB 용량제한 & 확장자 제한
     def imagelimit(self):
