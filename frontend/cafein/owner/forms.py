@@ -114,24 +114,6 @@ class ownerChangeForm(forms.Form):
         except:
             return False
     
-
-class ownerManageForm(forms.Form):
-    image = forms.ImageField()
-    name = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control',
-                                                         'placeholder': '카페명'}))
-    address = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control',
-                                                            'maxlength': '20',
-                                                            'id': 'address_kakao',
-                                                            'readonly':'True',
-                                                            'placeholder': '주소'}))
-    address2 = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control',
-                                                             'name': 'address_detail',
-                                                             'placeholder':'상세 주소'}))
-    cafe_phone = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control',
-                                                          'placeholder': '전화번호'}))
-    human = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control',
-                                                                'maxlength': '4',
-                                                                'placeholder': '최대수용인원'}))
     
 class ownerPostForm(forms.Form):
     email = forms.EmailField(widget=forms.EmailInput(attrs={'class': 'form-control',

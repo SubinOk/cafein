@@ -151,7 +151,11 @@ def ownerUpdate(request):
         return redirect('/')
         
 
-            
-        
+def ownerManage(request):
+    if request.session.get('user'):
+        form = ownerManageForm(request.POST)
+        return render(request, 'ownerManage.html', {'form': form,'side': homeSideBar})
+    else:
+        return render(request, 'ownerManage.html')
 
   
