@@ -54,7 +54,7 @@ class ownerPostForm(forms.Form):
     cafe_phone = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control',
                                                           'placeholder': '전화번호'}))                                                       
     # 카페 이미지 추가해야함 
-    image =forms.ImageField()
+    image =forms.ImageField(widget=forms.FileInput(attrs={'multiple':''}))
 
     # email이 이미 등록되었는지, 그리고 이메일 형식에 맞는지에 대한 validation
     def check_email(self):
