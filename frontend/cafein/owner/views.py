@@ -85,7 +85,7 @@ def findPassword(request):
 def signup(request):
     if not(request.session.get('user')):
         if request.method == 'POST':
-            form = ownerPostForm(request.POST)
+            form = ownerPostForm(request.POST, request.FILES)
             if form.is_valid():
                 form.save()
             request.session['user'] = request.POST.get('email')
