@@ -24,8 +24,14 @@ from cafe.models import Cafe,Cafe_image
 
 MINIMUM_PASSWORD_LENGTH = 8
 
-changeSideBar=['회원 정보 수정', '카페 관리']
-homeSideBar=['Home','리뷰 확인', '고객 통계']
+homeSideBar = [{'name': 'Home', 'path': '/owner/home'},
+               {'name': '리뷰 확인', 'path': '/owner/home'}, # 이후 추가 예정
+               {'name': '고객 통계', 'path': '/owner/home'}, # 이후 추가 예정
+               ]
+
+changeSideBar = [{'name': '회원 정보 수정', 'path': '/owner/change'},
+               {'name': '카페 관리', 'path': '/owner/manage'}
+               ]
 
 
 def ownerLogin(request):
@@ -121,6 +127,14 @@ def checkPassword(request):
     return redirect('/')
 
 
+def ownerChange(request):
+    if request.session.get('user'):
+        form = ownerChangeForm()
+        return render(request, 'ownerChange.html', {'form': form, 'side': changeSideBar, 'side_select': '회원 정보 수정'})
+    else:
+        return redirect('/')
+
+
 def ownerDelete(request):
     if request.method == 'POST':
         try:
@@ -155,9 +169,9 @@ def ownerUpdate(request):
 def ownerManage(request):
     if request.session.get('user'):
         form = ownerManageForm(request.POST)
-        return render(request, 'ownerManage.html', {'form': form,'side': homeSideBar})
+        return render(request, 'ownerManage.html', {'form': form, 'side': changeSideBar, 'side_select': '카페 관리'})
     else:
-        return render(request, 'ownerManage.html')
+        return redirect('/')
 
 #수정 중 
 def cafeUpdate(request):
@@ -173,8 +187,3 @@ def cafeUpdate(request):
             return render(request, 'ownerChange.html', {'side': homeSideBar})
     else:
         return redirect('/')
-        
-            
-        
-
-  
