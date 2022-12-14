@@ -25,8 +25,8 @@ from cafe.models import Cafe,Cafe_image
 MINIMUM_PASSWORD_LENGTH = 8
 
 homeSideBar = [{'name': 'Home', 'path': '/owner/home'},
-               {'name': '리뷰 확인', 'path': '/owner/home'}, # 이후 추가 예정
-               {'name': '고객 통계', 'path': '/owner/home'}, # 이후 추가 예정
+               {'name': '리뷰 확인', 'path': '/owner/home'},  # 이후 추가 예정
+               {'name': '고객 통계', 'path': '/owner/statistics'},
                ]
 
 changeSideBar = [{'name': '회원 정보 수정', 'path': '/owner/change'},
@@ -185,5 +185,12 @@ def cafeUpdate(request):
             return redirect('/owner/home/', {'side': homeSideBar})
         else:
             return render(request, 'ownerChange.html', {'side': homeSideBar})
+    else:
+        return redirect('/')
+
+
+def ownerStatistics(request):
+    if request.session.get('user'):
+        return render(request, 'ownerStatistics.html', {'side': homeSideBar, 'side_select': '고객 통계'})
     else:
         return redirect('/')

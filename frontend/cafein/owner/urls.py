@@ -13,4 +13,5 @@ urlpatterns = [
     path('update/', views.ownerUpdate, name='ownerUpdate'),
     path('change/', views.ownerChange, name='ownerChange'),
     path('manage/', views.ownerManage, name='ownerManage'),
+    path('statistics/', views.ownerStatistics, name='ownerStatistics'),
 ]

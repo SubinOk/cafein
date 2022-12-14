@@ -1,0 +1,32 @@
+{% extends "layout.html" %}
+{% block content %}
+    <main>
+        {% include "sideBar.html" %}
+        <div class="contents-padding">
+            <div class="d-flex">
+                <h1 class="col">고객 통계</h1>
+                <div class="col">
+                    <a class="login-button btn btn-outline-brown float-end px-5" href="#">일간</a>
+                    <a class="login-button btn btn-outline-brown float-end px-5 me-2" href="#">월간</a>
+                </div>
+            </div>
+            <div class=contents-blank></div>
+            <div class="text-left">
+                <button class="border cafein-button px-5 h4">날짜 선택</button>
+            </div>
+            <div class=blank></div>
+            <div class=blank></div>
+            <div class="d-flex" style="height: 350px;">
+                <div class="col" style="background-color: bisque;">이후 표에 표시 데이터에 대한 내용이 추가될 예정</div>
+                <div class="col offset-md-1">
+                    <div style="height: 150px; background-color: bisque;">이후 표에 표시 데이터에 대한 내용이 추가될 예정</div>
+                    <div class=contents-blank></div>
+                    <div class="d-flex" style="height: 190px;">
+                        <div class="col" style="background-color: bisque;"></div>
+                        <div class="col offset-md-1" style="background-color: bisque;"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+{% endblock %}
