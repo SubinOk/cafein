@@ -105,9 +105,9 @@ def signup(request):
         if request.method == 'POST':
             form = ownerPostForm(request.POST, request.FILES)
             if form.is_valid():
-                # if not form.check_email():
-                #     error_flg['email'] = True
-                #     return render(request, 'signup.html', {'form':form, 'error_flg': error_flg})
+                if not form.check_email():
+                    error_flg['email'] = True
+                    return render(request, 'signup.html', {'form': form, 'error_flg': error_flg})
                 if not (form.check_password1() and form.check_password()):
                     error_flg['password'] = True
                     return render(request, 'signup.html', {'form': form, 'error_flg': error_flg})

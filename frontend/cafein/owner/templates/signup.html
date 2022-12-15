@@ -11,11 +11,6 @@
                 <p class="text-danger">&nbsp;이미 존재하는 메일입니다.</p>
                 <script>
                     document.getElementById('id_email').classList.add("border-danger")
-                    window.onload = function(){
-                        document.getElementById("id_email").addEventListener("focusout", function(){
-                            document.getElementById('id_email').classList.remove("border-danger")
-                        });
-                    }
                 </script>
             {% endif %}
             <div class="contents-blank"></div>
@@ -25,15 +20,15 @@
             </div>
             {% if error_flg.password == True %}
             <p class="text-danger">&nbsp;비밀번호의 형식이 맞지 않습니다.</p>
-            <script>
-                document.getElementById('id_password').classList.add("border-danger")
-                //document.getElementById('id_password2').classList.add("border-danger")
-                window.onload = function(){
-                    document.getElementById("id_password").addEventListener("focusout", function(){
-                        document.getElementById('id_password').classList.remove("border-danger")
-                    });
-                }
-            </script>
+{#            <script>#}
+{#                document.getElementById('id_password').classList.add("border-danger")#}
+{#                //document.getElementById('id_password2').classList.add("border-danger")#}
+{#                window.onload = function(){#}
+{#                    document.getElementById("id_password").addEventListener("focusout", function(){#}
+{#                        document.getElementById('id_password').classList.remove("border-danger")#}
+{#                    });#}
+{#                }#}
+{#            </script>#}
             {% endif %}
             <div class="contents-blank"></div>
             {{ form.phone }}
@@ -54,9 +49,26 @@
             <div class="contents-blank"></div>
             <button type="submit" class="form-control border cafein-button px-5">회원가입</button>
         </form>
-        <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
-        <script>
-            window.onload = function(){
+        <div class="blank"></div>
+        <div class="blank"></div>
+        <div class="blank"></div>
+    </div>
+    <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+    <script>
+        function addLoadEvent(func){
+            const oldonload = window.onload;
+            if(typeof window.onload != 'function'){
+                window.onload = func;
+            }else{
+                window.onload = function(){
+                    oldonload();
+                    func();
+                }
+            }
+        }
+
+        addLoadEvent(
+            function(){
                 document.getElementById("address_kakao").addEventListener("click", function(){ //주소입력칸을 클릭하면
                     //카카오 지도 발생
                     new daum.Postcode({
@@ -67,11 +79,16 @@
                     }).open();
                 });
             }
-        </script>
-        <div class="blank"></div>
-        <div class="blank"></div>
-        <div class="blank"></div>
-    </div>
+        );
+
+        addLoadEvent(
+            function(){
+                document.getElementById("id_email").addEventListener("focusout", function(){
+                    document.getElementById('id_email').classList.remove("border-danger")
+                });
+            }
+        );
+    </script>
 </main>
 
 {% endblock %}
