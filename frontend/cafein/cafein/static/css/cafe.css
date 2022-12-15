@@ -171,9 +171,23 @@ body{margin-bottom: 60px}
     overflow: hidden;
     display: flex;
     justify-content: center;
-    width: 300px;
+    width: 100%;
     height: 200px;
     border: 4px;
+}
+.imagebox2{
+    object-fit: scale-down;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    width: 150px;
+    height: 100px;
+    border: 4px;
+}
+.wrap{
+    height: 120px;
+    background-color: #dcdcdc;
+    display: none;
 }
 .modify-page-padding{
     padding-left: 100px;

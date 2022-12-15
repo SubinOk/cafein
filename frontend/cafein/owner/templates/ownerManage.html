@@ -1,5 +1,7 @@
 {% extends "layout.html" %}
 {% block content %}
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
     <main>
         <div>
             {% include "sideBar.html" %}
@@ -15,16 +17,67 @@
                     <div class='row'>
                         <div class='col'>
                             <div class='imagebox'>
-                                <img src='\media\cafe\KakaoTalk_20221124_162600485.jpg' alt=''>
+                                <img src='\media\cafe\KakaoTalk_20221124_162600485_YjcA9QO.jpg' alt=''>
                                 {% comment %} {% for image in form.images%}
                                     <img src="{{ image.url }}" />
                                 {% endfor %} {% endcomment %}
                             </div>
-                        </div>
+                          {% comment %} <head>
+                            <meta charset="UTF-8" />
+                            <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+                            <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+                          </head> {% endcomment %}
+
+                            
+                        </div>    
+                        
+                            <script>
+                              function setThumbnail(event, id) {
+                                var reader = new FileReader();
+                            
+                                reader.onload = function(event) {
+                                  var img = document.createElement("img");
+                                  img.setAttribute("src", event.target.result);
+                                  img.setAttribute('class', "imagebox2")
+                                  document.querySelector("div#" + id).appendChild(img);
+                                };
+                            
+                                reader.readAsDataURL(event.target.files[0]);
+                              }
+                            </script>
+                            <meta charset="UTF-8">
+                            <title>jQuery .slideUp() </title>
+                            <script>
+                                $(function() {
+                                    $("#btn").on("click", function() {
+                                        $("#divBox").slideDown("fast");
+                                    });
+                                  });
+                            </script>
+
                         <div class='col'>
                             {{ form.name }}
-                            {{ form.image }}
                             <div class=contents-blank></div>
+                            <div>
+                                <button id="btn">이미지 선택</button>
+                                <div id="divBox" class='wrap'>
+                                    <div class='row'>
+                                        <div class='col'>
+                                            <input type="file" id="image" accept="image/*" onchange="setThumbnail(event, 'image_container_1');"/>
+                                            <div id="image_container_1"></div>
+                                        </div>
+                                        <div class='col'>
+                                            <input type="file" id="image" accept="image/*" onchange="setThumbnail(event, 'image_container_2');"/>
+                                            <div id="image_container_2"></div>
+                                        </div>
+                                        <div class='col'>
+                                            <input type="file" id="image" accept="image/*" onchange="setThumbnail(event, 'image_container_3');"/>
+                                            <div id="image_container_3"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                                
                             {{ form.address }}
                             {{ form.address2 }}
                             {{ form.cafe_phone }}
