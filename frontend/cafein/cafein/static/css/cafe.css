@@ -9,7 +9,7 @@ body{margin-bottom: 60px}
     background-color: #f5f5f5;
 }
 .head-logo{
-    width: 200px;
+    width: 170px;
 }
 .login-button {
     /* display: flex;
@@ -29,15 +29,16 @@ body{margin-bottom: 60px}
 }
 .status-button {
     display: flex;
-    flex-direction: row;
-    align-items: center;
-    padding: 6px 20px;
+    padding: 6px;
     background-color: rgba(255, 255, 255, 1);
     color: rgba(88, 58, 35, 1);
-    font-size: 16px;
+    font-size: 8px;
     letter-spacing: 0%;
     text-align: center;
     font-family: "Inter", sans-serif;
+    margin-bottom: 0px;
+    align-items: center;
+    justify-content: flex-end;
 }
 .search-head-logo{
     width: 50px;
@@ -47,8 +48,11 @@ body{margin-bottom: 60px}
     margin-top: 5px;
     padding-left: 20px;
 }
-.nav-head-height{
-    height: 80px;
+.header-style{
+    height: 60px;
+    /* width: 1100px; */
+    margin: 0 auto;
+    position: relative;
 }
 .btn-outline-brown {
     --bs-btn-color: #583A23;
@@ -76,7 +80,7 @@ body{margin-bottom: 60px}
     color: rgba(88, 58, 35, 1);
 }
 .login-menu {
-    height: 60px;
+    height: 30px;
 }
 
 .side-menu {
@@ -190,4 +194,7 @@ body{margin-bottom: 60px}
 .pw-box{
     box-shadow: 1px 1px 4px 0.3px gray;
     margin-top: 150px;
+}
+.header-icon{
+    height:30px;
 }

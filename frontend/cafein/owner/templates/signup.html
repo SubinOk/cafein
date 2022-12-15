@@ -7,11 +7,34 @@
         <form action="" method="post" enctype="multipart/form-data">
             {% csrf_token %}
             {{ form.email }}
+            {% if error_flg.email == True %}
+                <p class="text-danger">&nbsp;이미 존재하는 메일입니다.</p>
+                <script>
+                    document.getElementById('id_email').classList.add("border-danger")
+                    window.onload = function(){
+                        document.getElementById("id_email").addEventListener("focusout", function(){
+                            document.getElementById('id_email').classList.remove("border-danger")
+                        });
+                    }
+                </script>
+            {% endif %}
             <div class="contents-blank"></div>
             <div class="d-flex">
                 {{ form.password }}
                 {{ form.password2 }}
             </div>
+            {% if error_flg.password == True %}
+            <p class="text-danger">&nbsp;비밀번호의 형식이 맞지 않습니다.</p>
+            <script>
+                document.getElementById('id_password').classList.add("border-danger")
+                //document.getElementById('id_password2').classList.add("border-danger")
+                window.onload = function(){
+                    document.getElementById("id_password").addEventListener("focusout", function(){
+                        document.getElementById('id_password').classList.remove("border-danger")
+                    });
+                }
+            </script>
+            {% endif %}
             <div class="contents-blank"></div>
             {{ form.phone }}
             <div class="contents-blank"></div>
@@ -33,17 +56,17 @@
         </form>
         <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
         <script>
-        window.onload = function(){
-            document.getElementById("address_kakao").addEventListener("click", function(){ //주소입력칸을 클릭하면
-                //카카오 지도 발생
-                new daum.Postcode({
-                    oncomplete: function(data) { //선택시 입력값 세팅
-                        document.getElementById("address_kakao").value = data.address; // 주소 넣기
-                        document.querySelector("input[name=address2]").focus(); //상세입력 포커싱
-                    }
-                }).open();
-            });
-        }
+            window.onload = function(){
+                document.getElementById("address_kakao").addEventListener("click", function(){ //주소입력칸을 클릭하면
+                    //카카오 지도 발생
+                    new daum.Postcode({
+                        oncomplete: function(data) { //선택시 입력값 세팅
+                            document.getElementById("address_kakao").value = data.address; // 주소 넣기
+                            document.querySelector("input[name=address2]").focus(); //상세입력 포커싱
+                        }
+                    }).open();
+                });
+            }
         </script>
         <div class="blank"></div>
         <div class="blank"></div>

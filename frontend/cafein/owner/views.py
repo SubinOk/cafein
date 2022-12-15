@@ -95,13 +95,50 @@ def findPassword(request):
         return render(request, 'findPassword.html', {'flg': False})
 
 def signup(request):
+    # 등록된 이메일, 이메일 형식 확인
+    # 두개의 password가 일치한지에 대한 validation
+    # 영어(대소문자), 숫자, 특수문자 포함하고 8~25자리수를 허용
+    # 전화번호 '-'없이 숫자만 입력하도록
+    # 카페 이름 같은 게 있는지 확인하기
+    # 전화번호 '-'없이 숫자만 입력하도록 
+    # 4MB 용량제한 & 확장자 제한
+    error_flg = {
+        'email': False,
+        'password': False,
+        'phone': False,
+        'cafename': False,
+        'cafephone': False,
+        'image': False,
+    }
     if not(request.session.get('user')):
         if request.method == 'POST':
             form = ownerPostForm(request.POST, request.FILES)
             if form.is_valid():
+                # if not form.check_email():
+                #     error_flg['email'] = True
+                #     return render(request, 'signup.html', {'form':form, 'error_flg': error_flg})
+                if not (form.check_password1() and form.check_password()):
+                    error_flg['password'] = True
+                    return render(request, 'signup.html', {'form':form, 'error_flg': error_flg})
+                # if not form.check_phone():
+                #     error_flg['phone'] = True
+                #     return render(request, 'signup.html', {'form':form, 'error_flg': error_flg})
+                # if not form.check_cafename():
+                #     error_flg['cafename'] = True
+                #     return render(request, 'signup.html', {'form':form, 'error_flg': error_flg})
+                # if not form.check_phone():
+                #     error_flg['cafephone'] = True
+                #     return render(request, 'signup.html', {'form':form, 'error_flg': error_flg})
+                # if not form.imagelimit():
+                #     error_flg['image'] = True
+                #     return render(request, 'signup.html', {'form':form, 'error_flg': error_flg})
+                
                 form.save()
-            request.session['user'] = request.POST.get('email')
-            return render(request, 'ownerHome.html', {'side': homeSideBar, 'side_select': 'Home'})
+                request.session['user'] = request.POST.get('email')
+                return render(request, 'ownerHome.html', {'side': homeSideBar, 'side_select': 'Home'})
+            else:
+                return render(request, 'signup.html', {'form':form, 'error_flg': error_flg})
+            
         else :
             form = ownerPostForm()
             return render(request, 'signup.html', {'form':form})
