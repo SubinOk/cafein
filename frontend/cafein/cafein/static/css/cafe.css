@@ -113,10 +113,10 @@ body{margin-bottom: 60px}
     font-family: "Inter", sans-serif;
 }
 .contents-padding {
-    max-width: 100%;
+    /*max-width: 100%;*/
     margin-top:50px;
-    margin-left: 270px;
-    margin-right: 60px;
+    /*margin-left: 270px;*/
+    /*margin-right: 60px;*/
 }
 .like-icon{
     height: 40px;
