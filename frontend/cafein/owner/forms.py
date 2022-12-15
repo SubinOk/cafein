@@ -187,6 +187,14 @@ class ownerPostForm(forms.Form):
     
     #전화번호 '-'없이 숫자만 입력하도록 
     def check_phone(self):
+        cafe_phone = self.cleaned_data.get("cafe_phone") 
+        pattern = re.compile('^[0]\d{2}\d{3,4}\d{4}$')
+        if not pattern.match(cafe_phone):
+            return False
+        return True
+
+    #전화번호 '-'없이 숫자만 입력하도록 
+    def check_cafePhone(self):
         phone = self.cleaned_data.get("phone") 
         pattern = re.compile('^[0]\d{2}\d{3,4}\d{4}$')
         if not pattern.match(phone):
