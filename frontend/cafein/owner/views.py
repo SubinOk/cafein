@@ -100,6 +100,7 @@ def signup(request):
         'cafename': False,
         'cafephone': False,
         'image': False,
+        'imagelimit': False,
     }
     if not(request.session.get('user')):
         if request.method == 'POST':
@@ -111,18 +112,21 @@ def signup(request):
                 if not (form.check_password1() and form.check_password()):
                     error_flg['password'] = True
                     return render(request, 'signup.html', {'form': form, 'error_flg': error_flg})
-                # if not form.check_phone():
-                #     error_flg['phone'] = True
-                #     return render(request, 'signup.html', {'form':form, 'error_flg': error_flg})
-                # if not form.check_cafename():
-                #     error_flg['cafename'] = True
-                #     return render(request, 'signup.html', {'form':form, 'error_flg': error_flg})
-                # if not form.check_phone():
-                #     error_flg['cafephone'] = True
-                #     return render(request, 'signup.html', {'form':form, 'error_flg': error_flg})
-                # if not form.imagelimit():
-                #     error_flg['image'] = True
-                #     return render(request, 'signup.html', {'form':form, 'error_flg': error_flg})
+                if not form.check_phone():
+                    error_flg['phone'] = True
+                    return render(request, 'signup.html', {'form': form, 'error_flg': error_flg})
+                if not form.check_cafename():
+                    error_flg['cafename'] = True
+                    return render(request, 'signup.html', {'form': form, 'error_flg': error_flg})
+                if not form.check_phone():
+                    error_flg['cafephone'] = True
+                    return render(request, 'signup.html', {'form': form, 'error_flg': error_flg})
+                if not form.imagelimit():
+                    error_flg['image'] = True
+                    return render(request, 'signup.html', {'form': form, 'error_flg': error_flg})
+                if not form.numlimit():
+                    error_flg['imagelimit'] = True
+                    return render(request, 'signup.html', {'form': form, 'error_flg': error_flg})
                 
                 form.save()
                 # Save 성공시에는 Redirect 방식이 좀더 좋아보임

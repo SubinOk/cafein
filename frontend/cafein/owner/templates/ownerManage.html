@@ -47,11 +47,11 @@
                             <meta charset="UTF-8">
                             <title>jQuery .slideUp() </title>
                             <script>
-                                $(function() {
-                                    $("#btn").on("click", function() {
-                                        $("#divBox").slideDown("fast");
-                                    });
-                                  });
+                                $( document ).ready( function() {
+                                  $( '#btn' ).on("click", function() {
+                                    $( '.wrap' ).slideToggle();
+                                  } );
+                                } );
                             </script>
 
                         <div class='col'>

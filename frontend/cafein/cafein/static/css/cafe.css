@@ -225,3 +225,11 @@ body{margin-bottom: 60px}
     color: #583A23;
     font-weight: bold;
 }
+.cardradius-50{
+    border-radius: 50px;
+}
+.cardbackgroundcolor{
+    background-color: #f2f2f2;
+    height: 280px;
+    width: 260px;
+}
