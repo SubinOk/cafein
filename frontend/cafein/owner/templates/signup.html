@@ -2,30 +2,120 @@
 {% block content %}
 <main class="container-fluid">
     <div class="col-4 container">
+        <script>
+            function addLoadEvent(func){
+                const oldonload = window.onload;
+                if(typeof window.onload != 'function'){
+                    window.onload = func;
+                }else{
+                    window.onload = function(){
+                        oldonload();
+                        func();
+                    }
+                }
+            }
+        </script>
         <div class="blank"></div>
         <div class="contents-blank"></div>
         <form action="" method="post" enctype="multipart/form-data">
             {% csrf_token %}
             {{ form.email }}
+            {% if error_flg.email == True %}
+                <p class="text-danger">&nbsp;이미 존재하는 메일입니다.</p>
+                <script>
+                    document.getElementById('id_email').classList.add("border-danger")
+                    addLoadEvent(
+                        function(){
+                            document.getElementById("id_email").addEventListener("focusout", function(){
+                                document.getElementById('id_email').classList.remove("border-danger")
+                            });
+                        }
+                    );
+                </script>
+            {% endif %}
             <div class="contents-blank"></div>
             <div class="d-flex">
                 {{ form.password }}
                 {{ form.password2 }}
             </div>
+            {% if error_flg.password == True %}
+            <p class="text-danger">&nbsp;비밀번호의 형식이 맞지 않습니다.</p>
+            <script>
+                document.getElementById('id_password').classList.add("border-danger")
+                document.getElementById('id_password2').classList.add("border-danger")
+                addLoadEvent(
+                    function(){
+                        document.getElementById("id_password").addEventListener("focusout", function(){
+                            document.getElementById('id_password').classList.remove("border-danger")
+                        });
+                    }
+                )
+                addLoadEvent(
+                    function(){
+                        document.getElementById("id_password2").addEventListener("focusout", function(){
+                            document.getElementById('id_password2').classList.remove("border-danger")
+                        });
+                    }
+                )
+            </script>
+            {% endif %}
             <div class="contents-blank"></div>
             {{ form.phone }}
+            {% if error_flg.phone == True %}
+            <p class="text-danger">&nbsp;입력하신 전화번호에 '-'이 포함되어있습니다.</p>
+            <script>
+                document.getElementById('id_phone').classList.add("border-danger")
+                addLoadEvent(
+                    function(){
+                        document.getElementById("id_phone").addEventListener("focusout", function(){
+                            document.getElementById('id_phone').classList.remove("border-danger")
+                        });
+                    }
+                );
+            </script>
+            {% endif %}
             <div class="contents-blank"></div>
             <hr>
             <div class="contents-blank"></div>
             {{ form.name }}
+            {% if error_flg.cafename == True %}
+            <p class="text-danger">&nbsp;입력하신 카페 이름은 이미 존재합니다.</p>
+            <script>
+                document.getElementById('id_name').classList.add("border-danger")
+                addLoadEvent(
+                    function(){
+                        document.getElementById("id_name").addEventListener("focusout", function(){
+                            document.getElementById('id_name').classList.remove("border-danger")
+                        });
+                    }
+                );
+            </script>
+            {% endif %}
             <div class="contents-blank"></div>
             {{ form.image }}
+            {% if error_flg.image == True %}
+            <p class="text-danger">&nbsp;4MB 미만의 크기의 이미지파일만 사용 가능합니다.</p>
+            {% endif %}
+            {% if error_flg.imagelimit == True %}
+            <p class="text-danger">&nbsp;3개 이하의 이미지파일을 등록하실 수 있습니다.</p>
+            {% endif %}
             <div class="contents-blank"></div>
             {{ form.address }}
             <div class="contents-blank"></div>
             {{ form.address2 }}
             <div class="contents-blank"></div>
             {{ form.cafe_phone }}
+            <p class="text-danger">&nbsp;입력하신 전화번호에 '-'이 포함되어있습니다.</p>
+            <script>
+                document.getElementById('id_cafe_phone').classList.add("border-danger")
+                addLoadEvent(
+                    function(){
+                        document.getElementById("id_cafe_phone").addEventListener("focusout", function(){
+                            document.getElementById('id_cafe_phone').classList.remove("border-danger")
+                        });
+                    }
+                );
+            </script>
             <div class="contents-blank"></div>
             {{ form.human }}
             <div class="contents-blank"></div>
@@ -33,17 +123,19 @@
         </form>
         <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
         <script>
-        window.onload = function(){
-            document.getElementById("address_kakao").addEventListener("click", function(){ //주소입력칸을 클릭하면
-                //카카오 지도 발생
-                new daum.Postcode({
-                    oncomplete: function(data) { //선택시 입력값 세팅
-                        document.getElementById("address_kakao").value = data.address; // 주소 넣기
-                        document.querySelector("input[name=address2]").focus(); //상세입력 포커싱
-                    }
-                }).open();
-            });
-        }
+            addLoadEvent(
+                function(){
+                    document.getElementById("address_kakao").addEventListener("click", function(){ //주소입력칸을 클릭하면
+                        //카카오 지도 발생
+                        new daum.Postcode({
+                            oncomplete: function(data) { //선택시 입력값 세팅
+                                document.getElementById("address_kakao").value = data.address; // 주소 넣기
+                                document.querySelector("input[name=address2]").focus(); //상세입력 포커싱
+                            }
+                        }).open();
+                    });
+                }
+            );
         </script>
         <div class="blank"></div>
         <div class="blank"></div>

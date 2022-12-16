@@ -28,7 +28,23 @@ class ownerManageForm(forms.Form):
     # 카페 이미지 추가해야함 
     image =forms.ImageField(widget=forms.FileInput(attrs={'multiple':''}))
 
-    #  카페 수정 
+     # 이미지업로드 횟수 3장 제한 
+    def numlimit(self):
+        image = self.files.getlist("image")
+        if len(image) <= 3:
+            return True
+        else:
+            return False
+
+    # 카페번호 '-'없이 숫자만 입력하도록 
+    def check_cafePhone(self):
+        phone = self.cleaned_data.get("phone") 
+        pattern = re.compile('^[0]\d{2}\d{3,4}\d{4}$')
+        if not pattern.match(phone):
+            return False
+        return True
+
+    #  카페 정보 수정 
     def cafeUpdate(self, id):
 
         #카페정보
@@ -84,6 +100,16 @@ class ownerChangeForm(forms.Form):
                                                                  'placeholder': '비밀번호확인'}))
     phone = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control'}))
     
+    # 입력한 password가 조건에 맞는지에 대한 validation
+    def check_password(self):
+        password = self.cleaned_data.get("password") 
+        # 영어,숫자,특수문자 포함하고 8~25자리수를 허용
+        pattern = re.compile('^(?=.*[\d])(?=.*[A-Z])(?=.*[a-z])(?=.*[!@#$%^&*()])[\w\d!@#$%^&*()]{8,25}$')
+        if not pattern.match(password):
+            return False
+        else:
+            return True
+
     # 두개의 password가 일치한지에 대한 validation 
     def check_password1(self):
         password = self.cleaned_data.get("password") 
@@ -93,7 +119,7 @@ class ownerChangeForm(forms.Form):
         else:
             return True
     
-    #전화번호 '-'없이 숫자만 입력하도록 
+    # 사장 전화번호 '-'없이 숫자만 입력하도록 
     def check_phone(self):
         phone = self.cleaned_data.get("phone") 
         pattern = re.compile('^[0]\d{2}\d{3,4}\d{4}$')
@@ -149,7 +175,7 @@ class ownerPostForm(forms.Form):
         email = self.cleaned_data.get("email")
         try:
             Owner.objects.get(owner_id=email) # 필드에 email 값이 db에 존재하는지 확인
-            raise forms.ValidationError("이미 등록된 이메일 입니다.")
+            return False 
         except Owner.DoesNotExist:
             pattern = re.compile('^.+@+.+\.+.+$') #이메일 '@'앞에는 아무 문자가 제한 없이 들어올 수 있음
             if not pattern.match(email):
@@ -185,7 +211,7 @@ class ownerPostForm(forms.Form):
         else:
             return True
     
-    #전화번호 '-'없이 숫자만 입력하도록 
+    # 사장 전화번호 '-'없이 숫자만 입력하도록 
     def check_phone(self):
         cafe_phone = self.cleaned_data.get("cafe_phone") 
         pattern = re.compile('^[0]\d{2}\d{3,4}\d{4}$')
@@ -193,7 +219,7 @@ class ownerPostForm(forms.Form):
             return False
         return True
 
-    #전화번호 '-'없이 숫자만 입력하도록 
+    # 카페번호 '-'없이 숫자만 입력하도록 
     def check_cafePhone(self):
         phone = self.cleaned_data.get("phone") 
         pattern = re.compile('^[0]\d{2}\d{3,4}\d{4}$')
@@ -206,6 +232,25 @@ class ownerPostForm(forms.Form):
         email = self.cleaned_data.get("email")
         owner = Owner.objects.get(owner_id = email)
         owner.delete()
+
+    # 4MB 용량제한 & 확장자 제한
+    def imagelimit(self):
+        image = self.cleaned_data.get("image")
+        if image.size < 4 * 1024 * 1024: 
+            image_extensions = ['.png', '.jpg', '.jpeg']
+            is_allowed_extension = [image_extension in str(image) for image_extension in image_extensions]
+            if True in is_allowed_extension:
+                return True
+        return False
+
+    # 이미지업로드 횟수 3장 제한 
+    def numlimit(self):
+        image = self.files.getlist("image")
+        if len(image) <= 3:
+            return True
+        else:
+            return False
+
 
     #DB에 회원가입 값 저장
     def save(self):
@@ -244,19 +289,11 @@ class ownerPostForm(forms.Form):
         
         for image in image:
             Cafe_image.objects.create(
-                image = image,
-                cafe = cafe
-            )
+                    image = image,
+                    cafe = cafe
+                )
 
+        
         
 
     
-    # 4MB 용량제한 & 확장자 제한
-    def imagelimit(self):
-        image = self.cleaned_data.get("image")
-        if image.size < 4 * 1024 * 1024: 
-            image_extensions = ['.png', '.jpg', '.jpeg']
-            is_allowed_extension = [image_extension in str(image) for image_extension in image_extensions]
-            if True in is_allowed_extension:
-                return True
-        return False

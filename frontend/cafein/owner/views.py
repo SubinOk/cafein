@@ -24,15 +24,6 @@ from cafe.models import Cafe,Cafe_image
 
 MINIMUM_PASSWORD_LENGTH = 8
 
-homeSideBar = [{'name': 'Home', 'path': '/owner/home'},
-               {'name': '리뷰 확인', 'path': '/owner/home'},  # 이후 추가 예정
-               {'name': '고객 통계', 'path': '/owner/statistics'},
-               ]
-
-changeSideBar = [{'name': '회원 정보 수정', 'path': '/owner/change'},
-               {'name': '카페 관리', 'path': '/owner/manage'}
-               ]
-
 
 def ownerLogin(request):
     if request.method == 'POST':
@@ -59,7 +50,7 @@ def ownerLogin(request):
         if bcrypt.checkpw(password.encode('utf-8'), owner.password.encode('utf-8')):
             # 위의 체크를 문제없이 통과하면 이후 페이지로 전송
             request.session['user'] = email
-            return render(request, 'ownerHome.html', {'form': form, 'side': homeSideBar, 'side_select': 'Home'})
+            return render(request, 'ownerHome.html', {'form': form})
         else:
             # 입력한 encoding 패스워드가 불일치 할때 return
             error_flg['password'] = True
@@ -78,7 +69,7 @@ def ownerLogout(request):
 
 def ownerHome(request):
     if request.session.get('user'):
-        return render(request, 'ownerHome.html', {'side': homeSideBar, 'side_select': 'Home'})
+        return render(request, 'ownerHome.html')
     else:
         return redirect('/')
 
@@ -95,18 +86,60 @@ def findPassword(request):
         return render(request, 'findPassword.html', {'flg': False})
 
 def signup(request):
+    # 등록된 이메일, 이메일 형식 확인
+    # 두개의 password가 일치한지에 대한 validation
+    # 영어(대소문자), 숫자, 특수문자 포함하고 8~25자리수를 허용
+    # 전화번호 '-'없이 숫자만 입력하도록
+    # 카페 이름 같은 게 있는지 확인하기
+    # 전화번호 '-'없이 숫자만 입력하도록 
+    # 4MB 용량제한 & 확장자 제한
+    error_flg = {
+        'email': False,
+        'password': False,
+        'phone': False,
+        'cafename': False,
+        'cafephone': False,
+        'image': False,
+        'imagelimit': False,
+    }
     if not(request.session.get('user')):
         if request.method == 'POST':
             form = ownerPostForm(request.POST, request.FILES)
             if form.is_valid():
+                if not form.check_email():
+                    error_flg['email'] = True
+                    return render(request, 'signup.html', {'form': form, 'error_flg': error_flg})
+                if not (form.check_password1() and form.check_password()):
+                    error_flg['password'] = True
+                    return render(request, 'signup.html', {'form': form, 'error_flg': error_flg})
+                if not form.check_phone():
+                    error_flg['phone'] = True
+                    return render(request, 'signup.html', {'form': form, 'error_flg': error_flg})
+                if not form.check_cafename():
+                    error_flg['cafename'] = True
+                    return render(request, 'signup.html', {'form': form, 'error_flg': error_flg})
+                if not form.check_phone():
+                    error_flg['cafephone'] = True
+                    return render(request, 'signup.html', {'form': form, 'error_flg': error_flg})
+                if not form.imagelimit():
+                    error_flg['image'] = True
+                    return render(request, 'signup.html', {'form': form, 'error_flg': error_flg})
+                if not form.numlimit():
+                    error_flg['imagelimit'] = True
+                    return render(request, 'signup.html', {'form': form, 'error_flg': error_flg})
+                
                 form.save()
-            request.session['user'] = request.POST.get('email')
-            return render(request, 'ownerHome.html', {'side': homeSideBar, 'side_select': 'Home'})
+                # Save 성공시에는 Redirect 방식이 좀더 좋아보임
+                request.session['user'] = request.POST.get('email')
+                return render(request, 'ownerHome.html')
+            else:
+                return render(request, 'signup.html', {'form':form, 'error_flg': error_flg})
+            
         else :
             form = ownerPostForm()
             return render(request, 'signup.html', {'form':form})
 
-    return render(request, 'ownerHome.html', {'side': homeSideBar, 'side_select': 'Home'})
+    return render(request, 'ownerHome.html')
 
 
 def checkPassword(request):
@@ -117,7 +150,7 @@ def checkPassword(request):
                 if bcrypt.checkpw(request.POST.get('id_password').encode('utf-8'), owner.password.encode('utf-8')):
                     # 위의 체크를 문제없이 통과하면 이후 페이지로 전송
                     form = ownerChangeForm()
-                    return render(request, 'ownerChange.html', {'form': form, 'side': changeSideBar, 'side_select': '회원 정보 수정'})
+                    return render(request, 'ownerChange.html', {'form': form})
                 else:
                     return render(request, 'checkPassword.html', {'flg': True})
             except:
@@ -130,7 +163,7 @@ def checkPassword(request):
 def ownerChange(request):
     if request.session.get('user'):
         form = ownerChangeForm()
-        return render(request, 'ownerChange.html', {'form': form, 'side': changeSideBar, 'side_select': '회원 정보 수정'})
+        return render(request, 'ownerChange.html', {'form': form})
     else:
         return redirect('/')
 
@@ -159,9 +192,9 @@ def ownerUpdate(request):
             form = ownerChangeForm(request.POST)
             if form.is_valid(): #is_valid 필수로 쓰기 
                 form.update(owner_id)
-            return redirect('/owner/home/', {'side': homeSideBar})
+            return redirect('/owner/home/')
         else:
-            return render(request, 'ownerChange.html', {'side': homeSideBar})
+            return render(request, 'ownerChange.html')
     else:
         return redirect('/')
         
@@ -169,7 +202,7 @@ def ownerUpdate(request):
 def ownerManage(request):
     if request.session.get('user'):
         form = ownerManageForm(request.POST)
-        return render(request, 'ownerManage.html', {'form': form, 'side': changeSideBar, 'side_select': '카페 관리'})
+        return render(request, 'ownerManage.html', {'form': form})
     else:
         return redirect('/')
 
@@ -182,15 +215,15 @@ def cafeUpdate(request):
             if form.is_valid(): #is_valid 필수로 쓰기 
                 form.cafeUpdate(owner_id)
                 form.imageUpdate(owner_id)
-            return redirect('/owner/home/', {'side': homeSideBar})
+            return redirect('/owner/home/')
         else:
-            return render(request, 'ownerChange.html', {'side': homeSideBar})
+            return render(request, 'ownerChange.html')
     else:
         return redirect('/')
 
 
 def ownerStatistics(request):
     if request.session.get('user'):
-        return render(request, 'ownerStatistics.html', {'side': homeSideBar, 'side_select': '고객 통계'})
+        return render(request, 'ownerStatistics.html')
     else:
         return redirect('/')
