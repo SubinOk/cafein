@@ -105,6 +105,7 @@
             {{ form.address2 }}
             <div class="contents-blank"></div>
             {{ form.cafe_phone }}
+            {% if error_flg.cafephone == True %}
             <p class="text-danger">&nbsp;입력하신 전화번호에 '-'이 포함되어있습니다.</p>
             <script>
                 document.getElementById('id_cafe_phone').classList.add("border-danger")
@@ -116,6 +117,7 @@
                     }
                 );
             </script>
+            {% endif %}
             <div class="contents-blank"></div>
             {{ form.human }}
             <div class="contents-blank"></div>

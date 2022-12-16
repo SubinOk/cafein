@@ -196,11 +196,11 @@ class ownerPostForm(forms.Form):
     # 카페 이름 같은 게 있는지 확인하기 
     def check_cafename(self):
         cafename = self.cleaned_data.get("name")
-        cafename2 = Cafe.objects.get(name= cafename)
-        if cafename2 in locals():
-            return False
-        else:
+        try:
+            cafename2 = Cafe.objects.get(name= cafename)
             return True
+        except Cafe.DoesNotExist:
+            return False
             
     # 두개의 password가 일치한지에 대한 validation 
     def check_password1(self):
@@ -235,12 +235,14 @@ class ownerPostForm(forms.Form):
 
     # 4MB 용량제한 & 확장자 제한
     def imagelimit(self):
-        image = self.cleaned_data.get("image")
-        if image.size < 4 * 1024 * 1024: 
-            image_extensions = ['.png', '.jpg', '.jpeg']
-            is_allowed_extension = [image_extension in str(image) for image_extension in image_extensions]
-            if True in is_allowed_extension:
-                return True
+        # image = self.cleaned_data.get("image")
+        image = self.files.getlist("image")
+        for image in image:
+            if image.size < 4 * 1024 * 1024: 
+                image_extensions = ['.png', '.jpg', '.jpeg']
+                is_allowed_extension = [image_extension in str(image) for image_extension in image_extensions]
+                if True in is_allowed_extension:
+                    return True
         return False
 
     # 이미지업로드 횟수 3장 제한 

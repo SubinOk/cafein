@@ -112,15 +112,15 @@ def signup(request):
                 if not (form.check_password1() and form.check_password()):
                     error_flg['password'] = True
                     return render(request, 'signup.html', {'form': form, 'error_flg': error_flg})
-                if not form.check_phone():
-                    error_flg['phone'] = True
-                    return render(request, 'signup.html', {'form': form, 'error_flg': error_flg})
+                # if not form.check_phone():
+                #     error_flg['phone'] = True
+                #     return render(request, 'signup.html', {'form': form, 'error_flg': error_flg})
                 if not form.check_cafename():
                     error_flg['cafename'] = True
                     return render(request, 'signup.html', {'form': form, 'error_flg': error_flg})
-                if not form.check_phone():
-                    error_flg['cafephone'] = True
-                    return render(request, 'signup.html', {'form': form, 'error_flg': error_flg})
+                # if not form.check_phone():
+                #     error_flg['cafephone'] = True
+                #     return render(request, 'signup.html', {'form': form, 'error_flg': error_flg})
                 if not form.imagelimit():
                     error_flg['image'] = True
                     return render(request, 'signup.html', {'form': form, 'error_flg': error_flg})
@@ -133,6 +133,7 @@ def signup(request):
                 request.session['user'] = request.POST.get('email')
                 return render(request, 'ownerHome.html')
             else:
+                print('4')
                 return render(request, 'signup.html', {'form':form, 'error_flg': error_flg})
             
         else :
