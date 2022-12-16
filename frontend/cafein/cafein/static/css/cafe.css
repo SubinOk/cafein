@@ -78,7 +78,7 @@ body{margin-bottom: 60px}
     border-color: rgba(88, 58, 35, 1);
     border-width: 2px;
     background-color: rgba(255, 255, 255, 1);
-    color: rgba(88, 58, 35, 1);
+    color:rgba(88, 58, 35, 1);
 }
 .login-menu {
     height: 30px;
@@ -222,6 +222,6 @@ body{margin-bottom: 60px}
 /*    color: #583A23;*/
 /*}*/
 .navbar-default .navbar-nav>li>a {
-    color: #938072;
+    color: #583A23;
     font-weight: bold;
 }
