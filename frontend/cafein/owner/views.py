@@ -28,42 +28,24 @@ MINIMUM_PASSWORD_LENGTH = 8
 def ownerLogin(request):
     if request.method == 'POST':
         form = loginPostForm(request.POST)
-        email = request.POST.get('email', '')
-        password = request.POST.get('password', '')
-        error_flg = {
-            'email': False,
-            'password': False
-        }
-
-        # 서버로 들어온 데이터가 비어있는지 확인
-        if (email == "") or (password == ""):
-            error_flg['email'] = True
-            error_flg['password'] = True
-            return render(request, 'ownerLogin.html', {'form': form, 'error_flg': error_flg})
-        try:
-            owner = get_object_or_404(Owner, owner_id=email)
-        except:
-            # DB에 해당 이메일이 존재하지 않았을때 return
-            error_flg['email'] = True
-            return render(request, 'ownerLogin.html', {'form': form, 'error_flg': error_flg})
-
-        if bcrypt.checkpw(password.encode('utf-8'), owner.password.encode('utf-8')):
-            # 위의 체크를 문제없이 통과하면 이후 페이지로 전송
-            request.session['user'] = email
-            return render(request, 'ownerHome.html', {'form': form})
+        if form.is_valid():
+            owner = Owner.objects.filter(email=form.cleaned_data['email']).first()
+            if owner is None:
+                return render_with_error(request, 'ownerLogin.html', form, ['email'])
+            if bcrypt.checkpw(form.cleaned_data['password'].encode('utf-8'), owner.password.encode('utf-8')):
+                request.session['user'] = form.cleaned_data['email']
+                return redirect('/owner/home')
+            else:
+                return render_with_error(request, 'ownerLogin.html', form, ['password'])
         else:
-            # 입력한 encoding 패스워드가 불일치 할때 return
-            error_flg['password'] = True
-            return render(request, 'ownerLogin.html', {'form': form, 'error_flg': error_flg})
+            return render_with_error(request, 'ownerLogin.html', form, ['email'])
     else:
         form = loginPostForm()
-        return render(request, 'ownerLogin.html', {'form': form})
+    return render(request, 'ownerLogin.html', {'form': form})
 
 
 def ownerLogout(request):
-    if request.session.get('user'):
-        request.session.pop('user')
-
+    request.session.pop('user')
     return redirect('/')
 
 
@@ -93,55 +75,41 @@ def signup(request):
     # 카페 이름 같은 게 있는지 확인하기
     # 전화번호 '-'없이 숫자만 입력하도록 
     # 4MB 용량제한 & 확장자 제한
-    error_flg = {
-        'email': False,
-        'password': False,
-        'phone': False,
-        'cafename': False,
-        'cafephone': False,
-        'image': False,
-        'imagelimit': False,
-    }
     if not(request.session.get('user')):
         if request.method == 'POST':
             form = ownerPostForm(request.POST, request.FILES)
             if form.is_valid():
                 if not form.check_email():
-                    error_flg['email'] = True
-                    return render(request, 'signup.html', {'form': form, 'error_flg': error_flg})
+                    return render_with_error(request, 'signup.html', form, ['email'])
                 if not (form.check_password1() and form.check_password()):
-                    error_flg['password'] = True
-                    return render(request, 'signup.html', {'form': form, 'error_flg': error_flg})
-                # if not form.check_phone():
-                #     error_flg['phone'] = True
-                #     return render(request, 'signup.html', {'form': form, 'error_flg': error_flg})
+                    return render_with_error(request, 'signup.html', form, ['password'])
+                if not form.check_phone():
+                    return render_with_error(request, 'signup.html', form, ['phone'])
                 if not form.check_cafename():
-                    error_flg['cafename'] = True
-                    return render(request, 'signup.html', {'form': form, 'error_flg': error_flg})
-                # if not form.check_phone():
-                #     error_flg['cafephone'] = True
-                #     return render(request, 'signup.html', {'form': form, 'error_flg': error_flg})
+                    return render_with_error(request, 'signup.html', form, ['cafename'])
+                if not form.check_cafePhone():
+                    return render_with_error(request, 'signup.html', form, ['cafephone'])
                 if not form.imagelimit():
-                    error_flg['image'] = True
-                    return render(request, 'signup.html', {'form': form, 'error_flg': error_flg})
+                    return render_with_error(request, 'signup.html', form, ['image'])
                 if not form.numlimit():
-                    error_flg['imagelimit'] = True
-                    return render(request, 'signup.html', {'form': form, 'error_flg': error_flg})
+                    return render_with_error(request, 'signup.html', form, ['imagelimit'])
                 
                 form.save()
                 # Save 성공시에는 Redirect 방식이 좀더 좋아보임
                 request.session['user'] = request.POST.get('email')
-                return render(request, 'ownerHome.html')
-            else:
-                print('4')
-                return render(request, 'signup.html', {'form':form, 'error_flg': error_flg})
-            
-        else :
+                return redirect('/owner/home')
+        else:
             form = ownerPostForm()
-            return render(request, 'signup.html', {'form':form})
+            return render(request, 'signup.html', {'form': form})
+    return redirect('/')
 
-    return render(request, 'ownerHome.html')
 
+def render_with_error(request, html, form, error_type):
+    error_flg = {}
+    for error in error_type:
+        error_flg[error] = True
+    print(error_flg)
+    return render(request, html, {'form': form, 'error_flg': error_flg})
 
 def checkPassword(request):
     if request.session.get('user'):

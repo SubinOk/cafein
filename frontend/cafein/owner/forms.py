@@ -1,13 +1,21 @@
 from django import forms
-from .models     import Owner
+from .models import Owner
 from cafe.models import Cafe,Cafe_image
 import bcrypt
 import re
 
-class loginPostForm(forms.Form):
-    email = forms.EmailField(widget=forms.EmailInput(attrs={'class': 'form-control','placeholder': '이메일'}))
-    password = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'form-control',
-                                                                 'placeholder': '비밀번호'}))
+# class loginPostForm(forms.Form):
+#     email = forms.EmailField(widget=forms.EmailInput(attrs={'class': 'form-control','placeholder': '이메일'}))
+#     password = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'form-control',
+#                                                                  'placeholder': '비밀번호'}))
+class loginPostForm(forms.ModelForm):
+    class Meta:
+        model = Owner
+        fields = ['email', 'password']
+        widgets = {
+            'email': forms.EmailInput(attrs={'class': 'form-control', 'placeholder': '이메일'}),
+            'password': forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': '비밀번호'}),
+        }
 
 class ownerManageForm(forms.Form):
     name = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control pe-150',
@@ -173,16 +181,17 @@ class ownerPostForm(forms.Form):
     # email이 이미 등록되었는지, 그리고 이메일 형식에 맞는지에 대한 validation
     def check_email(self):
         email = self.cleaned_data.get("email")
-        try:
-            Owner.objects.get(owner_id=email) # 필드에 email 값이 db에 존재하는지 확인
-            return False 
-        except Owner.DoesNotExist:
+        owner = Owner.objects.filter(email=email).first()
+        if owner is None:
             pattern = re.compile('^.+@+.+\.+.+$') #이메일 '@'앞에는 아무 문자가 제한 없이 들어올 수 있음
             if not pattern.match(email):
                 return False
             else:
                 return True  #db에 존재하지 않고, 이메일 형식이 맞다면 데이터를 반환
-    
+        else:
+            # 필드에 email 값이 db에 존재하는지 확인
+            return False
+
     # 입력한 password가 조건에 맞는지에 대한 validation
     def check_password(self):
         password = self.cleaned_data.get("password") 
@@ -213,7 +222,7 @@ class ownerPostForm(forms.Form):
     
     # 사장 전화번호 '-'없이 숫자만 입력하도록 
     def check_phone(self):
-        cafe_phone = self.cleaned_data.get("cafe_phone") 
+        cafe_phone = self.cleaned_data.get("phone")
         pattern = re.compile('^[0]\d{2}\d{3,4}\d{4}$')
         if not pattern.match(cafe_phone):
             return False
@@ -221,7 +230,7 @@ class ownerPostForm(forms.Form):
 
     # 카페번호 '-'없이 숫자만 입력하도록 
     def check_cafePhone(self):
-        phone = self.cleaned_data.get("phone") 
+        phone = self.cleaned_data.get("cafe_phone")
         pattern = re.compile('^[0]\d{2}\d{3,4}\d{4}$')
         if not pattern.match(phone):
             return False
