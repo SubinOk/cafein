@@ -95,7 +95,7 @@ def signup(request):
                     return render_with_error(request, 'signup.html', form, ['imagelimit'])
                 
                 form.save()
-                # Save 성공시에는 Redirect 방식이 좀더 좋아보임
+                # Save 성공시에는 Redirect
                 request.session['user'] = request.POST.get('email')
                 return redirect('/owner/home')
         else:
@@ -104,26 +104,19 @@ def signup(request):
     return redirect('/')
 
 
-def render_with_error(request, html, form, error_type):
-    error_flg = {}
-    for error in error_type:
-        error_flg[error] = True
-    print(error_flg)
-    return render(request, html, {'form': form, 'error_flg': error_flg})
-
 def checkPassword(request):
     if request.session.get('user'):
         if request.method == 'POST':
-            try:
-                owner = get_object_or_404(Owner, owner_id=request.session.get('user'))
+            owner = Owner.objects.filter(email=request.session.get('user')).first()
+            if owner is None:
+                return redirect('/')
+            else:
                 if bcrypt.checkpw(request.POST.get('id_password').encode('utf-8'), owner.password.encode('utf-8')):
                     # 위의 체크를 문제없이 통과하면 이후 페이지로 전송
                     form = ownerChangeForm()
-                    return render(request, 'ownerChange.html', {'form': form})
+                    return redirect('/owner/change', {'form': form})
                 else:
-                    return render(request, 'checkPassword.html', {'flg': True})
-            except:
-                return redirect('/')
+                    return render_with_error(request, 'checkPassword.html', '', ['password'])
         else:
             return render(request, 'checkPassword.html')
     return redirect('/')
@@ -131,10 +124,28 @@ def checkPassword(request):
 
 def ownerChange(request):
     if request.session.get('user'):
-        form = ownerChangeForm()
-        return render(request, 'ownerChange.html', {'form': form})
+        if request.method == 'POST':
+            owner_id = request.session.get('user')
+            form = ownerChangeForm(request.POST)
+            if form.is_valid(): #is_valid 필수로 쓰기
+                if not (form.check_password() and form.check_password1()):
+                    return render_with_error(request, 'ownerChange.html', form, ['password'])
+                if not form.check_phone():
+                    return render_with_error(request, 'ownerChange.html', form, ['phone'])
+                form.update(owner_id)
+            return redirect('/owner/home/')
+        else:
+            form = ownerChangeForm()
+            return render(request, 'ownerChange.html', {'form': form})
     else:
         return redirect('/')
+
+
+def render_with_error(request, html, form, error_type):
+    error_flg = {}
+    for error in error_type:
+        error_flg[error] = True
+    return render(request, html, {'form': form, 'error_flg': error_flg})
 
 
 def ownerDelete(request):
@@ -154,18 +165,18 @@ def ownerDelete(request):
         return render(request, 'ownerDelete.html')
 
 
-def ownerUpdate(request):
-    if request.session.get('user'):
-        if request.method == 'POST': 
-            owner_id=request.session.get('user')
-            form = ownerChangeForm(request.POST)
-            if form.is_valid(): #is_valid 필수로 쓰기 
-                form.update(owner_id)
-            return redirect('/owner/home/')
-        else:
-            return render(request, 'ownerChange.html')
-    else:
-        return redirect('/')
+# def ownerUpdate(request):
+#     if request.session.get('user'):
+#         if request.method == 'POST':
+#             owner_id=request.session.get('user')
+#             form = ownerChangeForm(request.POST)
+#             if form.is_valid(): #is_valid 필수로 쓰기
+#                 form.update(owner_id)
+#             return redirect('/owner/home/')
+#         else:
+#             return render(request, 'ownerChange.html')
+#     else:
+#         return redirect('/')
         
 
 def ownerManage(request):
