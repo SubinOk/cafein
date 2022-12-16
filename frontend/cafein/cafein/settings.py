@@ -163,4 +163,4 @@ DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
 
 # 커스텀 모델
-AUTH_USER_MODEL = 'owner.Owner'
+# AUTH_USER_MODEL = 'owner.Owner'
