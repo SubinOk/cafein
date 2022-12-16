@@ -16,17 +16,14 @@
     ['긍정', 75],
     ['부정', 25]
     ];
-</script> 
-<main>
-    <div id="piechart"></div>
-</main>
+</script>
 <script>
     google.charts.load('current', {'packages':['corechart']});
     google.charts.setOnLoadCallback(drawChart);
     var chart, data, percent, target;
     var options = {
-        'width': 800,
-        'height': 600,
+        'width': 600,
+        'height': 400,
         'pieHole': 0.8,
         'pieSliceText': 'none',
         'colors': ['#8faadc', '#ed7d31'],
@@ -115,14 +112,29 @@
     }
     
 </script>
-<button id="button1">Show Data 1</button>
-<button id="button2">Show Data 2</button>
-<button id="button3">Show Data 3</button>
+
+<main>
+    <div class="contents-padding container">
+        <div class="h1">고객 통계</div>
+        <div class="d-flex">
+            <div class="col text-center pt-5">
+                <ul class="list-unstyled">
+                    <li><button id="button1">Show Data 1</button></li>
+                    <li><button id="button2">Show Data 2</button></li>
+                    <li><button id="button3">Show Data 3</button></li>
+                </ul>
+            </div>
+            <div class="col">
+                <div id="piechart"></div>
+                <p class="text-center h2">가장 긍정적으로 생각한 키워드는 <span class="h1">"서비스"</span> 입니다.</p>
+                <p class="text-center h2">가장 부정적으로 생각한 키워드는 <span class="h1">"가격"</span> 입니다.</p>
+            </div>
+        </div>
+    </div>
+</main>
 <script>
     document.getElementById('button1').addEventListener('click', showData1);
     document.getElementById('button2').addEventListener('click', showData2);
     document.getElementById('button3').addEventListener('click', showData3);
 </script>
-<div id="piechart"></div>
-<script>
 {% endblock %}
