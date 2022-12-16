@@ -141,29 +141,31 @@ def ownerChange(request):
         return redirect('/')
 
 
-def render_with_error(request, html, form, error_type):
-    error_flg = {}
-    for error in error_type:
-        error_flg[error] = True
-    return render(request, html, {'form': form, 'error_flg': error_flg})
-
-
 def ownerDelete(request):
     if request.method == 'POST':
-        try:
-            owner = get_object_or_404(Owner, owner_id=request.session.get('user'))
+        if not request.session.get('user'):
+            return redirect('/')
+
+        owner = Owner.objects.filter(email=request.session.get('user')).first()
+        if owner is None:
+            return redirect('/')
+        else:
             if bcrypt.checkpw(request.POST.get('id_password').encode('utf-8'), owner.password.encode('utf-8')):
                 # 위의 체크를 문제없이 통과하면 이후 페이지로 전송
                 owner.delete()
                 request.session.pop('user')
                 return redirect('/')
             else:
-                return render(request, 'ownerDelete.html', {'flg': True})
-        except:
-            return redirect('/')
+                return render_with_error(request, 'ownerDelete.html', '', ['password'])
     else:
         return render(request, 'ownerDelete.html')
 
+
+def render_with_error(request, html, form, error_type):
+    error_flg = {}
+    for error in error_type:
+        error_flg[error] = True
+    return render(request, html, {'form': form, 'error_flg': error_flg})
 
 # def ownerUpdate(request):
 #     if request.session.get('user'):
