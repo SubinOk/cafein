@@ -41,7 +41,7 @@ SECRET_KEY = "SECRET_KEY"
 DEBUG = True
 
 ALLOWED_HOSTS = []
-
+AUTH_USER_MODEL = 'owner.Owner'
 
 # Application definition
 
