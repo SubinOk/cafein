@@ -25,7 +25,7 @@ class MyAccountManager(BaseUserManager):
            password = password
         )
         user.is_admin = True
-        #user.is_staff = True
+        user.is_staff = True
         user.is_superuser = True
         user.save(using=self._db)
         print("create_superuser")
@@ -42,7 +42,7 @@ class Owner(AbstractBaseUser):
 
     is_admin    = models.BooleanField(default=False) # 관리자 권한 여부 (기본값은 False)
     is_active   = models.BooleanField(default=True)  # 활성화 여부 (기본값은 True)
-    #is_staff    = models.BooleanField(default=False)
+    is_staff    = models.BooleanField(default=False)
     is_superuser = models.BooleanField(default=False)
  
     
@@ -63,10 +63,10 @@ class Owner(AbstractBaseUser):
     def has_module_perms(self, app_label):
         return True
     
-    # admin 권한 설정
-    # @property
-    # def is_staff(self):
-    #     return self.is_admin
+    #admin 권한 설정
+    @property
+    def is_staff(self):
+        return self.is_admin
 
     class Meta:
         db_table = 'owner'
