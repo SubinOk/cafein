@@ -302,7 +302,8 @@ class ownerPostForm(forms.ModelForm):
         for image in image:
             if image.size < 4 * 1024 * 1024:
                 image_extensions = ['.png', '.jpg', '.jpeg']
-                is_allowed_extension = [image_extension in str(image) for image_extension in image_extensions]
+                image_lower = str(image).lower()
+                is_allowed_extension = [image_extension in image_lower for image_extension in image_extensions]
                 if True in is_allowed_extension:
                     return True
         return False
