@@ -200,15 +200,17 @@ class ownerChangeForm(forms.ModelForm):
             return False
 
 
-class ownerPostForm(forms.Form):
-    email = forms.EmailField(widget=forms.EmailInput(attrs={'class': 'form-control',
-                                                            'placeholder': '이메일'}))
-    password = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'form-control',
-                                                                 'placeholder': '비밀번호'}))
+class ownerPostForm(forms.ModelForm):
+    class Meta:
+        model = Owner
+        fields = ['email', 'password', 'phone']
+        widgets = {
+            'email' : forms.EmailInput(attrs={'class': 'form-control', 'placeholder': '이메일'}),
+            'password': forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': '비밀번호'}),
+            'phone': forms.TextInput(attrs={'class': 'form-control', 'placeholder': '"-"을 포함하지 않는 전화번호'}),
+        }
     password2 = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'form-control offset-md-1',
                                                                   'placeholder': '비밀번호 확인'}))
-    phone = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control',
-                                                          'placeholder': '전화번호'}))
     name = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control pe-150',
                                                          'placeholder': '카페명'}))
     human = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control',
@@ -330,8 +332,10 @@ class ownerPostForm(forms.Form):
 
         make = Owner.objects.create(
             owner_id=email,
+            email=email,
             phone=phone,
             password=bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt()).decode('utf-8'),
+            # cafe = make #모델 id만 넘기도록 작성하기 -> 안해도 될듯
         )
 
         cafe = Cafe.objects.create(
