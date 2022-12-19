@@ -211,6 +211,8 @@ class ownerPostForm(forms.ModelForm):
         }
     password2 = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'form-control offset-md-1',
                                                                   'placeholder': '비밀번호 확인'}))
+    phone = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control',
+                                                          'placeholder': '전화번호 ("-" 없이 작성)'}))
     name = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control pe-150',
                                                          'placeholder': '카페명'}))
     human = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control',
@@ -225,7 +227,7 @@ class ownerPostForm(forms.ModelForm):
                                                              'name': 'address_detail',
                                                              'placeholder': '상세 주소'}))
     cafe_phone = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control',
-                                                               'placeholder': '전화번호'}))
+                                                               'placeholder': '전화번호 ("-" 없이 작성)'}))
 
     # 카페 이미지 추가해야함
     image = forms.ImageField(widget=forms.FileInput(attrs={'multiple': ''}))
