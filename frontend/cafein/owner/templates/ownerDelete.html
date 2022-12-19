@@ -15,7 +15,7 @@
                 <form action="" method="post">
                     {% csrf_token %}
                     <input type="password" id="id_password" name="id_password" class="form-control">
-                    {% if flg == True %}
+                    {% if error_flg.password %}
                         <p class="text-danger">&nbsp;비밀번호가 일치 하지 않습니다.</p>
                         <script>
                             document.getElementById('id_password').classList.add("border-danger")

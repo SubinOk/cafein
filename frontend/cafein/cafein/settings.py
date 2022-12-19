@@ -41,7 +41,7 @@ SECRET_KEY = "SECRET_KEY"
 DEBUG = True
 
 ALLOWED_HOSTS = []
-
+AUTH_USER_MODEL = 'owner.Owner'
 
 # Application definition
 
@@ -160,3 +160,7 @@ EMAIL_HOST_USER = get_secret("EMAIL_HOST_USER")
 EMAIL_HOST_PASSWORD = get_secret("EMAIL_HOST_PASSWORD")
 EMAIL_USE_TLS = True
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+
+
+# 커스텀 모델
+# AUTH_USER_MODEL = 'owner.Owner'

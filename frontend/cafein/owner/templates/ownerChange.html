@@ -1,17 +1,31 @@
 {% extends "layout.html" %}
 {% block content %}
     <main>
+        <script>
+            function addLoadEvent(func){
+                const oldonload = window.onload;
+                if(typeof window.onload != 'function'){
+                    window.onload = func;
+                }else{
+                    window.onload = function(){
+                        oldonload();
+                        func();
+                    }
+                }
+            }
+        </script>
         <div>
             <div class="col contents-padding container">
                 <h1>회원 정보 수정</h1>
                 <div class="contents-blank"></div>
                 <hr>
                 <div class="contents-blank"></div>
-                <form action="/owner/update/" method="post" enctype="multipart/form-data">
+
+                <div>
+                    <a class="login-button btn btn-outline-brown float-end" href="/owner/delete" aria-expanded="false">탈퇴하기</a>
+                </div>
+                <form action="/owner/change/" method="post" enctype="multipart/form-data">
                     {% csrf_token %}
-                    <div>
-                        <a class="login-button btn btn-outline-brown float-end" href="/owner/delete" aria-expanded="false">탈퇴하기</a>
-                    </div>
                     <table class="table border-top mt-2">
                         <tbody>
                         <tr>
@@ -20,17 +34,55 @@
                         </tr>
                         <tr>
                             <th scope="row">비밀번호</th>
-                            <td>{{ form.password }}</td>
+                            <td>{{ form.password }}
+                                {% if error_flg.password %}
+                                <p class="text-danger h6">&nbsp;비밀번호의 형식이 맞지 않습니다.</p>
+                                {% endif %}
+                            </td>
                             <td>{{ form.password2 }}</td>
+                            {% if error_flg.password %}
+                                <script>
+                                    document.getElementById('id_password').classList.add("border-danger")
+                                    document.getElementById('id_password2').classList.add("border-danger")
+                                    addLoadEvent(
+                                        function(){
+                                            document.getElementById("id_password").addEventListener("focusout", function(){
+                                                document.getElementById('id_password').classList.remove("border-danger")
+                                            });
+                                        }
+                                    )
+                                    addLoadEvent(
+                                        function(){
+                                            document.getElementById("id_password2").addEventListener("focusout", function(){
+                                                document.getElementById('id_password2').classList.remove("border-danger")
+                                            });
+                                        }
+                                    )
+                                </script>
+                            {% endif %}
                         </tr>
                         <tr>
                             <th scope="row">전화번호</th>
-                            <td colspan="2">{{ form.phone }}</td>
+                            <td colspan="2">{{ form.phone }}
+                                {% if error_flg.phone %}
+                                    <p class="text-danger h6">&nbsp;입력하신 전화번호에 '-'이 포함되어있습니다.</p>
+                                    <script>
+                                        document.getElementById('id_phone').classList.add("border-danger")
+                                        addLoadEvent(
+                                            function(){
+                                                document.getElementById("id_phone").addEventListener("focusout", function(){
+                                                    document.getElementById('id_phone').classList.remove("border-danger")
+                                                });
+                                            }
+                                        )
+                                    </script>
+                                {% endif %}
+                            </td>
                         </tr>
                         </tbody>
                     </table>
                     <div class="text-center">
-                        <button type="submit" class="login-button btn btn-outline-brown">변경사항 저장</a>
+                        <button type="submit" class="login-button btn btn-outline-brown">변경사항 저장</button>
                     </div>
                 </form>
             </div>
