@@ -86,7 +86,7 @@ def signup(request):
                 if not form.check_phone():
                     return render_with_error(request, 'signup.html', form, ['phone'])
                 if not form.check_cafename():
-                    return render_with_error(request, 'signup.html', form, ['cafename'])
+                    return render_with_error(request, 'signup.html', form, ['name'])
                 if not form.check_cafePhone():
                     return render_with_error(request, 'signup.html', form, ['cafephone'])
                 if not form.imagelimit():

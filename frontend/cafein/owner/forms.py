@@ -257,9 +257,9 @@ class ownerPostForm(forms.Form):
         cafename = self.cleaned_data.get("name")
         try:
             Cafe.objects.get(name=cafename)
-            return True
-        except Cafe.DoesNotExist:
             return False
+        except Cafe.DoesNotExist:
+            return True
 
     # 두개의 password가 일치한지에 대한 validation 
     def check_password1(self):
