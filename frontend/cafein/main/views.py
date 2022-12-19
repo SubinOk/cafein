@@ -16,6 +16,8 @@ from django.contrib import messages
 from django.contrib.auth import login, authenticate
 from django.template import RequestContext
 from django.http import HttpResponse
+
+from main.forms import UserSetPasswordForm
 try:
     from django.utils import simplejson as json
 except ImportError:
@@ -53,6 +55,7 @@ def login(request):
 
 # 비밀번호 재설정
 class UserPasswordResetView(PasswordResetView):
+    email_template_name = 'password_reset_email.html'
     template_name = 'password_reset.html' 
     success_url = reverse_lazy('main:password_reset_done')
     def form_valid(self, form):
@@ -77,8 +80,8 @@ class UserPasswordResetDoneView(PasswordResetDoneView):
     
 
 class UserPasswordResetConfirmView(PasswordResetConfirmView):
-    form_class = SetPasswordForm
-    success_url=reverse_lazy('main:password_reset_confirm')
+    form_class = UserSetPasswordForm
+    success_url=reverse_lazy('main:password_reset_complete')
     template_name = 'password_reset_confirm.html'
 
     def form_valid(self, form):
