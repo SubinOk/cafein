@@ -10,29 +10,29 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.AddField(
-            model_name='owner',
-            name='is_active',
-            field=models.BooleanField(default=True),
-        ),
-        migrations.AddField(
-            model_name='owner',
-            name='is_admin',
-            field=models.BooleanField(default=False),
-        ),
-        migrations.AddField(
-            model_name='owner',
-            name='is_superuser',
-            field=models.BooleanField(default=False),
-        ),
-        migrations.AddField(
-            model_name='owner',
-            name='last_login',
-            field=models.DateTimeField(blank=True, null=True, verbose_name='last login'),
-        ),
-        migrations.AlterField(
-            model_name='owner',
-            name='email',
-            field=models.EmailField(default='', max_length=100, unique=True, verbose_name='email'),
-        ),
+        # migrations.AddField(
+        #     model_name='owner',
+        #     name='is_active',
+        #     field=models.BooleanField(default=True),
+        # ),
+        # migrations.AddField(
+        #     model_name='owner',
+        #     name='is_admin',
+        #     field=models.BooleanField(default=False),
+        # ),
+        # migrations.AddField(
+        #     model_name='owner',
+        #     name='is_superuser',
+        #     field=models.BooleanField(default=False),
+        # ),
+        # migrations.AddField(
+        #     model_name='owner',
+        #     name='last_login',
+        #     field=models.DateTimeField(blank=True, null=True, verbose_name='last login'),
+        # ),
+        # migrations.AlterField(
+        #     model_name='owner',
+        #     name='email',
+        #     field=models.EmailField(default='', max_length=100, unique=True, verbose_name='email'),
+        # ),
     ]

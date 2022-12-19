@@ -14,7 +14,7 @@ class MyAccountManager(BaseUserManager):
         )
         user.set_password(password)
         user.save(using=self._db)
-        print("create_user")
+        #print("create_user")
         return user
     
 
@@ -25,29 +25,29 @@ class MyAccountManager(BaseUserManager):
            password = password
         )
         user.is_admin = True
-        user.is_staff = True
+        #user.is_staff = True
         user.is_superuser = True
         user.save(using=self._db)
-        print("create_superuser")
+        #print("create_superuser")
         return user
      
 
 class Owner(AbstractBaseUser):
     
     owner_id = models.EmailField(max_length = 100,primary_key=True ,default='')
-    email = models.EmailField(verbose_name='email',max_length = 100 ,unique = True, default='')
+    email = models.EmailField(verbose_name='email',max_length = 100 ,default='')
     password = models.CharField(max_length=300, default='')
-    phone = models.CharField(max_length=25, unique = True , default='')
+    phone = models.CharField(max_length=25, default='')
     #username = models.CharField("사용자 계정", max_length=20, unique=True)
 
     is_admin    = models.BooleanField(default=False) # 관리자 권한 여부 (기본값은 False)
     is_active   = models.BooleanField(default=True)  # 활성화 여부 (기본값은 True)
-    is_staff    = models.BooleanField(default=False)
+    #is_staff    = models.BooleanField(default=False)
     is_superuser = models.BooleanField(default=False)
  
     
-    USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = ['owner_id']
+    USERNAME_FIELD = 'owner_id'
+    REQUIRED_FIELDS = ['email']
 
     
     # 로그인 사용자의 특정 테이블의 crud 권한을 설정, perm table의 crud 권한이 들어간다.
@@ -66,7 +66,7 @@ class Owner(AbstractBaseUser):
     #admin 권한 설정
     @property
     def is_staff(self):
-        return self.is_admin
+        return self.is_superuser
 
     class Meta:
         db_table = 'owner'
