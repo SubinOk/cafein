@@ -1,5 +1,6 @@
 *.exe
 *.xlsx
 *.pyc
+*.sqlite3
 
 modeling/model/keywordBert/
