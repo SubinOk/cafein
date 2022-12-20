@@ -1,0 +1,69 @@
+{% extends "layout.html" %}
+{% block content %}
+<main>
+    <div class="contents-padding container">
+        <div class="row justify-content-between" id="target">
+            <div class="h5 col-11 d-flex align-self-center">고객 통계 > 더보기</div>
+            <div class="col-1">
+                <div>
+                    <a class="login-button btn btn-outline-brown ms-3" href="{% url 'owner:ownerStatistics' %}">이전</a>
+                </div>
+            </div>
+        </div>
+        <div class="contents-blank"></div>
+        <div class="container">
+            <div class="nav-scroller py-1 mb-2">
+                <nav class="btn-group nav d-flex justify-content-between" role="group">
+                    <div class="p-2">
+                        <input type="radio" class="link-secondary btn-check" name="btn-radio" id="btn-radio1" autocomplete="off" checked="">
+                        <label class="btn btn-outline-brown btn-lg statisticsDetail-width" for="btn-radio1">#서비스</label>
+                    </div>
+                    <div class="p-2">
+                        <input type="radio" class="link-secondary btn-check" name="btn-radio" id="btn-radio2" autocomplete="off">
+                        <label class="btn btn-outline-brown btn-lg statisticsDetail-width" for="btn-radio2">#가격</label>
+                    </div>
+                    <div class="p-2">
+                        <input type="radio" class="link-secondary btn-check" name="btn-radio" id="btn-radio3" autocomplete="off">
+                        <label class="btn btn-outline-brown btn-lg statisticsDetail-width" for="btn-radio3">#디저트</label>
+                    </div>
+                    <div class="p-2">
+                        <input type="radio" class="link-secondary btn-check" name="btn-radio" id="btn-radio4" autocomplete="off">
+                        <label class="btn btn-outline-brown btn-lg statisticsDetail-width" for="btn-radio4">#커피</label>
+                    </div>
+                    <div class="p-2">
+                        <input type="radio" class="link-secondary btn-check" name="btn-radio" id="btn-radio5" autocomplete="off">
+                        <label class="btn btn-outline-brown btn-lg statisticsDetail-width" for="btn-radio5">#고객수</label>
+                    </div>
+                    <div class="p-2">
+                        <input type="radio" class="link-secondary btn-check" name="btn-radio" id="btn-radio6" autocomplete="off">
+                        <label class="btn btn-outline-brown btn-lg statisticsDetail-width" for="btn-radio6">#인테리어</label>
+                    </div>
+                    <div class="p-2">
+                        <input type="radio" class="link-secondary btn-check" name="btn-radio" id="btn-radio7" autocomplete="off">
+                        <label class="btn btn-outline-brown btn-lg statisticsDetail-width" for="btn-radio7">#뷰</label>
+                    </div>
+                    <div class="p-2">
+                        <input type="radio" class="link-secondary btn-check" name="btn-radio" id="btn-radio8" autocomplete="off">
+                        <label class="btn btn-outline-brown btn-lg statisticsDetail-width" for="btn-radio8">#주차</label>
+                    </div>
+                </nav>
+            </div>
+            <div class="contents-blank"></div>
+            <div class="row bg-secondary p-5 bg-opacity-25">
+                <div class="col">
+                    <div class="h4 pb-2">aaaaaaaaaaaaa</div>
+                    <div class="h4 pb-2">aaaaaaaaaaaaa</div>
+                    <div class="h4 pb-2">aaaaaaaaaaaaa</div>
+                    <div class="h4 pb-2">aaaaaaaaaaaaa</div>
+                </div>
+                <div class="col">
+                    <div class="h4 pb-2">aaaaaaaaaaaaa</div>
+                    <div class="h4 pb-2">aaaaaaaaaaaaa</div>
+                    <div class="h4 pb-2">aaaaaaaaaaaaa</div>
+                    <div class="h4 pb-2">aaaaaaaaaaaaa</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+{% endblock %}
