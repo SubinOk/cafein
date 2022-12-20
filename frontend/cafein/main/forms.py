@@ -28,14 +28,14 @@ class UserSetPasswordForm(forms.Form):
     }
     new_password1 = forms.CharField(
         label=_("New password"),
-        widget=forms.PasswordInput(attrs={'autocomplete': 'new-password'}),
+        widget=forms.PasswordInput(attrs={'autocomplete': 'new-password', 'class': 'form-control', 'placeholder': '비밀번호'}),
         strip=False,
         help_text=password_validation.password_validators_help_text_html(),
     )
     new_password2 = forms.CharField(
         label=_("New password confirmation"),
         strip=False,
-        widget=forms.PasswordInput(attrs={'autocomplete': 'new-password'}),
+        widget=forms.PasswordInput(attrs={'autocomplete': 'new-password', 'class': 'form-control', 'placeholder': '비밀번호 확인'}),
     )
 
     def __init__(self, user, *args, **kwargs):
