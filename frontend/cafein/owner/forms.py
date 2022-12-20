@@ -1,5 +1,5 @@
 from django import forms
-from .models import Owner
+from account.models import User
 from cafe.models import Cafe, Cafe_image
 import bcrypt
 import re
@@ -11,7 +11,7 @@ import re
 #                                                                  'placeholder': '비밀번호'}))
 class loginPostForm(forms.ModelForm):
     class Meta:
-        model = Owner
+        model = User
         fields = ['email', 'password']
         widgets = {
             'email': forms.EmailInput(attrs={'class': 'form-control', 'placeholder': '이메일'}),
@@ -58,7 +58,7 @@ class ownerManageForm(forms.Form):
     def cafeUpdate(self, id):
 
         # 카페정보
-        owner_id = id
+        user_id = id
         name = self.cleaned_data.get("name")
         human = self.cleaned_data.get("human")
         address = self.cleaned_data.get("address")
@@ -68,11 +68,11 @@ class ownerManageForm(forms.Form):
         # image = self.files.getlist("image")
 
         try:
-            cafe = Cafe.objects.get(owner_id=owner_id)
+            cafe = Cafe.objects.get(user_id_id=user_id)
             # cafeImage = Cafe_image.objects.get(cafe_id = cafe.cafe_id)
 
             cafe.name = name
-            cafe.human = human
+            cafe.max_occupancy = human
             cafe.address = address
             cafe.datail_add = address2
             cafe.cafe_phone = cafe_phone
@@ -88,8 +88,8 @@ class ownerManageForm(forms.Form):
 
     # 카페 이미지 수정 
     def imageUpdate(self, id):
-        owner_id = id
-        cafe = Cafe.objects.get(owner_id=owner_id)
+        user_id = id
+        cafe = Cafe.objects.get(user_id=user_id)
         cafeImage = Cafe_image.objects.get(cafe_id=cafe.cafe_id)
 
         image = self.files.getlist("image")
@@ -153,7 +153,7 @@ class ownerChangeForm(forms.ModelForm):
     password2 = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': '비밀번호확인'}))
 
     class Meta:
-        model = Owner
+        model = User
         fields = ['password', 'phone']
         widgets = {
             'password': forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': '비밀번호'}),
@@ -186,12 +186,12 @@ class ownerChangeForm(forms.ModelForm):
             return False
         return True
 
-    def update(self, owner_id):
-        email = owner_id
+    def update(self, user_id):
+        email = user_id
         password = self.cleaned_data.get("password")
         phone = self.cleaned_data.get("phone")
         try:
-            owner = Owner.objects.get(owner_id=email)
+            owner = User.objects.get(user_id=email)
             owner.password = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt()).decode('utf-8')
             owner.phone = phone
             owner.save()
@@ -200,15 +200,19 @@ class ownerChangeForm(forms.ModelForm):
             return False
 
 
-class ownerPostForm(forms.Form):
-    email = forms.EmailField(widget=forms.EmailInput(attrs={'class': 'form-control',
-                                                            'placeholder': '이메일'}))
-    password = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'form-control',
-                                                                 'placeholder': '비밀번호'}))
+class ownerPostForm(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = ['email', 'password', 'phone']
+        widgets = {
+            'email' : forms.EmailInput(attrs={'class': 'form-control', 'placeholder': '이메일'}),
+            'password': forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': '비밀번호'}),
+            'phone': forms.TextInput(attrs={'class': 'form-control', 'placeholder': '"-"을 포함하지 않는 전화번호'}),
+        }
     password2 = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'form-control offset-md-1',
                                                                   'placeholder': '비밀번호 확인'}))
     phone = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control',
-                                                          'placeholder': '전화번호'}))
+                                                          'placeholder': '전화번호 ("-" 없이 작성)'}))
     name = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control pe-150',
                                                          'placeholder': '카페명'}))
     human = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control',
@@ -223,7 +227,7 @@ class ownerPostForm(forms.Form):
                                                              'name': 'address_detail',
                                                              'placeholder': '상세 주소'}))
     cafe_phone = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control',
-                                                               'placeholder': '전화번호'}))
+                                                               'placeholder': '전화번호 ("-" 없이 작성)'}))
 
     # 카페 이미지 추가해야함
     image = forms.ImageField(widget=forms.FileInput(attrs={'multiple': ''}))
@@ -231,7 +235,7 @@ class ownerPostForm(forms.Form):
     # email이 이미 등록되었는지, 그리고 이메일 형식에 맞는지에 대한 validation
     def check_email(self):
         email = self.cleaned_data.get("email")
-        owner = Owner.objects.filter(email=email).first()
+        owner = User.objects.filter(email=email).first()
         if owner is None:
             pattern = re.compile('^.+@+.+\.+.+$')  # 이메일 '@'앞에는 아무 문자가 제한 없이 들어올 수 있음
             if not pattern.match(email):
@@ -289,7 +293,7 @@ class ownerPostForm(forms.Form):
     # DB 삭제 탈퇴 회원 정보 
     def delete(self):
         email = self.cleaned_data.get("email")
-        owner = Owner.objects.get(owner_id=email)
+        owner = User.objects.get(user_id=email)
         owner.delete()
 
     # 4MB 용량제한 & 확장자 제한
@@ -298,7 +302,8 @@ class ownerPostForm(forms.Form):
         for image in image:
             if image.size < 4 * 1024 * 1024:
                 image_extensions = ['.png', '.jpg', '.jpeg']
-                is_allowed_extension = [image_extension in str(image) for image_extension in image_extensions]
+                image_lower = str(image).lower()
+                is_allowed_extension = [image_extension in image_lower for image_extension in image_extensions]
                 if True in is_allowed_extension:
                     return True
         return False
@@ -328,10 +333,12 @@ class ownerPostForm(forms.Form):
         # 카페이미지
         image = self.files.getlist("image")
 
-        make = Owner.objects.create(
-            owner_id=email,
+        make = User.objects.create(
+            user_id=email,
+            email=email,
             phone=phone,
             password=bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt()).decode('utf-8'),
+            # cafe = make #모델 id만 넘기도록 작성하기 -> 안해도 될듯
         )
 
         cafe = Cafe.objects.create(
@@ -340,7 +347,7 @@ class ownerPostForm(forms.Form):
             address=address,
             datail_add=address2,
             cafe_phone=cafe_phone,
-            owner=make
+            user=make
         )
 
         for image in image:

@@ -16,6 +16,8 @@ from django.contrib import messages
 from django.contrib.auth import login, authenticate
 from django.template import RequestContext
 from django.http import HttpResponse
+
+from main.forms import UserSetPasswordForm
 try:
     from django.utils import simplejson as json
 except ImportError:
@@ -36,7 +38,7 @@ from django.views.decorators.debug import sensitive_post_parameters
 from django.views.decorators.cache import never_cache
 from django.utils.translation import gettext_lazy as _
 
-from owner.models import Owner
+from account.models import User
 
 UserModel = get_user_model()
 INTERNAL_RESET_URL_TOKEN = 'set-password'
@@ -53,10 +55,11 @@ def login(request):
 
 # 비밀번호 재설정
 class UserPasswordResetView(PasswordResetView):
+    email_template_name = 'password_reset_email.html'
     template_name = 'password_reset.html' 
     success_url = reverse_lazy('main:password_reset_done')
     def form_valid(self, form):
-        if Owner.objects.filter(email=self.request.POST.get("email")).exists():
+        if User.objects.filter(email=self.request.POST.get("email")).exists():
             opts = {
                 'use_https': self.request.is_secure(),
                 'token_generator': self.token_generator,
@@ -77,8 +80,8 @@ class UserPasswordResetDoneView(PasswordResetDoneView):
     
 
 class UserPasswordResetConfirmView(PasswordResetConfirmView):
-    form_class = SetPasswordForm
-    success_url=reverse_lazy('main:password_reset_confirm')
+    form_class = UserSetPasswordForm
+    success_url=reverse_lazy('main:password_reset_complete')
     template_name = 'password_reset_confirm.html'
 
     def form_valid(self, form):
