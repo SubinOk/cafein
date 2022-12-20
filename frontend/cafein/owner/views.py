@@ -209,3 +209,6 @@ def ownerStatistics(request):
         return render(request, 'ownerStatistics.html')
     else:
         return redirect('/')
+    
+def ownerStatisticsDetail(request):
+    return render(request, 'ownerStatistics.html')
