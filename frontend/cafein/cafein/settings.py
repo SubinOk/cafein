@@ -47,6 +47,7 @@ AUTH_USER_MODEL = 'account.User'
 
 INSTALLED_APPS = [
     'account',
+    'customer',
     'owner',
     'main',
     'cafe',

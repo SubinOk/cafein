@@ -1,23 +1,12 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.models import User
-from django.contrib import auth
-from django.contrib import messages
-from django.contrib.auth.views import LoginView, LogoutView, PasswordResetView, PasswordResetDoneView, PasswordResetConfirmView, PasswordResetCompleteView
+from django.contrib.auth.views import PasswordResetView, PasswordResetDoneView, PasswordResetConfirmView, PasswordResetCompleteView
 from django.shortcuts import resolve_url
-from django.core.exceptions import ValidationError
-from django.contrib.auth.forms import UserCreationForm
 from django.conf import settings
-from django.views.generic.edit import CreateView
-from django.views.generic.detail import DetailView
 from django.urls import reverse_lazy
-from django.views import generic, View
-from django.contrib.auth.decorators import login_required
-from django.contrib import messages
-from django.contrib.auth import login, authenticate
-from django.template import RequestContext
-from django.http import HttpResponse
 
 from main.forms import UserSetPasswordForm
+from owner.views import render_with_error
 try:
     from django.utils import simplejson as json
 except ImportError:
@@ -28,17 +17,17 @@ from django.contrib.auth import (
     REDIRECT_FIELD_NAME, get_user_model, login as auth_login,
     logout as auth_logout, update_session_auth_hash,
 )
-from django.contrib.auth.forms import (
-    AuthenticationForm, PasswordChangeForm, PasswordResetForm, SetPasswordForm,
-)
-from django.contrib.auth.tokens import default_token_generator
-from django.utils.decorators import method_decorator
-from django.utils.http import is_safe_url, urlsafe_base64_decode
-from django.views.decorators.debug import sensitive_post_parameters
-from django.views.decorators.cache import never_cache
+
 from django.utils.translation import gettext_lazy as _
 
 from account.models import User
+
+from .forms import UserloginPostForm
+
+import bcrypt
+
+
+
 
 UserModel = get_user_model()
 INTERNAL_RESET_URL_TOKEN = 'set-password'
@@ -50,8 +39,6 @@ def mainPage(request):
         return redirect('/owner/home')
     return render(request, 'mainPage.html')
 
-def login(request):
-    return render(request, 'login.html')
 
 # 비밀번호 재설정
 class UserPasswordResetView(PasswordResetView):
@@ -95,3 +82,31 @@ class UserPasswordResetCompleteView(PasswordResetCompleteView):
         context['login_url'] = resolve_url(settings.LOGIN_URL)
         return context
     
+# 로그인
+def login(request):
+    if request.method == 'POST':
+        form = UserloginPostForm(request.POST)
+        if form.is_valid():
+            user = User.objects.filter(email=form.cleaned_data['email']).first()
+            if user is None:
+                return render_with_error(request, 'login.html', form, ['email'])
+            if bcrypt.checkpw(form.cleaned_data['password'].encode('utf-8'), user.password.encode('utf-8')):
+                request.session['user'] = form.cleaned_data['email']
+                # 사장
+                if user.is_owner == True:
+                    return redirect('/owner/home')
+                # 고객
+                else:
+                    return redirect('/customer/home')
+            else:
+                return render_with_error(request, 'login.html', form, ['password'])
+        else:
+            return render_with_error(request, 'login.html', form, ['email'])
+    else:
+        form = UserloginPostForm()
+    return render(request, 'login.html', {'form': form})
+
+
+def ownerLogout(request):
+    request.session.pop('user')
+    return redirect('/')

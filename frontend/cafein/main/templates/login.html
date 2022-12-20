@@ -5,22 +5,47 @@
         <div class="blank"></div>
         <div class="blank"></div>
         <div class="blank"></div>
-        <div class="container">
-            <div class="col text-center h3">
-                환영합니다<br>
-                원하시는 로그인을 선택해 주세요
+        <div class="container row">
+            <div class="col">
+                <a class="login-button btn btn-outline-brown float-end" href="/owner/signup" aria-expanded="false">회원가입</a>
             </div>
             <div class="contents-blank"></div>
-            <div class="contents-blank"></div>
-            <div class="row">
-                <div class="col-md-4">
-                    <button class="border cafein-button login-box">카페인 손님<br>로그인</button>
+            <form action="" method="post">
+                {% csrf_token %}
+                {{ form.email }}
+                {% if error_flg.email == True %}
+                    <p class="text-danger">&nbsp;해당 이메일은 존재하지 않습니다.</p>
+                    <script>
+                        document.getElementById('id_email').classList.add("border-danger")
+                        window.onload = function(){
+                            document.getElementById("id_email").addEventListener("focusout", function(){
+                                document.getElementById('id_email').classList.remove("border-danger")
+                            });
+                        }
+                    </script>
+                {% endif %}
+                <div class="contents-blank"></div>
+                {{ form.password }}
+                {% if error_flg.password == True %}
+                    <p class="text-danger">&nbsp;비밀번호가 일치 하지 않습니다.</p>
+                    <script>
+                        document.getElementById('id_password').classList.add("border-danger")
+                        window.onload = function(){
+                            document.getElementById("id_password").addEventListener("focusout", function(){
+                                document.getElementById('id_password').classList.remove("border-danger")
+                            });
+                        }
+                    </script>
+                {% endif %}
+                <div class="contents-blank"></div>
+                <div class="text-center">
+                    <button class="border cafein-button px-5" type="submit">로그인</button>
                 </div>
-                <a class="col-md-4 offset-md-4 text-dark" href="/owner/login/">
-                    <button class="border float-end cafein-button login-box">카페인 사장<br>로그인</button>
-                </a>
-            </div>
+            </form>
             <div class="contents-blank"></div>
+            <div class="text-right">
+                <a class="find-password text-dark" href="{% url 'main:password_reset' %}">비밀번호 찾기</a>
+            </div>
         </div>
         <div class="blank"></div>
         <div class="blank"></div>

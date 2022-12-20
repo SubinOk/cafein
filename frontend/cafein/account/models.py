@@ -45,6 +45,8 @@ class User(AbstractBaseUser):
     #is_staff    = models.BooleanField(default=False)
     is_superuser = models.BooleanField(default=False)
  
+    # 사장 손님 구분
+    is_owner = models.BooleanField(default=False) 
     
     USERNAME_FIELD = 'user_id'
     REQUIRED_FIELDS = ['email']

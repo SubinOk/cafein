@@ -5,18 +5,15 @@ import bcrypt
 import re
 
 
-# class loginPostForm(forms.Form):
-#     email = forms.EmailField(widget=forms.EmailInput(attrs={'class': 'form-control','placeholder': '이메일'}))
-#     password = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'form-control',
-#                                                                  'placeholder': '비밀번호'}))
-class loginPostForm(forms.ModelForm):
-    class Meta:
-        model = User
-        fields = ['email', 'password']
-        widgets = {
-            'email': forms.EmailInput(attrs={'class': 'form-control', 'placeholder': '이메일'}),
-            'password': forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': '비밀번호'}),
-        }
+
+# class loginPostForm(forms.ModelForm):
+#     class Meta:
+#         model = User
+#         fields = ['email', 'password']
+#         widgets = {
+#             'email': forms.EmailInput(attrs={'class': 'form-control', 'placeholder': '이메일'}),
+#             'password': forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': '비밀번호'}),
+#         }
 
 
 class ownerManageForm(forms.Form):

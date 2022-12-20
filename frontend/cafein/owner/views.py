@@ -2,7 +2,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.template.loader import render_to_string
 from django.core.mail import EmailMessage
 
-from .forms import loginPostForm, ownerPostForm, ownerChangeForm, ownerManageForm
+from .forms import ownerPostForm, ownerChangeForm, ownerManageForm
 
 #403 오류해결
 from django.views.decorators.csrf import csrf_exempt
@@ -25,28 +25,28 @@ from cafe.models import Cafe,Cafe_image
 MINIMUM_PASSWORD_LENGTH = 8
 
 
-def ownerLogin(request):
-    if request.method == 'POST':
-        form = loginPostForm(request.POST)
-        print('1')
-        if form.is_valid():
-            print(form.cleaned_data['email'])
-            owner = User.objects.filter(email=form.cleaned_data['email']).first()
-            print(form)
-            print(owner)
-            if owner is None:
-                return render_with_error(request, 'ownerLogin.html', form, ['email'])
-            if bcrypt.checkpw(form.cleaned_data['password'].encode('utf-8'), owner.password.encode('utf-8')):
-                request.session['user'] = form.cleaned_data['email']
-                return redirect('/owner/home')
-            else:
-                return render_with_error(request, 'ownerLogin.html', form, ['password'])
-        else:
-            print('3')
-            return render_with_error(request, 'ownerLogin.html', form, ['email'])
-    else:
-        form = loginPostForm()
-    return render(request, 'ownerLogin.html', {'form': form})
+# def ownerLogin(request):
+#     if request.method == 'POST':
+#         form = loginPostForm(request.POST)
+#         print('1')
+#         if form.is_valid():
+#             print(form.cleaned_data['email'])
+#             owner = User.objects.filter(email=form.cleaned_data['email']).first()
+#             print(form)
+#             print(owner)
+#             if owner is None:
+#                 return render_with_error(request, 'ownerLogin.html', form, ['email'])
+#             if bcrypt.checkpw(form.cleaned_data['password'].encode('utf-8'), owner.password.encode('utf-8')):
+#                 request.session['user'] = form.cleaned_data['email']
+#                 return redirect('/owner/home')
+#             else:
+#                 return render_with_error(request, 'ownerLogin.html', form, ['password'])
+#         else:
+#             print('3')
+#             return render_with_error(request, 'ownerLogin.html', form, ['email'])
+#     else:
+#         form = loginPostForm()
+#     return render(request, 'ownerLogin.html', {'form': form})
 
 
 def ownerLogout(request):

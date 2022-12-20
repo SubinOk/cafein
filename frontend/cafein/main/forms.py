@@ -18,6 +18,7 @@ from django.utils.http import urlsafe_base64_encode
 from django.utils.text import capfirst
 from django.utils.translation import gettext, gettext_lazy as _
 
+# 비밀번호 재설정 
 class UserSetPasswordForm(forms.Form):
     """
     A form that lets a user change set their password without entering the old
@@ -60,6 +61,15 @@ class UserSetPasswordForm(forms.Form):
         if commit:
             self.user.save()
         return self.user
-    
-        
+   
+
+# 로그인
+class UserloginPostForm(forms.ModelForm):
+    class Meta:
+        model = get_user_model()
+        fields = ['email', 'password']
+        widgets = {
+            'email': forms.EmailInput(attrs={'class': 'form-control', 'placeholder': '이메일'}),
+            'password': forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': '비밀번호'}),
+        } 
        
