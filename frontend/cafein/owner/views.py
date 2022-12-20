@@ -19,7 +19,7 @@ from django.db.models       import Q
 from django.core.mail.message import EmailMessage
 
 #모델
-from .models     import Owner
+from account.models import User
 from cafe.models import Cafe,Cafe_image
 
 MINIMUM_PASSWORD_LENGTH = 8
@@ -28,8 +28,12 @@ MINIMUM_PASSWORD_LENGTH = 8
 def ownerLogin(request):
     if request.method == 'POST':
         form = loginPostForm(request.POST)
+        print('1')
         if form.is_valid():
-            owner = Owner.objects.filter(email=form.cleaned_data['email']).first()
+            print(form.cleaned_data['email'])
+            owner = User.objects.filter(email=form.cleaned_data['email']).first()
+            print(form)
+            print(owner)
             if owner is None:
                 return render_with_error(request, 'ownerLogin.html', form, ['email'])
             if bcrypt.checkpw(form.cleaned_data['password'].encode('utf-8'), owner.password.encode('utf-8')):
@@ -38,6 +42,7 @@ def ownerLogin(request):
             else:
                 return render_with_error(request, 'ownerLogin.html', form, ['password'])
         else:
+            print('3')
             return render_with_error(request, 'ownerLogin.html', form, ['email'])
     else:
         form = loginPostForm()
@@ -82,6 +87,7 @@ def signup(request):
                 if not form.check_email():
                     return render_with_error(request, 'signup.html', form, ['email'])
                 if not (form.check_password1() and form.check_password()):
+                    print(1)
                     return render_with_error(request, 'signup.html', form, ['password'])
                 if not form.check_phone():
                     return render_with_error(request, 'signup.html', form, ['phone'])
@@ -107,7 +113,7 @@ def signup(request):
 def checkPassword(request):
     if request.session.get('user'):
         if request.method == 'POST':
-            owner = Owner.objects.filter(email=request.session.get('user')).first()
+            owner = User.objects.filter(email=request.session.get('user')).first()
             if owner is None:
                 return redirect('/')
             else:
@@ -125,14 +131,14 @@ def checkPassword(request):
 def ownerChange(request):
     if request.session.get('user'):
         if request.method == 'POST':
-            owner_id = request.session.get('user')
+            user_id = request.session.get('user')
             form = ownerChangeForm(request.POST)
             if form.is_valid(): #is_valid 필수로 쓰기
                 if not (form.check_password() and form.check_password1()):
                     return render_with_error(request, 'ownerChange.html', form, ['password'])
                 if not form.check_phone():
                     return render_with_error(request, 'ownerChange.html', form, ['phone'])
-                form.update(owner_id)
+                form.update(user_id)
             return redirect('/owner/home/')
         else:
             form = ownerChangeForm()
@@ -146,7 +152,7 @@ def ownerDelete(request):
         if not request.session.get('user'):
             return redirect('/')
 
-        owner = Owner.objects.filter(email=request.session.get('user')).first()
+        owner = User.objects.filter(email=request.session.get('user')).first()
         if owner is None:
             return redirect('/')
         else:
@@ -192,11 +198,11 @@ def ownerManage(request):
 def cafeUpdate(request):
     if request.session.get('user'):
         if request.method == 'POST': 
-            owner_id=request.session.get('user')
+            user_id=request.session.get('user')
             form = ownerManageForm(request.POST)
-            if form.is_valid(): #is_valid 필수로 쓰기 
-                form.cafeUpdate(owner_id)
-                form.imageUpdate(owner_id)
+            if form.is_valid(): 
+                form.cafeUpdate(user_id)
+                form.imageUpdate(user_id)
             return redirect('/owner/home/')
         else:
             return render(request, 'ownerChange.html')

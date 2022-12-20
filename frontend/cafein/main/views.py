@@ -38,7 +38,7 @@ from django.views.decorators.debug import sensitive_post_parameters
 from django.views.decorators.cache import never_cache
 from django.utils.translation import gettext_lazy as _
 
-from owner.models import Owner
+from account.models import User
 
 UserModel = get_user_model()
 INTERNAL_RESET_URL_TOKEN = 'set-password'
@@ -59,7 +59,7 @@ class UserPasswordResetView(PasswordResetView):
     template_name = 'password_reset.html' 
     success_url = reverse_lazy('main:password_reset_done')
     def form_valid(self, form):
-        if Owner.objects.filter(email=self.request.POST.get("email")).exists():
+        if User.objects.filter(email=self.request.POST.get("email")).exists():
             opts = {
                 'use_https': self.request.is_secure(),
                 'token_generator': self.token_generator,
