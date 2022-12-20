@@ -90,7 +90,7 @@
                 // stop the loop
                 clearInterval(handler);
             
-        }, 15);
+        }, 10);
     }
 
     function changeGraphDown(percent, target) {
@@ -108,14 +108,21 @@
                 clearInterval(handler);
             // values increment
             
-        }, 15);
+        }, 10);
     }
     
 </script>
 
 <main>
     <div class="contents-padding container">
-        <div class="h1">고객 통계</div>
+        <div class="row justify-content-between" id="target">
+            <div class="h1 col-11">고객 통계</div>
+            <div class="col-1">
+                <div>
+                    <a class="login-button btn btn-outline-brown ms-3" href="{% url 'owner:ownerStatisticsDetail' %}">더보기</a>
+                </div>
+            </div>
+        </div>
         <div class="d-flex container">
             <div class="col pt-5">
                 <div class="h3 pb-5 text-bold"><strong>고객들이 가장 많이 언급한 키워드</strong></div>

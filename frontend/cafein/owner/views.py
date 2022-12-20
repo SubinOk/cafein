@@ -56,17 +56,6 @@ def ownerHome(request):
         return redirect('/')
 
 
-def findPassword(request):
-    if request.method == 'POST':
-
-        # 일치 하는 이메일이 있는 경우 이메일 전송 방법 setting은 cafein settings.py 참조
-        # to_email = 'tunta3586@gmail.com'
-        # send_email = EmailMessage('Subject here', 'Here is the message', to=[to_email])
-        # send_email.send()
-        return render(request, 'findPassword.html', {'flg': True})
-    else:
-        return render(request, 'findPassword.html', {'flg': False})
-
 def signup(request):
     # 등록된 이메일, 이메일 형식 확인
     # 두개의 password가 일치한지에 대한 validation
@@ -166,19 +155,6 @@ def render_with_error(request, html, form, error_type):
     for error in error_type:
         error_flg[error] = True
     return render(request, html, {'form': form, 'error_flg': error_flg})
-
-# def ownerUpdate(request):
-#     if request.session.get('user'):
-#         if request.method == 'POST':
-#             owner_id=request.session.get('user')
-#             form = ownerChangeForm(request.POST)
-#             if form.is_valid(): #is_valid 필수로 쓰기
-#                 form.update(owner_id)
-#             return redirect('/owner/home/')
-#         else:
-#             return render(request, 'ownerChange.html')
-#     else:
-#         return redirect('/')
         
 
 def ownerManage(request):
@@ -209,3 +185,6 @@ def ownerStatistics(request):
         return render(request, 'ownerStatistics.html')
     else:
         return redirect('/')
+    
+def ownerStatisticsDetail(request):
+    return render(request, 'ownerStatistics.html')
