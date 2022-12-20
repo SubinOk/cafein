@@ -194,3 +194,6 @@ def ownerStatistics(request):
     
 def ownerStatisticsDetail(request):
     return render(request, 'ownerStatisticsDetail.html')
+
+def ownerComent(request):
+    return render(request, 'ownerComent.html')
