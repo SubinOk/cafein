@@ -25,7 +25,7 @@ from account.models import User
 from .forms import UserloginPostForm
 
 import bcrypt
-
+from django.contrib.auth.hashers import check_password
 
 
 
@@ -91,9 +91,10 @@ def login(request):
         form = UserloginPostForm(request.POST)
         if form.is_valid():
             user = User.objects.filter(email=form.cleaned_data['email']).first()
+            password = form.cleaned_data['password']
             if user is None:
                 return render_with_error(request, 'login.html', form, ['email'])
-            if bcrypt.checkpw(form.cleaned_data['password'].encode('utf-8'), user.password.encode('utf-8')):
+            if  check_password(password, user.password):
                 request.session['user'] = form.cleaned_data['email']
                 # 사장
                 if user.is_owner == True:
