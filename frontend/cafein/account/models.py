@@ -12,9 +12,8 @@ class MyAccountManager(BaseUserManager):
             email = self.normalize_email(email),
             user_id = user_id,
         )
-        user.set_password( bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt()).decode('utf-8'))
+        user.set_password(password)
         user.save(using=self._db)
-        #print("create_user")
         return user
     
 
@@ -22,13 +21,12 @@ class MyAccountManager(BaseUserManager):
         user = self.create_user(
            email = self.normalize_email(email),
            user_id = user_id,
-           password = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt()).decode('utf-8'),
+           password = password,
         )
         user.is_admin = True
         #user.is_staff = True
         user.is_superuser = True
         user.save(using=self._db)
-        #print("create_superuser")
         return user
      
 

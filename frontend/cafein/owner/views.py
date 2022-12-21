@@ -28,12 +28,8 @@ MINIMUM_PASSWORD_LENGTH = 8
 # def ownerLogin(request):
 #     if request.method == 'POST':
 #         form = loginPostForm(request.POST)
-#         print('1')
 #         if form.is_valid():
-#             print(form.cleaned_data['email'])
 #             owner = User.objects.filter(email=form.cleaned_data['email']).first()
-#             print(form)
-#             print(owner)
 #             if owner is None:
 #                 return render_with_error(request, 'ownerLogin.html', form, ['email'])
 #             if bcrypt.checkpw(form.cleaned_data['password'].encode('utf-8'), owner.password.encode('utf-8')):
@@ -42,7 +38,6 @@ MINIMUM_PASSWORD_LENGTH = 8
 #             else:
 #                 return render_with_error(request, 'ownerLogin.html', form, ['password'])
 #         else:
-#             print('3')
 #             return render_with_error(request, 'ownerLogin.html', form, ['email'])
 #     else:
 #         form = loginPostForm()
@@ -76,7 +71,6 @@ def signup(request):
                 if not form.check_email():
                     return render_with_error(request, 'signup.html', form, ['email'])
                 if not (form.check_password1() and form.check_password()):
-                    print(1)
                     return render_with_error(request, 'signup.html', form, ['password'])
                 if not form.check_phone():
                     return render_with_error(request, 'signup.html', form, ['phone'])
@@ -191,9 +185,16 @@ def ownerStatistics(request):
         return render(request, 'ownerStatistics.html')
     else:
         return redirect('/')
-    
+
+
 def ownerStatisticsDetail(request):
     return render(request, 'ownerStatisticsDetail.html')
 
+
 def ownerComent(request):
+    return render(request, 'ownerComent.html')
+
+
+def ownerComentDetail(request, reviewid):
+    print(reviewid)
     return render(request, 'ownerComent.html')

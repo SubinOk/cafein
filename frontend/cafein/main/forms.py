@@ -57,7 +57,7 @@ class UserSetPasswordForm(forms.Form):
 
     def save(self, commit=True):
         password = self.cleaned_data["new_password1"]
-        self.user.password = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt()).decode('utf-8')
+        self.user.set_password(password)
         if commit:
             self.user.save()
         return self.user

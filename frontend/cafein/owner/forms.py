@@ -189,7 +189,7 @@ class ownerChangeForm(forms.ModelForm):
         phone = self.cleaned_data.get("phone")
         try:
             owner = User.objects.get(user_id=email)
-            owner.password = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt()).decode('utf-8')
+            owner.password =  owner.set_password(password)
             owner.phone = phone
             owner.save()
             return True
@@ -317,10 +317,8 @@ class ownerPostForm(forms.ModelForm):
     def save(self):
         # 사장
         email = self.cleaned_data.get("email")
-        password = self.cleaned_data.get("password")
+        raw_password = self.cleaned_data.get("password")
         phone = self.cleaned_data.get("phone")
-        
-        
 
         # 카페
         name = self.cleaned_data.get("name")
@@ -336,10 +334,11 @@ class ownerPostForm(forms.ModelForm):
             user_id=email,
             email=email,
             phone=phone,
-            password=bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt()).decode('utf-8'),
-            is_owner = 1
-            
+            password=raw_password,
+            is_owner = 1 
         )
+
+
 
         cafe = Cafe.objects.create(
             name=name,
