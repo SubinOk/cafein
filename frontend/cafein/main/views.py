@@ -35,8 +35,11 @@ INTERNAL_RESET_SESSION_TOKEN = '_password_reset_token'
 
 # Create your views here.
 def mainPage(request):
-    if request.session.get('user'):
-        return redirect('/owner/home')
+    if request.session.get('is_owner'):
+        if request.session['is_owner'] == True:
+            return redirect('/owner/home')
+        else:
+            return redirect('/customer/home')
     return render(request, 'mainPage.html')
 
 
@@ -94,9 +97,11 @@ def login(request):
                 request.session['user'] = form.cleaned_data['email']
                 # 사장
                 if user.is_owner == True:
+                    request.session['is_owner'] = user.is_owner
                     return redirect('/owner/home')
                 # 고객
                 else:
+                    request.session['is_owner'] = user.is_owner
                     return redirect('/customer/home')
             else:
                 return render_with_error(request, 'login.html', form, ['password'])
@@ -106,7 +111,12 @@ def login(request):
         form = UserloginPostForm()
     return render(request, 'login.html', {'form': form})
 
+# signup select
+def singup(request):
+    return render(request, 'signup_select.html')
 
-def ownerLogout(request):
+
+def Logout(request):
     request.session.pop('user')
+    request.session.pop('is_owner')
     return redirect('/')
