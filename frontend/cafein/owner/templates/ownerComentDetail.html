@@ -1,0 +1,94 @@
+{% extends "layout.html" %}
+{% load static %}
+{% block content %}
+    <main>
+        <div class="col contents-padding container">
+            <div class="row justify-content-between">
+                <div class="h1 col-11 d-flex align-self-center">리뷰 게시판</div>
+                <div class="col-1">
+                    <div>
+                        <a class="login-button btn btn-outline-brown ms-3" href="{% url 'owner:ownerComent' %}">뒤로가기</a>
+                    </div>
+                </div>
+            </div>
+            <div class=blank></div>
+            <div class="p-5">
+                <div class="row p-3 border">
+                    <span class="text-center align-middle col-2 display-7" >리뷰 제목</span>
+                    <span class="text-start align-middle col display-7" >드럽게 맛없네요</span>
+                </div>
+                <div class="row p-3 border">
+                    <span class="col row d-flex align-items-center">
+                        <span class="col-4 text-center align-middle display-7" >날짜</span>
+                        <span class="col text-start align-middle col display-7" >22/10/02</span>
+                    </span>
+                    <span class="col row d-flex align-items-center">
+                        <span class="col-4 text-center display-7" >별점</span>
+                        <span class="col"><img src="{% static 'img/bean/1bean.png' %}"></span>
+                    </span>
+                </div>
+                <div class="row p-3 border">
+                    <img src="">
+                </div>
+                <div class="row p-3 border">
+                    <span class="col row d-flex align-items-center">
+                        <span class="col-2 text-center align-middle display-7" >리뷰 내용</span>
+                        <span class="col" ></span>
+                    </span>
+                    <div class="contents-blank"></div>
+                    <div class="contents-blank"></div>
+                    <p class="review-contents display-7">aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</p>
+                </div>
+                <div class="row p-3 border">
+                    <span class="col row justify-content-between align-items-center">
+                        <span class="col-10 text-start align-middle display-7 comment-padding-left" >댓글</span>
+                        <div id="confirm" class="col-2">
+                            <button class="login-button btn btn-outline-brown ms-3" onclick="changeComment()">수정</button>
+                            <a class="login-button btn btn-outline-brown ms-3" href="{% url 'owner:ownerComent' %}">삭제</a>
+                        </div>
+                        <div id="send" class="col-2 text-center" style="display:none;">
+                            <button class="login-button btn btn-outline-brown ms-3" onclick="sendComment()">등록</button>
+                        </div>
+
+                    </span>
+                    <div class="contents-blank"></div>
+                    <div class="review-contents" id="review-comment-field">
+                        <p class="display-7" id="review-comment">aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    <script>
+        function changeComment(){
+            const reviewComment = document.getElementById('review-comment').innerHTML;
+            document.getElementById('review-comment-field').innerHTML = "";
+            const textField = document.createElement("textarea");
+            textField.setAttribute("class", "display-7 container");
+            textField.setAttribute("rows", "10");
+            textField.setAttribute("cols", "20");
+            textField.setAttribute("id", "review-comment");
+            textField.setAttribute("maxlength", "200");
+            textField.value = reviewComment
+            document.getElementById("review-comment-field").appendChild(textField);
+            document.getElementById('confirm').style.display = 'none';
+            document.getElementById('send').style.display = '';
+        }
+
+        function sendComment(){
+            const reviewComment = document.getElementById('review-comment').value;
+            document.getElementById('review-comment-field').innerHTML = "";
+            const review = document.createElement("span");
+            review.setAttribute("class", "display-7");
+            review.setAttribute("id", "review-comment");
+            review.innerHTML = reviewComment
+            document.getElementById("review-comment-field").appendChild(review);
+            document.getElementById('confirm').style.display = '';
+            document.getElementById('send').style.display = 'none';
+        }
+
+        function deleteComment(){
+            console.log('대충 삭제에 대한 내용')
+        }
+    </script>
+{% endblock %}

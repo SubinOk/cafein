@@ -76,7 +76,7 @@ def checkPassword(request):
             if owner is None:
                 return redirect('/')
             else:
-                if bcrypt.checkpw(request.POST.get('id_password').encode('utf-8'), owner.password.encode('utf-8')):
+                if not User.check_Password(owner.password):
                     # 위의 체크를 문제없이 통과하면 이후 페이지로 전송
                     form = ownerChangeForm()
                     return redirect('/owner/change', {'form': form})
@@ -115,7 +115,7 @@ def ownerDelete(request):
         if owner is None:
             return redirect('/')
         else:
-            if bcrypt.checkpw(request.POST.get('id_password').encode('utf-8'), owner.password.encode('utf-8')):
+            if not User.check_Password(owner.password):
                 # 위의 체크를 문제없이 통과하면 이후 페이지로 전송
                 owner.delete()
                 request.session.pop('user')
@@ -172,5 +172,4 @@ def ownerComent(request):
 
 
 def ownerComentDetail(request, reviewid):
-    print(reviewid)
-    return render(request, 'ownerComent.html')
+    return render(request, 'ownerComentDetail.html')
