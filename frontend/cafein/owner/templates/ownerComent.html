@@ -1,6 +1,57 @@
 {% extends "layout.html" %}
+{% load static %}
 {% block content %}
 <main>
-    test
+    <div class="col contents-padding container">
+        <h1>리뷰 게시판</h1>
+        <div class=blank></div>
+        <div class="p-5">
+            <table class="table table-bordered p-4 table-hover table-striped">
+                <thead>
+                <tr>
+                    <th scope="col" class="w-15 text-center">번호</th>
+                    <th scope="col" class="w-15 text-center">날짜</th>
+                    <th scope="col" class="w-45 text-center">리뷰 제목</th>
+                    <th scope="col" class="text-center">별점</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr class="cursor" onclick="moveDetailPage(1)">
+                    <th scope="row" class="text-center align-middle">1</th>
+                    <td class="text-center align-middle">22/04/12</td>
+                    <td class="text-center align-middle">드럽게 맛이 없었어요</td>
+                    <td class="text-center align-middle"><img src="{% static 'img/bean/1bean.png' %}">
+                    </td>
+                </tr>
+                <tr class="cursor">
+                    <th scope="row" class="text-center align-middle">2</th>
+                    <td class="text-center align-middle">22/04/12</td>
+                    <td class="text-center align-middle ">뷰가 너무 좋아요</td>
+                    <td class="text-center align-middle"><img src="{% static 'img/bean/5bean.png' %}">
+                    </td>
+                </tr>
+                <tr class="cursor">
+                    <th scope="row" class="text-center align-middle">3</th>
+                    <td class="text-center align-middle">22/04/12</td>
+                    <td class="text-center align-middle">생각보다 맛있었어요</td>
+                    <td class="text-center align-middle"><img src="{% static 'img/bean/4bean.png' %}">
+                    </td>
+                </tr>
+                <tr class="cursor">
+                    <th scope="row" class="text-center align-middle">4</th>
+                    <td class="text-center align-middle">22/04/12</td>
+                    <td class="text-center align-middle">직원들이 불친절 해요</td>
+                    <td class="text-center align-middle"><img src="{% static 'img/bean/3bean.png' %}">
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <script>
+        function moveDetailPage( pageid ){
+            window.location.assign('/owner/coment/' + pageid);
+        }
+    </script>
 </main>
 {% endblock %}

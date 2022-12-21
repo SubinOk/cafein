@@ -185,9 +185,16 @@ def ownerStatistics(request):
         return render(request, 'ownerStatistics.html')
     else:
         return redirect('/')
-    
+
+
 def ownerStatisticsDetail(request):
     return render(request, 'ownerStatisticsDetail.html')
 
+
 def ownerComent(request):
+    return render(request, 'ownerComent.html')
+
+
+def ownerComentDetail(request, reviewid):
+    print(reviewid)
     return render(request, 'ownerComent.html')

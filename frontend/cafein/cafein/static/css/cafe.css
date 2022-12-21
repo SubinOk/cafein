@@ -236,3 +236,12 @@ body{margin-bottom: 60px}
 .statisticsDetail-width{
     width:100px;
 }
+.w-15{
+    width:15%;
+}
+.w-45{
+    width:45%;
+}
+.cursor{
+    cursor:pointer;
+}
