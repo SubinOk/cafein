@@ -257,7 +257,7 @@ class ownerPostForm(forms.ModelForm):
     def save(self):
         # 사장
         email = self.cleaned_data.get("email")
-        raw_password = self.cleaned_data.get("password")
+        password = self.cleaned_data.get("password")
         phone = self.cleaned_data.get("phone")
 
         # 카페
@@ -270,15 +270,14 @@ class ownerPostForm(forms.ModelForm):
         # 카페이미지
         image = self.files.getlist("image")
 
-        make = User.objects.create(
-            user_id=email,
-            email=email,
-            phone=phone,
-            password=raw_password,
-            is_owner = 1 
-        )
-
-
+        user = User(user_id=email)
+        user.email = email
+        user.phone = phone
+        user.set_password(password)
+        user.user_id = 1
+        user.save()
+        make=user
+    
 
         cafe = Cafe.objects.create(
             name=name,
