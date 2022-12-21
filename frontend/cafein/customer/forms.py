@@ -17,6 +17,28 @@ class customerPostForm(forms.ModelForm):
     phone = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control',
                                                           'placeholder': '전화번호 ("-" 없이 작성)'}))
     
+    # email이 이미 등록되었는지, 그리고 이메일 형식에 맞는지에 대한 validation
+    def check_email(self):
+        email = self.cleaned_data.get("email")
+        customer = User.objects.filter(email=email).first()
+        if customer is None:
+            pattern = re.compile('^.+@+.+\.+.+$')  # 이메일 '@'앞에는 아무 문자가 제한 없이 들어올 수 있음
+            if not pattern.match(email):
+                return False
+            else:
+                return True  # db에 존재하지 않고, 이메일 형식이 맞다면 데이터를 반환
+        else:
+            # 필드에 email 값이 db에 존재하는지 확인
+            return False
+    
+    # 고객 전화번호 '-'없이 숫자만 입력하도록 
+    def check_phone(self):
+        phone = self.cleaned_data.get("phone")
+        pattern = re.compile('^[0]\d{2}\d{3,4}\d{4}$')
+        if not pattern.match(phone):
+            return False
+        return True
+    
 
     # 입력한 password가 조건에 맞는지에 대한 validation
     def check_password(self):
@@ -41,12 +63,12 @@ class customerPostForm(forms.ModelForm):
     # DB 삭제 탈퇴 회원 정보 
     def delete(self):
         email = self.cleaned_data.get("email")
-        owner = User.objects.get(user_id=email)
-        owner.delete()
+        customer = User.objects.get(user_id=email)
+        customer.delete()
 
     # DB에 회원가입 값 저장
     def save(self):
-        # 사장
+        # 고객
         email = self.cleaned_data.get("email")
         password = self.cleaned_data.get("password")
         phone = self.cleaned_data.get("phone")

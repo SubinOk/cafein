@@ -4,18 +4,6 @@ from cafe.models import Cafe, Cafe_image
 import bcrypt
 import re
 
-
-
-# class loginPostForm(forms.ModelForm):
-#     class Meta:
-#         model = User
-#         fields = ['email', 'password']
-#         widgets = {
-#             'email': forms.EmailInput(attrs={'class': 'form-control', 'placeholder': '이메일'}),
-#             'password': forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': '비밀번호'}),
-#         }
-
-
 class ownerManageForm(forms.Form):
     name = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control pe-150',
                                                          'placeholder': '카페명'}))
@@ -98,54 +86,6 @@ class ownerManageForm(forms.Form):
         except:
             return False
 
-
-# class ownerChangeForm(forms.Form):
-#     password = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'form-control',
-#                                                                  'placeholder': '비밀번호'}))
-#     password2 = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'form-control',
-#                                                                  'placeholder': '비밀번호확인'}))
-#     phone = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control'}))
-#
-#     # 입력한 password가 조건에 맞는지에 대한 validation
-#     def check_password(self):
-#         password = self.cleaned_data.get("password")
-#         # 영어,숫자,특수문자 포함하고 8~25자리수를 허용
-#         pattern = re.compile('^(?=.*[\d])(?=.*[A-Z])(?=.*[a-z])(?=.*[!@#$%^&*()])[\w\d!@#$%^&*()]{8,25}$')
-#         if not pattern.match(password):
-#             return False
-#         else:
-#             return True
-#
-#     # 두개의 password가 일치한지에 대한 validation
-#     def check_password1(self):
-#         password = self.cleaned_data.get("password")
-#         password2 = self.cleaned_data.get("password2")
-#         if password != password2:
-#             return False
-#         else:
-#             return True
-#
-#     # 사장 전화번호 '-'없이 숫자만 입력하도록
-#     def check_phone(self):
-#         phone = self.cleaned_data.get("phone")
-#         pattern = re.compile('^[0]\d{2}\d{3,4}\d{4}$')
-#         if not pattern.match(phone):
-#             return False
-#         return True
-#
-#     # 회원 정보 수정
-#     def update(self, id):
-#         email = id
-#         password = self.cleaned_data.get("password")
-#         phone = self.cleaned_data.get("phone")
-#         try:
-#             owner = Owner.objects.get(owner_id = email)
-#             owner.password = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt()).decode('utf-8')
-#             owner.phone = phone
-#             owner.save()
-#             return True
-#         except:
-#             return False
 class ownerChangeForm(forms.ModelForm):
     password2 = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': '비밀번호확인'}))
 
