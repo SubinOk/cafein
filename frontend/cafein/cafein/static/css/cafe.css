@@ -245,3 +245,19 @@ body{margin-bottom: 60px}
 .cursor{
     cursor:pointer;
 }
+.display-7{
+    font-size: 1.5rem;
+}
+.review-contents{
+    padding: 0px 100px 10px 100px;
+    word-wrap: break-word;
+}
+.comment-padding-left{
+    padding-left: 85px;
+}
+
+textarea {
+    width: 100%;
+    height: 6.25em;
+    resize: none;
+}

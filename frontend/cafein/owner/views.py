@@ -46,6 +46,7 @@ MINIMUM_PASSWORD_LENGTH = 8
 
 def ownerLogout(request):
     request.session.pop('user')
+    request.session.pop('is_owner')
     return redirect('/')
 
 
@@ -196,5 +197,4 @@ def ownerComent(request):
 
 
 def ownerComentDetail(request, reviewid):
-    print(reviewid)
-    return render(request, 'ownerComent.html')
+    return render(request, 'ownerComentDetail.html')
