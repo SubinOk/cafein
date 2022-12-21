@@ -319,6 +319,8 @@ class ownerPostForm(forms.ModelForm):
         email = self.cleaned_data.get("email")
         password = self.cleaned_data.get("password")
         phone = self.cleaned_data.get("phone")
+        
+        
 
         # 카페
         name = self.cleaned_data.get("name")
@@ -335,7 +337,8 @@ class ownerPostForm(forms.ModelForm):
             email=email,
             phone=phone,
             password=bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt()).decode('utf-8'),
-            # cafe = make #모델 id만 넘기도록 작성하기 -> 안해도 될듯
+            is_owner = 1
+            
         )
 
         cafe = Cafe.objects.create(
