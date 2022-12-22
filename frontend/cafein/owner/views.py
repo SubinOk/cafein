@@ -21,7 +21,7 @@ from django.contrib.auth.hashers import check_password
 
 #모델
 from account.models import User
-from cafe.models import Cafe,Cafe_image
+from cafe.models import Cafe,Cafe_image, Cafe_review, Cafe_comment
 
 MINIMUM_PASSWORD_LENGTH = 8
 
@@ -177,4 +177,21 @@ def ownerComent(request):
 
 
 def ownerComentDetail(request, reviewid):
-    return render(request, 'ownerComentDetail.html')
+    cafe_review = Cafe_review.objects.get(review_id=reviewid)
+    cafe_comment = Cafe_comment.objects.get(review=cafe_review.review_id)
+    
+    contents = {
+        'cafe_review' : cafe_review,
+        'cafe_comment': cafe_comment,
+    }
+    
+    return render(request, 'ownerComentDetail.html', {'contents': contents})
+
+def ownerCommentUpload(request):
+    if request.method == 'POST':
+        review_comment = request.POST.get('review-comment')
+        review_id = request.POST.get('review-id')
+        # Do something with the review_comment value
+        return JsonResponse({'result': True})
+    else:
+        return JsonResponse({'result': False})

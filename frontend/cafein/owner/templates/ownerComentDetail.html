@@ -2,6 +2,7 @@
 {% load static %}
 {% block content %}
     <main>
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
         <div class="col contents-padding container">
             <div class="row justify-content-between">
                 <div class="h1 col-11 d-flex align-self-center">리뷰 게시판</div>
@@ -14,21 +15,31 @@
             <div class=blank></div>
             <div class="p-5">
                 <div class="row p-3 border">
-                    <span class="text-center align-middle col-2 display-7" >리뷰 제목</span>
-                    <span class="text-start align-middle col display-7" >드럽게 맛없네요</span>
+                    <span class="text-center align-middle col-2 display-7">리뷰 제목</span>
+                    <span class="text-start align-middle col display-7">{{ contents.cafe_review.title }}</span>
                 </div>
                 <div class="row p-3 border">
                     <span class="col row d-flex align-items-center">
                         <span class="col-4 text-center align-middle display-7" >날짜</span>
-                        <span class="col text-start align-middle col display-7" >22/10/02</span>
+                        <span class="col text-start align-middle col display-7" >{{ contents.cafe_review.date }}</span>
                     </span>
                     <span class="col row d-flex align-items-center">
                         <span class="col-4 text-center display-7" >별점</span>
+                        {% if contents.cafe_review.score == 1 %}
                         <span class="col"><img src="{% static 'img/bean/1bean.png' %}"></span>
+                        {% elif contents.cafe_review.score == 2 %}
+                        <span class="col"><img src="{% static 'img/bean/2bean.png' %}"></span>
+                        {% elif contents.cafe_review.score == 3 %}
+                        <span class="col"><img src="{% static 'img/bean/3bean.png' %}"></span>
+                        {% elif contents.cafe_review.score == 4 %}
+                        <span class="col"><img src="{% static 'img/bean/4bean.png' %}"></span>
+                        {% elif contents.cafe_review.score == 5 %}
+                        <span class="col"><img src="{% static 'img/bean/5bean.png' %}"></span>
+                        {% endif %}
                     </span>
                 </div>
                 <div class="row p-3 border">
-                    <img src="">
+                    <img src="{{ contents.cafe_review.image.url }}">
                 </div>
                 <div class="row p-3 border">
                     <span class="col row d-flex align-items-center">
@@ -37,7 +48,7 @@
                     </span>
                     <div class="contents-blank"></div>
                     <div class="contents-blank"></div>
-                    <p class="review-contents display-7">aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</p>
+                    <p class="review-contents display-7">{{ contents.cafe_review.content }}</p>
                 </div>
                 <div class="row p-3 border">
                     <span class="col row justify-content-between align-items-center">
@@ -53,7 +64,7 @@
                     </span>
                     <div class="contents-blank"></div>
                     <div class="review-contents" id="review-comment-field">
-                        <p class="display-7" id="review-comment">aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</p>
+                        <p class="display-7" id="review-comment">{{ contents.cafe_comment.content }}</p>
                     </div>
                 </div>
             </div>
@@ -76,9 +87,11 @@
         }
 
         function sendComment(){
+            submitComment()
+
             const reviewComment = document.getElementById('review-comment').value;
             document.getElementById('review-comment-field').innerHTML = "";
-            const review = document.createElement("span");
+            const review = document.createElement("p");
             review.setAttribute("class", "display-7");
             review.setAttribute("id", "review-comment");
             review.innerHTML = reviewComment
@@ -90,5 +103,41 @@
         function deleteComment(){
             console.log('대충 삭제에 대한 내용')
         }
+
+        function submitComment(){
+            $.ajax({
+                url: '/owner/upload/',
+                type: 'POST',
+                data: {
+                    'review-comment': document.getElementById('review-comment').value,
+                    'review-id': {{ contents.cafe_comment.comment_id }},
+                },
+                beforeSend: function(data) {
+                    data.setRequestHeader('X-CSRFToken', getCookie('csrftoken'));
+                },
+                success: function(data) {
+                  // Handle success
+                },
+                error: function(data) {
+                  // Handle error
+                }
+            });
+        }
+        function getCookie(name) {
+            var cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                var cookies = document.cookie.split(';');
+                for (var i = 0; i < cookies.length; i++) {
+                    var cookie = cookies[i].trim();
+                // Does this cookie string begin with the name we want?
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+              }
+            }
+            return cookieValue;
+        }
+  
     </script>
 {% endblock %}
