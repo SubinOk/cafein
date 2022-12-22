@@ -144,6 +144,13 @@ body{margin-bottom: 60px}
 .text-muted{
     text-align: center;
 }
+.signup-button{
+    background-color: #f8f0dd;
+    padding: 40px 20px;
+    font-size: 20px;
+    color: #583A23;
+    border-color: #CFAD8E;
+}
 .cafein-button{
     background-color: #f8f0dd;
     padding-top: 10px;

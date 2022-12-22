@@ -16,4 +16,5 @@ urlpatterns = [
     path('statistics/detail', views.ownerStatisticsDetail, name='ownerStatisticsDetail'),
     path('coment/', views.ownerComent, name='ownerComent'),
     path('coment/<int:reviewid>/', views.ownerComentDetail, name='ownerComentDetail'),
+    path('upload/', views.ownerCommentUpload, name='ownerCommentUpload'),
 ]
