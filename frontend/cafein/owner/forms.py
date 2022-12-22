@@ -4,22 +4,28 @@ from cafe.models import Cafe, Cafe_image
 import bcrypt
 import re
 
-class ownerManageForm(forms.Form):
-    name = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control pe-150',
-                                                         'placeholder': '카페명'}))
-    human = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control',
+class ownerManageForm(forms.ModelForm):
+    class Meta:
+        model = Cafe
+        fields = ['name', 'max_occupancy', 'address', 'datail_add', 'cafe_phone']
+        widgets = {
+            'name': forms.TextInput(attrs={'class': 'form-control pe-150',
+                                                         'placeholder': '카페명'}),
+            'max_occupancy': forms.TextInput(attrs={'class': 'form-control',
                                                           'maxlength': '4',
-                                                          'placeholder': '최대수용인원'}))
-    address = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control',
+                                                          'placeholder': '최대수용인원'}),
+            'address': forms.TextInput(attrs={'class': 'form-control',
                                                             'maxlength': '20',
                                                             'id': 'address_kakao',
                                                             'readonly': 'True',
-                                                            'placeholder': '주소'}))
-    address2 = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control',
+                                                            'placeholder': '주소'}),
+            'datail_add': forms.TextInput(attrs={'class': 'form-control',
                                                              'name': 'address_detail',
-                                                             'placeholder': '상세 주소'}))
-    cafe_phone = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control',
-                                                               'placeholder': '전화번호'}))
+                                                             'placeholder': '상세 주소'}),
+            'cafe_phone': forms.TextInput(attrs={'class': 'form-control',
+                                                               'placeholder': '전화번호'})
+        }
+
     # 카페 이미지 추가해야함 
     image = forms.ImageField(widget=forms.FileInput(attrs={'multiple': ''}))
 
