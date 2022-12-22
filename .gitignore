@@ -4,3 +4,4 @@
 *.sqlite3
 
 modeling/nlp/model
+modeling/image/

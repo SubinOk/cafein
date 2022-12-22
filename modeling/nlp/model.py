@@ -43,7 +43,7 @@ def prediction(df):
     
     sent_model = tf.keras.models.load_model('./modeling/nlp/model/sentimentBert')
     sent_pred = sent_model.predict(test_X)
-    sent_pred = np.where(sent_pred>0.5, 1, 0).reshape(-1)
+    sent_pred = np.where(sent_pred>0.2, 1, 0).reshape(-1)
 
     keyword_model = tf.keras.models.load_model('./modeling/nlp/model/keywordBert')
     keyword_pred = keyword_model.predict(test_X)
