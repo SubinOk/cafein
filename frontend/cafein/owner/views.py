@@ -190,8 +190,11 @@ def ownerComentDetail(request, reviewid):
 def ownerCommentUpload(request):
     if request.method == 'POST':
         review_comment = request.POST.get('review-comment')
-        review_id = request.POST.get('review-id')
-        # Do something with the review_comment value
+        comment_id = request.POST.get('comment-id')
+        cafe_comment = Cafe_comment.objects.get(comment_id=comment_id)
+        cafe_comment.content = review_comment
+        cafe_comment.save()
+        
         return JsonResponse({'result': True})
     else:
         return JsonResponse({'result': False})

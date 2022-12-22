@@ -110,7 +110,7 @@
                 type: 'POST',
                 data: {
                     'review-comment': document.getElementById('review-comment').value,
-                    'review-id': {{ contents.cafe_comment.comment_id }},
+                    'comment-id': {{ contents.cafe_comment.comment_id }},
                 },
                 beforeSend: function(data) {
                     data.setRequestHeader('X-CSRFToken', getCookie('csrftoken'));
