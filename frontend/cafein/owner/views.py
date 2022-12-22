@@ -138,12 +138,12 @@ def ownerDelete(request):
     if request.method == 'POST':
         if not request.session.get('user'):
             return redirect('/')
-
         owner = User.objects.filter(email=request.session.get('user')).first()
+        password = request.POST.get('id_password')
         if owner is None:
             return redirect('/')
         else:
-            if not User.check_Password(owner.password):
+            if check_password(password, owner.password):
                 # 위의 체크를 문제없이 통과하면 이후 페이지로 전송
                 owner.delete()
                 request.session.pop('user')
