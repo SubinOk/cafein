@@ -274,7 +274,7 @@ class ownerPostForm(forms.ModelForm):
         user.email = email
         user.phone = phone
         user.set_password(password)
-        user.user_id = 1
+        user.is_owner = 1
         user.save()
         make=user
     

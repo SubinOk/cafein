@@ -2,6 +2,8 @@ from django.db import models
 from account.models import User
 from django.core.validators import MinValueValidator, MaxValueValidator
 
+
+
 class Cafe(models.Model):
 
     cafe_id = models.AutoField(primary_key=True)
@@ -39,6 +41,7 @@ class Cafe_menu(models.Model):
 
 class Cafe_review(models.Model):
     review_id = models.AutoField('리뷰id', primary_key = True)
+    #review_id = models.IntegerField('리뷰id',primary_key = True)
     title = models.CharField('리뷰제목', max_length=100, null=True)
     score = models.IntegerField('별점', validators=[MinValueValidator(1), MaxValueValidator(5)], default=False)
     content = models.TextField('리뷰내용', default=False)
@@ -47,8 +50,8 @@ class Cafe_review(models.Model):
     date = models.DateTimeField('작성일', auto_now_add = True)
     cafe = models.ForeignKey(Cafe, on_delete=models.CASCADE , blank=True, null =True)
     writer = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True)
-
-     
+   
+      
     class Meta:
         db_table = 'cafe_review'
 

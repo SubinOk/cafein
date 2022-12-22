@@ -117,7 +117,6 @@ def singup(request):
     return render(request, 'signup_select.html')
 
 
-def Logout(request):
-    request.session.pop('user')
-    request.session.pop('is_owner')
+def logout(request):
+    request.session.flush() 
     return redirect('/')

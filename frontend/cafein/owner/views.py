@@ -26,31 +26,6 @@ from cafe.models import Cafe,Cafe_image
 MINIMUM_PASSWORD_LENGTH = 8
 
 
-# def ownerLogin(request):
-#     if request.method == 'POST':
-#         form = loginPostForm(request.POST)
-#         if form.is_valid():
-#             owner = User.objects.filter(email=form.cleaned_data['email']).first()
-#             if owner is None:
-#                 return render_with_error(request, 'ownerLogin.html', form, ['email'])
-#             if bcrypt.checkpw(form.cleaned_data['password'].encode('utf-8'), owner.password.encode('utf-8')):
-#                 request.session['user'] = form.cleaned_data['email']
-#                 return redirect('/owner/home')
-#             else:
-#                 return render_with_error(request, 'ownerLogin.html', form, ['password'])
-#         else:
-#             return render_with_error(request, 'ownerLogin.html', form, ['email'])
-#     else:
-#         form = loginPostForm()
-#     return render(request, 'ownerLogin.html', {'form': form})
-
-
-def ownerLogout(request):
-    request.session.pop('user')
-    request.session.pop('is_owner')
-    return redirect('/')
-
-
 def ownerHome(request):
     if request.session.get('user'):
         return render(request, 'ownerHome.html')
@@ -88,6 +63,7 @@ def signup(request):
                 form.save()
                 # Save 성공시에는 Redirect
                 request.session['user'] = request.POST.get('email')
+                request.session['is_owner'] = True
                 return redirect('/owner/home')
         else:
             form = ownerPostForm()
@@ -137,12 +113,12 @@ def ownerDelete(request):
     if request.method == 'POST':
         if not request.session.get('user'):
             return redirect('/')
-
         owner = User.objects.filter(email=request.session.get('user')).first()
+        password = request.POST.get('id_password')
         if owner is None:
             return redirect('/')
         else:
-            if not User.check_Password(owner.password):
+            if check_password(password, owner.password):
                 # 위의 체크를 문제없이 통과하면 이후 페이지로 전송
                 owner.delete()
                 request.session.pop('user')
@@ -163,7 +139,9 @@ def render_with_error(request, html, form, error_type):
 def ownerManage(request):
     if request.session.get('user'):
         form = ownerManageForm(request.POST)
-        return render(request, 'ownerManage.html', {'form': form})
+        cafeform = Cafe.objects.filter(user_id=request.session.get('user'))
+        imageform = Cafe_image.objects.filter(cafe_id=cafeform[0].cafe_id)
+        return render(request, 'ownerManage.html', {'form': form, 'imageform': imageform})
     else:
         return redirect('/')
 
