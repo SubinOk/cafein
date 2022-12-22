@@ -16,19 +16,8 @@
                     <div class=contents-blank></div>
                     <div class='row'>
                         <div class='col'>
-                            <div class='imagebox'>
-                                <img id="img" src='\media\cafe\KakaoTalk_20221124_162600485_YjcA9QO.jpg' alt=''>
-                                {% comment %} {% for image in form.images%}
-                                    <img src="{{ image.url }}" />
-                                {% endfor %} {% endcomment %}
-                            </div>
-                          {% comment %} <head>
-                            <meta charset="UTF-8" />
-                            <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-                            <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-                          </head> {% endcomment %}
-
-                            
+                            <div class='imagebox' id='mainimage'>
+                        </div>
                         </div>    
                         <script>
                             function toggleImg(img) {
@@ -37,20 +26,20 @@
                         </script>
                         
                             <script>
-                              function setThumbnail(event, id) {
-                                var reader = new FileReader();
-                            
-                                reader.onload = function(event) {
-                                  var img = document.createElement("img");
-                                  img.setAttribute("src", event.target.result);
-                                  img.setAttribute("class", "imagebox2");
-                                  img.setAttribute("onclick", "toggleImg('"+event.target.result+"')");
-                                  document.getElementById(id).innerHTML = "";
-                                  document.querySelector("div#" + id).appendChild(img);
-                                };
-                            
-                                reader.readAsDataURL(event.target.files[0]);
-                              }
+                                function setThumbnail(event, id) {
+                                    var reader = new FileReader();
+                              
+                                    reader.onload = function(event) {
+                                        var img = document.createElement("img");
+                                        img.setAttribute("src", event.target.result);
+                                        img.setAttribute("class", "imagebox2");
+                                        img.setAttribute("onclick", "toggleImg('"+event.target.result+"')");
+                                        document.getElementById(id).innerHTML = "";
+                                        document.querySelector("div#" + id).appendChild(img);
+                                    };
+                              
+                                    reader.readAsDataURL(event.target.files[0]);
+                                }
                             </script>
 
                             <meta charset="UTF-8">
@@ -70,12 +59,6 @@
                                 <button id="btn">이미지 선택</button>
                                 <div id="divBox" class='wrap'>
                                     <div class='row'>
-                                        {% comment %} {% for image in imageform %}
-                                        <div class='col'>
-                                            <input type="file" id="image" accept="image/*" onchange="setThumbnail(event, 'image');"/>
-                                            <div id="image"><img id="img" src="{{ image.image.url }}" class='imagebox2' alt=''></div>
-                                        </div>
-                                        {% endfor %} {% endcomment %}
                                         <div class='col'>
                                             <input type="file" id="image" accept="image/*" onchange="setThumbnail(event, 'image_container_1');"/>
                                             <div id="image_container_1"></div>
@@ -99,6 +82,23 @@
                         </div>
                     </div>
                 </form>
+                {% for image in imageform %}
+                    {% if forloop.counter == 1 %}
+                    <script>
+                        var img = document.createElement("img");
+                        img.setAttribute("src", "{{image.image.url}}");
+                        img.setAttribute("id", "img")
+                        document.getElementById("mainimage").appendChild(img);
+                    </script>
+                    {% endif %}
+                    <script>
+                        var img = document.createElement("img");
+                        img.setAttribute("src", "{{image.image.url}}");
+                        img.setAttribute("class", "imagebox2");
+                        img.setAttribute("onclick", "toggleImg('{{image.image.url}}')");
+                        document.getElementById("image_container_{{ forloop.counter }}").appendChild(img);
+                    </script>
+                {% endfor %}
                 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
                 <script>
                 window.onload = function(){
