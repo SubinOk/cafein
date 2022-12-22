@@ -26,31 +26,6 @@ from cafe.models import Cafe,Cafe_image
 MINIMUM_PASSWORD_LENGTH = 8
 
 
-# def ownerLogin(request):
-#     if request.method == 'POST':
-#         form = loginPostForm(request.POST)
-#         if form.is_valid():
-#             owner = User.objects.filter(email=form.cleaned_data['email']).first()
-#             if owner is None:
-#                 return render_with_error(request, 'ownerLogin.html', form, ['email'])
-#             if bcrypt.checkpw(form.cleaned_data['password'].encode('utf-8'), owner.password.encode('utf-8')):
-#                 request.session['user'] = form.cleaned_data['email']
-#                 return redirect('/owner/home')
-#             else:
-#                 return render_with_error(request, 'ownerLogin.html', form, ['password'])
-#         else:
-#             return render_with_error(request, 'ownerLogin.html', form, ['email'])
-#     else:
-#         form = loginPostForm()
-#     return render(request, 'ownerLogin.html', {'form': form})
-
-
-def ownerLogout(request):
-    request.session.pop('user')
-    request.session.pop('is_owner')
-    return redirect('/')
-
-
 def ownerHome(request):
     if request.session.get('user'):
         return render(request, 'ownerHome.html')

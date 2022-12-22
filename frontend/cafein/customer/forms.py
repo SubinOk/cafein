@@ -73,11 +73,11 @@ class customerPostForm(forms.ModelForm):
         password = self.cleaned_data.get("password")
         phone = self.cleaned_data.get("phone")
 
-        User.objects.create(
-            user_id=email,
-            email=email,
-            phone=phone,
-            password=bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt()).decode('utf-8'),
-        )
+        user = User(user_id=email)
+        user.email = email
+        user.phone = phone
+        user.set_password(password)
+        user.is_owner = 0
+        user.save()
 
         

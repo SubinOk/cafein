@@ -19,7 +19,6 @@ def signup(request):
                 if not form.check_email():
                     return render_with_error(request, 'signup.html', form, ['email'])
                 if not (form.check_password1() and form.check_password()):
-                    print(1)
                     return render_with_error(request, 'signup.html', form, ['password'])
                 if not form.check_phone():
                     return render_with_error(request, 'signup.html', form, ['phone'])
