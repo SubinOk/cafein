@@ -50,7 +50,7 @@ class Cafe_review(models.Model):
     date = models.DateTimeField('작성일', auto_now_add = True)
     cafe = models.ForeignKey(Cafe, on_delete=models.CASCADE , blank=True, null =True)
     writer = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True)
-    review_id2 = models.IntegerField('카페별id')
+   
       
     class Meta:
         db_table = 'cafe_review'
