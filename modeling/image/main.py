@@ -2,6 +2,13 @@ from yolov3 import detect
 import argparse
 import os
 
+import video_to_image
+
+if __name__ == "__main__":
+    
+    frame_image_save = video_to_image.save('cctv')
+
+
 # ====== Random Seed Initialization ====== #
 parser = argparse.ArgumentParser()
 args = parser.parse_args("")
