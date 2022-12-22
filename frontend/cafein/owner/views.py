@@ -164,7 +164,9 @@ def render_with_error(request, html, form, error_type):
 def ownerManage(request):
     if request.session.get('user'):
         form = ownerManageForm(request.POST)
-        return render(request, 'ownerManage.html', {'form': form})
+        cafeform = Cafe.objects.filter(user_id=request.session.get('user'))
+        imageform = Cafe_image.objects.filter(cafe_id=cafeform[0].cafe_id)
+        return render(request, 'ownerManage.html', {'form': form, 'imageform': imageform})
     else:
         return redirect('/')
 
