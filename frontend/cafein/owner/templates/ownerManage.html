@@ -1,4 +1,5 @@
 {% extends "layout.html" %}
+{% load static %}
 {% block content %}
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 
@@ -51,6 +52,7 @@
                                 reader.readAsDataURL(event.target.files[0]);
                               }
                             </script>
+
                             <meta charset="UTF-8">
                             <title>jQuery .slideUp() </title>
                             <script>
@@ -68,11 +70,15 @@
                                 <button id="btn">이미지 선택</button>
                                 <div id="divBox" class='wrap'>
                                     <div class='row'>
+                                        {% comment %} {% for image in imageform %}
+                                        <div class='col'>
+                                            <input type="file" id="image" accept="image/*" onchange="setThumbnail(event, 'image');"/>
+                                            <div id="image"><img id="img" src="{{ image.image.url }}" class='imagebox2' alt=''></div>
+                                        </div>
+                                        {% endfor %} {% endcomment %}
                                         <div class='col'>
                                             <input type="file" id="image" accept="image/*" onchange="setThumbnail(event, 'image_container_1');"/>
-                                            <div id="image_container_1">
-                                                <img id="img" src='\media\cafe\KakaoTalk_20221124_162600485_YjcA9QO.jpg' class='imagebox2' onclick="toggleImg('/media/cafe/KakaoTalk_20221124_162600485_YjcA9QO.jpg')" alt=''>
-                                            </div>
+                                            <div id="image_container_1"></div>
                                         </div>
                                         <div class='col'>
                                             <input type="file" id="image" accept="image/*" onchange="setThumbnail(event, 'image_container_2');"/>
