@@ -6,10 +6,10 @@ import os
 parser = argparse.ArgumentParser()
 args = parser.parse_args("")
 
-args.weights = './modeling/image/yolov3/pretrained/yolov3.pt'
+# args.weights = './modeling/image/yolov3/pretrained/yolov3.pt'
 args.source = './modeling/image/data'
 args.project = './modeling/image/result'
-args.name = 'exp'
+args.name = 'exp2'
 args.save_txt = True  
 args.nosave = True 
 args.classes = 0 # person
@@ -26,4 +26,4 @@ for file in files:
     label = open(path, 'r')
     cnt += len(label.readlines())
 
-print(round(cnt/len(files)))
+print("현재 사람 수: ", round(cnt/len(files)))
