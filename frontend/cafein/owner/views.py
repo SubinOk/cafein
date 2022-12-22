@@ -88,6 +88,7 @@ def signup(request):
                 form.save()
                 # Save 성공시에는 Redirect
                 request.session['user'] = request.POST.get('email')
+                request.session['is_owner'] = True
                 return redirect('/owner/home')
         else:
             form = ownerPostForm()
