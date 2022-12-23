@@ -53,8 +53,8 @@
                             <input type="text" name="name" value="{{ cafe_name }}" class="form-control" placeholder="카페명" required="" id="id_name">
                             <div class=contents-blank></div>
                             <div>
-                                <button type="button" id="btn">이미지 선택</button>
-                                <div id="divBox" class='wrap'>
+                                <button type="button" id="btn" class="form-control">이미지 선택</button>
+                                <div id="divBox" class='wrap my-3'>
                                     <div class='row'>
                                         <div class='col'>
                                             <input type="file" id="image_1" name="image_1" accept="image/*" onchange="setThumbnail(event, '1');"/>
@@ -74,7 +74,6 @@
                                     </div>
                                 </div>
                             </div>
-                            
                             {{ form.address }}
                             {{ form.datail_add }}
                             {{ form.cafe_phone }}

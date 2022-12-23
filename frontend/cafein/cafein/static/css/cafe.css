@@ -262,7 +262,10 @@ body{margin-bottom: 60px}
 .comment-padding-left{
     padding-left: 85px;
 }
-
+.px-250{
+    padding-left: 250px;
+    padding-right: 250px;
+}
 textarea {
     width: 100%;
     height: 6.25em;
