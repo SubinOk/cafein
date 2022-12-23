@@ -72,34 +72,35 @@ class Cafe_sentiment(models.Model):
     total = models.DecimalField('전체긍정비율', max_digits = 5, decimal_places=3)
 
     price_rank = models.IntegerField()
-    price_sentiment = models.IntegerField()
+    price_sentiment = models.DecimalField(max_digits = 5, decimal_places=3)
 
     drink_rank = models.IntegerField()
-    drink_sentiment = models.IntegerField()
+    drink_sentiment = models.DecimalField(max_digits = 5, decimal_places=3)
 
     dessert_rank = models.IntegerField()
-    dessert_sentiment = models.IntegerField()
+    dessert_sentiment = models.DecimalField(max_digits = 5, decimal_places=3)
 
     service_rank = models.IntegerField()
-    service_sentiment = models.IntegerField()
+    service_sentiment = models.DecimalField(max_digits = 5, decimal_places=3)
 
     customers_rank = models.IntegerField()
-    customers_sentiment = models.IntegerField()
+    customers_sentiment = models.DecimalField(max_digits = 5, decimal_places=3)
 
     interior_rank = models.IntegerField()
-    interior_sentiment = models.IntegerField()
+    interior_sentiment = models.DecimalField(max_digits = 5, decimal_places=3)
 
     view_rank = models.IntegerField()
-    view_sentiment = models.IntegerField()
+    view_sentiment = models.DecimalField(max_digits = 5, decimal_places=3)
 
     parking_rank = models.IntegerField()
-    parking_sentiment = models.IntegerField()
+    parking_sentiment = models.DecimalField(max_digits = 5, decimal_places=3)
 
     trash_rank = models.IntegerField()
-    trash_sentiment = models.IntegerField()
+    trash_sentiment = models.DecimalField(max_digits = 5, decimal_places=3)
 
     class Meta:
         db_table = 'cafe_sentiment'
+
 
 
 
