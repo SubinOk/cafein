@@ -138,10 +138,30 @@ def render_with_error(request, html, form, error_type):
 
 def ownerManage(request):
     if request.session.get('user'):
-        form = ownerManageForm(request.POST)
-        cafeform = Cafe.objects.filter(user_id=request.session.get('user'))
-        imageform = Cafe_image.objects.filter(cafe_id=cafeform[0].cafe_id)
-        return render(request, 'ownerManage.html', {'form': form, 'imageform': imageform})
+        if request.method == 'POST':
+            form = ownerManageForm(request.POST)
+
+            image_name_1 = request.POST.get('image_name_1', '')
+            image_name_2 = request.POST.get('image_name_2', '')
+            image_name_3 = request.POST.get('image_name_3', '')
+            image_1 = request.FILES.get('image_1', '')
+            image_2 = request.FILES.get('image_2', '')
+            image_3 = request.FILES.get('image_3', '')
+            image_names = [image_name_1, image_name_2, image_name_3]
+            images = [image_1, image_2, image_3]
+            update_image = {
+                'image_names': image_names,
+                'images': images,
+            }
+            
+            if form.is_valid():
+                form.cafeUpdate(update_image)
+            return redirect('/owner/home')
+        else:
+            cafeform = Cafe.objects.filter(user_id=request.session.get('user'))
+            imageform = Cafe_image.objects.filter(cafe_id=cafeform[0].cafe_id)
+            form = ownerManageForm(instance=cafeform[0])
+            return render(request, 'ownerManage.html', {'form': form, 'imageform': imageform})
     else:
         return redirect('/')
 

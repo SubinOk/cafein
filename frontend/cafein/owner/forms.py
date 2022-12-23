@@ -7,7 +7,7 @@ import re
 class ownerManageForm(forms.ModelForm):
     class Meta:
         model = Cafe
-        fields = ['name', 'max_occupancy', 'address', 'datail_add', 'cafe_phone']
+        fields = ['cafe_id', 'name', 'max_occupancy', 'address', 'datail_add', 'cafe_phone']
         widgets = {
             'name': forms.TextInput(attrs={'class': 'form-control pe-150',
                                                          'placeholder': '카페명'}),
@@ -27,15 +27,15 @@ class ownerManageForm(forms.ModelForm):
         }
 
     # 카페 이미지 추가해야함 
-    image = forms.ImageField(widget=forms.FileInput(attrs={'multiple': ''}))
+    # image = forms.ImageField()
 
     # 이미지업로드 횟수 3장 제한
-    def numlimit(self):
-        image = self.files.getlist("image")
-        if len(image) <= 3:
-            return True
-        else:
-            return False
+    # def numlimit(self):
+    #     image = self.files.getlist("image")
+    #     if len(image) <= 3:
+    #         return True
+    #     else:
+    #         return False
 
     # 카페번호 '-'없이 숫자만 입력하도록 
     def check_cafePhone(self):
@@ -46,21 +46,21 @@ class ownerManageForm(forms.ModelForm):
         return True
 
     #  카페 정보 수정 
-    def cafeUpdate(self, id):
+    def cafeUpdate(self, images):
 
         # 카페정보
-        user_id = id
+        user_id = self.cleaned_data.get("cafe_id")
         name = self.cleaned_data.get("name")
         human = self.cleaned_data.get("human")
         address = self.cleaned_data.get("address")
         address2 = self.cleaned_data.get("address2")
         cafe_phone = self.cleaned_data.get("cafe_phone")
         # 카페이미지
-        # image = self.files.getlist("image")
+        image = images
 
         try:
-            cafe = Cafe.objects.get(user_id_id=user_id)
-            # cafeImage = Cafe_image.objects.get(cafe_id = cafe.cafe_id)
+            cafe = Cafe.objects.get(user_id=user_id)
+            cafeImage = Cafe_image.objects.filter(cafe_id = cafe.cafe_id)
 
             cafe.name = name
             cafe.max_occupancy = human
@@ -69,28 +69,28 @@ class ownerManageForm(forms.ModelForm):
             cafe.cafe_phone = cafe_phone
             cafe.save()
 
-            # for image in image:
-            #     cafeImage.image = image
-            #     cafeImage.cafe = cafe
-            #     cafeImage.save()
-
-        except:
-            return False
-
-    # 카페 이미지 수정 
-    def imageUpdate(self, id):
-        user_id = id
-        cafe = Cafe.objects.get(user_id=user_id)
-        cafeImage = Cafe_image.objects.get(cafe_id=cafe.cafe_id)
-
-        image = self.files.getlist("image")
-        try:
             for image in image:
                 cafeImage.image = image
                 cafeImage.cafe = cafe
                 cafeImage.save()
+
         except:
             return False
+
+    # # 카페 이미지 수정 
+    # def imageUpdate(self, id):
+    #     user_id = id
+    #     cafe = Cafe.objects.get(user_id=user_id)
+    #     cafeImage = Cafe_image.objects.get(cafe_id=cafe.cafe_id)
+
+    #     image = self.files.getlist("image")
+    #     try:
+    #         for image in image:
+    #             cafeImage.image = image
+    #             cafeImage.cafe = cafe
+    #             cafeImage.save()
+    #     except:
+    #         return False
 
 class ownerChangeForm(forms.ModelForm):
     password2 = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': '비밀번호확인'}))
