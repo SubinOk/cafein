@@ -95,14 +95,40 @@ class Cafe_sentiment(models.Model):
     parking_rank = models.IntegerField()
     parking_sentiment = models.DecimalField(max_digits = 5, decimal_places=3)
 
-    trash_rank = models.IntegerField()
-    trash_sentiment = models.DecimalField(max_digits = 5, decimal_places=3)
 
     class Meta:
         db_table = 'cafe_sentiment'
 
+class Cafe_keyword(models.Model):
+    cafe = models.ForeignKey(Cafe, on_delete=models.CASCADE , blank=True, null =True)
+    keyword_id = models.AutoField(primary_key = True)
 
+    price_word = models.CharField(max_length=100, null=True)
+    price_count = models.IntegerField()
 
+    drink_word = models.CharField(max_length=100, null=True)
+    drink_count = models.IntegerField()
+
+    dessert_word = models.CharField(max_length=100, null=True)
+    dessert_count = models.IntegerField()
+
+    service_word = models.CharField(max_length=100, null=True)
+    service_count = models.IntegerField()
+
+    customers_word = models.CharField(max_length=100, null=True)
+    customers_count = models.IntegerField()
+
+    interior_word = models.CharField(max_length=100, null=True)
+    interior_count = models.IntegerField()
+
+    view_word = models.CharField(max_length=100, null=True)
+    view_count = models.IntegerField()
+
+    parking_word = models.CharField(max_length=100, null=True)
+    parking_count = models.IntegerField()
+    
+    class Meta:
+        db_table = 'cafe_keyword'
 
 
 
