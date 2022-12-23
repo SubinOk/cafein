@@ -141,6 +141,7 @@ def ownerManage(request):
         if request.method == 'POST':
             form = ownerManageForm(request.POST)
 
+            cafe_name = request.POST.get('name')
             image_name_1 = request.POST.get('image_name_1', '')
             image_name_2 = request.POST.get('image_name_2', '')
             image_name_3 = request.POST.get('image_name_3', '')
@@ -153,15 +154,14 @@ def ownerManage(request):
                 'image_names': image_names,
                 'images': images,
             }
-            
             if form.is_valid():
-                form.cafeUpdate(update_image)
+                form.cafeUpdate(request.session.get('user'), cafe_name, update_image)
             return redirect('/owner/home')
         else:
             cafeform = Cafe.objects.filter(user_id=request.session.get('user'))
             imageform = Cafe_image.objects.filter(cafe_id=cafeform[0].cafe_id)
             form = ownerManageForm(instance=cafeform[0])
-            return render(request, 'ownerManage.html', {'form': form, 'imageform': imageform})
+            return render(request, 'ownerManage.html', {'form': form, 'cafe_name': cafeform[0].name, 'imageform': imageform})
     else:
         return redirect('/')
 

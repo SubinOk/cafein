@@ -7,10 +7,8 @@ import re
 class ownerManageForm(forms.ModelForm):
     class Meta:
         model = Cafe
-        fields = ['cafe_id', 'name', 'max_occupancy', 'address', 'datail_add', 'cafe_phone']
+        fields = ['max_occupancy', 'address', 'datail_add', 'cafe_phone']
         widgets = {
-            'name': forms.TextInput(attrs={'class': 'form-control pe-150',
-                                                         'placeholder': '카페명'}),
             'max_occupancy': forms.TextInput(attrs={'class': 'form-control',
                                                           'maxlength': '4',
                                                           'placeholder': '최대수용인원'}),
@@ -46,51 +44,48 @@ class ownerManageForm(forms.ModelForm):
         return True
 
     #  카페 정보 수정 
-    def cafeUpdate(self, images):
+    def cafeUpdate(self, user_id, cafe_name, images):
 
         # 카페정보
-        user_id = self.cleaned_data.get("cafe_id")
-        name = self.cleaned_data.get("name")
-        human = self.cleaned_data.get("human")
+        name = cafe_name
+        human = self.cleaned_data.get("max_occupancy")
         address = self.cleaned_data.get("address")
-        address2 = self.cleaned_data.get("address2")
+        address2 = self.cleaned_data.get("datail_add")
         cafe_phone = self.cleaned_data.get("cafe_phone")
         # 카페이미지
         image = images
 
         try:
             cafe = Cafe.objects.get(user_id=user_id)
-            cafeImage = Cafe_image.objects.filter(cafe_id = cafe.cafe_id)
-
-            cafe.name = name
+            cafe_image = Cafe_image.objects.filter(cafe=cafe)
+            if not cafe.name == name:
+                cafe.name = name
             cafe.max_occupancy = human
             cafe.address = address
             cafe.datail_add = address2
             cafe.cafe_phone = cafe_phone
             cafe.save()
 
-            for image in image:
-                cafeImage.image = image
-                cafeImage.cafe = cafe
-                cafeImage.save()
-
+            for idx in range(len(image['images'])):
+                if idx < len(cafe_image):
+                    if not cafe_image[idx].image == image['image_names'][idx]:
+                        #
+                        # 입력하는 이미지들의 확장자와 크기 체크하는 부분 추가해줘야함
+                        #
+                        cafe_image[idx].image = image['images'][idx]
+                        cafe_image[idx].cafe = cafe
+                        cafe_image[idx].save()
+                else:
+                    if not image['images'][idx] == '':
+                        #
+                        # 입력하는 이미지들의 확장자와 크기 체크하는 부분 추가해줘야함
+                        #
+                        new_cafe_image = Cafe_image()
+                        new_cafe_image.image = image['images'][idx]
+                        new_cafe_image.cafe = cafe
+                        new_cafe_image.save()
         except:
             return False
-
-    # # 카페 이미지 수정 
-    # def imageUpdate(self, id):
-    #     user_id = id
-    #     cafe = Cafe.objects.get(user_id=user_id)
-    #     cafeImage = Cafe_image.objects.get(cafe_id=cafe.cafe_id)
-
-    #     image = self.files.getlist("image")
-    #     try:
-    #         for image in image:
-    #             cafeImage.image = image
-    #             cafeImage.cafe = cafe
-    #             cafeImage.save()
-    #     except:
-    #         return False
 
 class ownerChangeForm(forms.ModelForm):
     password2 = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': '비밀번호확인'}))

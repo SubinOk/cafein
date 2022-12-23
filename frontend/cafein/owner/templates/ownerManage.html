@@ -50,7 +50,7 @@
                                 } );
                             </script>
                         <div class='col'>
-                            {{ form.name }}
+                            <input type="text" name="name" value="{{ cafe_name }}" class="form-control" placeholder="카페명" required="" id="id_name">
                             <div class=contents-blank></div>
                             <div>
                                 <button type="button" id="btn">이미지 선택</button>
@@ -97,7 +97,7 @@
                         img.setAttribute("class", "imagebox2");
                         img.setAttribute("onclick", "toggleImg('{{image.image.url}}')");
                         document.getElementById("image_container_{{ forloop.counter }}").appendChild(img);
-                        document.getElementById("image_name_{{ forloop.counter }}").value = "{{image.image.url}}";
+                        document.getElementById("image_name_{{ forloop.counter }}").value = "{{image.image.name}}";
                         //image_url.split('/')[-1]
                         //document.getElementById("image_{{ forloop.counter }}").setAttribute("value", "{{ image.image.url }}");
                     </script>
