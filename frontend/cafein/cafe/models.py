@@ -44,7 +44,7 @@ class Cafe_review(models.Model):
     #review_id = models.IntegerField('리뷰id',primary_key = True)
     title = models.CharField('리뷰제목', max_length=100, null=True)
     score = models.IntegerField('별점', validators=[MinValueValidator(1), MaxValueValidator(5)], default=False)
-    content = models.TextField('리뷰내용', default=False)
+    content = models.TextField('리뷰내용', blank=False)
     deleted = models.BooleanField('삭제여부', default=False) #삭제했을 때 '삭제한 리뷰입니다'로 표시하기
     image = models.ImageField('리뷰IMAGE', upload_to='cafe/review/', blank=True, null=True)
     date = models.DateTimeField('작성일', auto_now_add = True)
@@ -57,7 +57,7 @@ class Cafe_review(models.Model):
 
 class Cafe_comment(models.Model):
     comment_id = models.AutoField(primary_key = True)
-    content = models.TextField('리뷰내용',default=False)
+    content = models.TextField('리뷰내용', blank=False)
     deleted = models.BooleanField('삭제여부', default=False)  #삭제했을 때 '삭제한 댓글입니다'로 표시하기
     date = models.DateTimeField('작성일', auto_now_add = True)
     review = models.ForeignKey(Cafe_review, on_delete=models.CASCADE , blank=True, null =True)
@@ -66,7 +66,77 @@ class Cafe_comment(models.Model):
     class Meta:
         db_table = 'cafe_comment'
 
+class Cafe_sentiment(models.Model):
+    cafe = models.ForeignKey(Cafe, on_delete=models.CASCADE , blank=True, null =True)
+    sentiment_id = models.AutoField(primary_key = True)
+    total = models.DecimalField('전체긍정비율', max_digits = 5, decimal_places=3)
+
+    price_rank = models.IntegerField()
+    price_sentiment = models.DecimalField(max_digits = 5, decimal_places=3)
+
+    drink_rank = models.IntegerField()
+    drink_sentiment = models.DecimalField(max_digits = 5, decimal_places=3)
+
+    dessert_rank = models.IntegerField()
+    dessert_sentiment = models.DecimalField(max_digits = 5, decimal_places=3)
+
+    service_rank = models.IntegerField()
+    service_sentiment = models.DecimalField(max_digits = 5, decimal_places=3)
+
+    customers_rank = models.IntegerField()
+    customers_sentiment = models.DecimalField(max_digits = 5, decimal_places=3)
+
+    interior_rank = models.IntegerField()
+    interior_sentiment = models.DecimalField(max_digits = 5, decimal_places=3)
+
+    view_rank = models.IntegerField()
+    view_sentiment = models.DecimalField(max_digits = 5, decimal_places=3)
+
+    parking_rank = models.IntegerField()
+    parking_sentiment = models.DecimalField(max_digits = 5, decimal_places=3)
+
+
+    class Meta:
+        db_table = 'cafe_sentiment'
+
+class Cafe_keyword(models.Model):
+    cafe = models.ForeignKey(Cafe, on_delete=models.CASCADE , blank=True, null =True)
+    keyword_id = models.AutoField(primary_key = True)
+
+    price_word = models.CharField(max_length=100, null=True)
+    price_count = models.IntegerField()
+
+    drink_word = models.CharField(max_length=100, null=True)
+    drink_count = models.IntegerField()
+
+    dessert_word = models.CharField(max_length=100, null=True)
+    dessert_count = models.IntegerField()
+
+    service_word = models.CharField(max_length=100, null=True)
+    service_count = models.IntegerField()
+
+    customers_word = models.CharField(max_length=100, null=True)
+    customers_count = models.IntegerField()
+
+    interior_word = models.CharField(max_length=100, null=True)
+    interior_count = models.IntegerField()
+
+    view_word = models.CharField(max_length=100, null=True)
+    view_count = models.IntegerField()
+
+    parking_word = models.CharField(max_length=100, null=True)
+    parking_count = models.IntegerField()
     
+    class Meta:
+        db_table = 'cafe_keyword'
+
+
+
+    
+
+
+
+
 
     
 

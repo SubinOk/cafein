@@ -2,15 +2,14 @@
 {% load static %}
 {% block content %}
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-
     <main>
         <div>
             <div class="col contents-padding container">
                 <h1>카페 관리</h1>
-                <form action="/owner/update/" method="post" enctype="multipart/form-data">
+                <form action="" method="post" enctype="multipart/form-data">
                     {% csrf_token %}
                     <div>
-                        <a class="login-button btn btn-outline-brown float-end" href="/owner/delete" aria-expanded="false">수정</a>
+                        <button type="submit" class="login-button btn btn-outline-brown float-end">수정</button>
                     </div>
                     <div class=blank></div>
                     <div class=contents-blank></div>
@@ -24,20 +23,18 @@
                               document.getElementById("img").src = img;
                             }
                         </script>
-                        
                             <script>
                                 function setThumbnail(event, id) {
                                     var reader = new FileReader();
-                              
                                     reader.onload = function(event) {
                                         var img = document.createElement("img");
                                         img.setAttribute("src", event.target.result);
                                         img.setAttribute("class", "imagebox2");
                                         img.setAttribute("onclick", "toggleImg('"+event.target.result+"')");
-                                        document.getElementById(id).innerHTML = "";
-                                        document.querySelector("div#" + id).appendChild(img);
+                                        document.getElementById("image_container_" + id).innerHTML = "";
+                                        document.querySelector("div#"+ 'image_container_' + id).appendChild(img);
+                                        document.querySelector("input#"+ 'image_name_' + id).value = event.target.result;
                                     };
-                              
                                     reader.readAsDataURL(event.target.files[0]);
                                 }
                             </script>
@@ -51,37 +48,39 @@
                                   } );
                                 } );
                             </script>
-
                         <div class='col'>
-                            {{ form.name }}
+                            <input type="text" name="name" value="{{ cafe_name }}" class="form-control" placeholder="카페명" required="" id="id_name">
                             <div class=contents-blank></div>
                             <div>
-                                <button id="btn">이미지 선택</button>
-                                <div id="divBox" class='wrap'>
+                                <button type="button" id="btn" class="form-control">이미지 선택</button>
+                                <div id="divBox" class='wrap my-3'>
                                     <div class='row'>
                                         <div class='col'>
-                                            <input type="file" id="image" accept="image/*" onchange="setThumbnail(event, 'image_container_1');"/>
+                                            <input type="file" id="image_1" name="image_1" accept="image/*" onchange="setThumbnail(event, '1');"/>
                                             <div id="image_container_1"></div>
+                                            <input type="hidden" id="image_name_1" name="image_name_1">
                                         </div>
                                         <div class='col'>
-                                            <input type="file" id="image" accept="image/*" onchange="setThumbnail(event, 'image_container_2');"/>
+                                            <input type="file" id="image_2" name="image_2" accept="image/*" onchange="setThumbnail(event, '2');"/>
                                             <div id="image_container_2"></div>
+                                            <input type="hidden" id="image_name_2" name="image_name_2">
                                         </div>
                                         <div class='col'>
-                                            <input type="file" id="image" accept="image/*" onchange="setThumbnail(event, 'image_container_3');"/>
+                                            <input type="file" id="image_3" name="image_3" accept="image/*" onchange="setThumbnail(event, '3');"/>
                                             <div id="image_container_3"></div>
+                                            <input type="hidden" id="image_name_3" name="image_name_3">
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            
                             {{ form.address }}
-                            {{ form.address2 }}
+                            {{ form.datail_add }}
                             {{ form.cafe_phone }}
-                            {{ form.human }}
+                            {{ form.max_occupancy }}
                         </div>
                     </div>
                 </form>
+                <div class="text-end"><a href="{% url 'owner:ownerManageMenu' %}" class="btn">메뉴 수정</a></div>
                 {% for image in imageform %}
                     {% if forloop.counter == 1 %}
                     <script>
@@ -97,6 +96,9 @@
                         img.setAttribute("class", "imagebox2");
                         img.setAttribute("onclick", "toggleImg('{{image.image.url}}')");
                         document.getElementById("image_container_{{ forloop.counter }}").appendChild(img);
+                        document.getElementById("image_name_{{ forloop.counter }}").value = "{{image.image.name}}";
+                        //image_url.split('/')[-1]
+                        //document.getElementById("image_{{ forloop.counter }}").setAttribute("value", "{{ image.image.url }}");
                     </script>
                 {% endfor %}
                 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>

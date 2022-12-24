@@ -1,5 +1,5 @@
 {% load static %}
-<html>
+<html class="">
 <head>
     <meta charset="utf-8" />
     <title>{% block title %}{% endblock %}</title>
@@ -9,7 +9,7 @@
     <link href="{% static '/css/cafe.css' %}" rel="stylesheet">
 </head>
 <body> 
-    <nav class="bg-white navbar p-2 navbar-default py-2 navbar navbar-expand-lg navbar-light">
+    <nav class="bg-white navbar px-250 navbar-default py-2 navbar navbar-expand-lg navbar-light">
         <div class="container">
 
             <!--로고-->
@@ -95,13 +95,13 @@
             </div>
         </div>
     </nav>
-    
-    {% block content %}
-    {% endblock %}
-
-    <div class="border-top">
-        <p class="text-muted">
-            Copyright © 2020 KINO Data Systems All Right Reserved
+    <div class="px-250">
+        {% block content %}
+        {% endblock %}
+    </div>
+    <div class="border-top px-250 mt-5">
+        <p class="text-muted mt-3">
+            Copyright © 2022 Aivle School 2nd
         </p>
     </div>
 </body>

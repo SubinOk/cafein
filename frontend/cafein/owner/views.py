@@ -138,10 +138,30 @@ def render_with_error(request, html, form, error_type):
 
 def ownerManage(request):
     if request.session.get('user'):
-        form = ownerManageForm(request.POST)
-        cafeform = Cafe.objects.filter(user_id=request.session.get('user'))
-        imageform = Cafe_image.objects.filter(cafe_id=cafeform[0].cafe_id)
-        return render(request, 'ownerManage.html', {'form': form, 'imageform': imageform})
+        if request.method == 'POST':
+            form = ownerManageForm(request.POST)
+
+            cafe_name = request.POST.get('name')
+            image_name_1 = request.POST.get('image_name_1', '')
+            image_name_2 = request.POST.get('image_name_2', '')
+            image_name_3 = request.POST.get('image_name_3', '')
+            image_1 = request.FILES.get('image_1', '')
+            image_2 = request.FILES.get('image_2', '')
+            image_3 = request.FILES.get('image_3', '')
+            image_names = [image_name_1, image_name_2, image_name_3]
+            images = [image_1, image_2, image_3]
+            update_image = {
+                'image_names': image_names,
+                'images': images,
+            }
+            if form.is_valid():
+                form.cafeUpdate(request.session.get('user'), cafe_name, update_image)
+            return redirect('/owner/home')
+        else:
+            cafeform = Cafe.objects.filter(user_id=request.session.get('user'))
+            imageform = Cafe_image.objects.filter(cafe_id=cafeform[0].cafe_id)
+            form = ownerManageForm(instance=cafeform[0])
+            return render(request, 'ownerManage.html', {'form': form, 'cafe_name': cafeform[0].name, 'imageform': imageform})
     else:
         return redirect('/')
 
@@ -187,6 +207,7 @@ def ownerComentDetail(request, reviewid):
     
     return render(request, 'ownerComentDetail.html', {'contents': contents})
 
+
 def ownerCommentUpload(request):
     if request.method == 'POST':
         review_comment = request.POST.get('review-comment')
@@ -198,3 +219,7 @@ def ownerCommentUpload(request):
         return JsonResponse({'result': True})
     else:
         return JsonResponse({'result': False})
+
+
+def ownerManageMenu(request):
+    return render(request, 'ownerManageMenu.html')
