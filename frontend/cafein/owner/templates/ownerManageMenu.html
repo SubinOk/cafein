@@ -1,0 +1,19 @@
+{% extends "layout.html" %}
+{% load static %}
+{% block content %}
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <main>
+        <div>
+            <div class="col contents-padding container">
+                <div class="h1">메뉴 관리</div>
+                <div class="contents-blank"></div>
+                <div class="d-flex justify-content-end align-items-center">
+                    <button class="btn btn-outline-brown rounded-5 mx-2 mb-0 px-4">메뉴 추가</button>
+                    <button class="btn btn-outline-brown rounded-5 mx-2 mb-0 px-4">선택 메뉴 삭제</button>
+                    <input type="checkbox" class="mt-0 mx-2" id="vehicle1" name="vehicle1" value="Bike">
+                    <p class="mb-0 mx-2 h3">전체 선택</p>
+                </div>
+            </div>
+        </div>
+    </main>
+{% endblock %}

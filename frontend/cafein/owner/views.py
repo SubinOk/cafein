@@ -207,6 +207,7 @@ def ownerComentDetail(request, reviewid):
     
     return render(request, 'ownerComentDetail.html', {'contents': contents})
 
+
 def ownerCommentUpload(request):
     if request.method == 'POST':
         review_comment = request.POST.get('review-comment')
@@ -218,3 +219,7 @@ def ownerCommentUpload(request):
         return JsonResponse({'result': True})
     else:
         return JsonResponse({'result': False})
+
+
+def ownerManageMenu(request):
+    return render(request, 'ownerManageMenu.html')

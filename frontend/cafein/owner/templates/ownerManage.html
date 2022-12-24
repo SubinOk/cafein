@@ -2,7 +2,6 @@
 {% load static %}
 {% block content %}
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-
     <main>
         <div>
             <div class="col contents-padding container">
@@ -81,6 +80,7 @@
                         </div>
                     </div>
                 </form>
+                <div class="text-end"><a href="{% url 'owner:ownerManageMenu' %}" class="btn">메뉴 수정</a></div>
                 {% for image in imageform %}
                     {% if forloop.counter == 1 %}
                     <script>
