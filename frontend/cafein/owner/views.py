@@ -224,11 +224,21 @@ def ownerCommentUpload(request):
 def ownerManageMenu(request):
     if request.session.get('user'):
         if request.method == 'POST':
-            form = cafeMenuForm(request.POST, request.FILES)
-            if form.is_valid():
-                form.save(request.session.get('user'))
+            if request.POST.get('menuList') is None:
+                form = cafeMenuForm(request.POST, request.FILES)
+                if form.is_valid():
+                    form.save(request.session.get('user'))
+                    return JsonResponse({'result': True})
+                return JsonResponse({'result': False})
+            else:
+                menu_list = request.POST.get('menuList').split(',')
+                cafe = Cafe.objects.filter(user_id=request.session.get('user'))
+                for menu in menu_list:
+                    cafe_menu = Cafe_menu.objects.filter(cafe=cafe[0], name=menu)
+                    cafe_menu[0].delete()
+
                 return JsonResponse({'result': True})
-            return JsonResponse({'result': False})
+
         elif request.method == 'GET':
             user_id = request.session.get('user')
             cafe = Cafe.objects.filter(user=User.objects.filter(user_id=user_id)[0])
