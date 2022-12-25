@@ -17,10 +17,10 @@
                 <div class="col mb-5 menu-card-width" id="menuDummy" style="display: none">
                     <div class="card h-100">
                         <input type="checkbox" class="mt-0" id="menu_checkbox_0" name="menu_checkbox_0">
-                        <img id="menu_0_img" class="card-img-top menu_img_size" src="https://dummyimage.com/450x300/dee2e6/6c757d.jpg">
+                        <img id="menu_img_0" class="card-img-top menu_img_size" src="https://dummyimage.com/450x300/dee2e6/6c757d.jpg">
                         <div class="card-body p-4">
                             <div class="text-center">
-                                <h4 class="fw-bolder" id="menu_0_menuName">카페 아메리카노</h4>
+                                <h4 class="fw-bolder" id="menu_menuName_0">카페 아메리카노</h4>
                                 <h5 class="fw-bolder"><span id="menu_price_0"></span><span>원</span>
                                 </h5>
                             </div>
@@ -28,19 +28,21 @@
                     </div>
                 </div>
                 <div id="showMenuField" class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
-                    <div class="col mb-5 menu-card-width" id="menu_1">
+                    {% for menu in cafe_menu %}
+                    <div class="col mb-5 menu-card-width" id="menu_{{ forloop.counter }}">
                         <div class="card h-100">
-                            <input type="checkbox" class="mt-0" id="menu_checkbox_1" name="menu_checkbox">
-                            <img id="menu_img_1" class="card-img-top menu_img_size" src="https://dummyimage.com/450x300/dee2e6/6c757d.jpg">
+                            <input type="checkbox" class="mt-0" id="menu_checkbox_{{ forloop.counter }}" name="menu_checkbox">
+                            <img id="menu_img_{{ forloop.counter }}" class="card-img-top menu_img_size" src="{{ menu.image.url }}">
                             <div class="card-body p-4">
                                 <div class="text-center">
-                                    <h4 class="fw-bolder" id="menu_menuName_1">카페 아메리카노</h4>
-                                    <h5 class="fw-bolder"><span id="menu_price_1">4500</span><span>원</span>
+                                    <h4 class="fw-bolder" id="menu_menuName_{{ forloop.counter }}">{{ menu.name }}</h4>
+                                    <h5 class="fw-bolder"><span id="menu_price_{{ forloop.counter }}">{{ menu.price }}</span><span>원</span>
                                     </h5>
                                 </div>
                             </div>
                         </div>
                     </div>
+                    {% endfor %}
                 </div>
             </div>
             <dialog id="newMenuDialog">
@@ -50,14 +52,14 @@
                             <img id="dialog_image" class="card-img-top" src="https://dummyimage.com/450x300/dee2e6/6c757d.jpg">
                         </div>
                         <div class="col">
-                            <input type="text" id="menu_name" name="menu_name" class="form-control" placeholder="메뉴 이름" maxlength="20">
-                            <input type="file" id="id_image" name="image" class="mt-3" accept="image/*" >
-                            <input type="number" id="menu_price" name="menu_price" class="form-control mt-3" placeholder="가격" maxlength="20">
+                            <form>
+                                {{ menu_form.as_p }}
+                            </form>
                             <menu>
                                 <button id="confirmBtn" value="add">등록</button>
                                 <button value="cancel">취소</button>
                             </menu>
-                        </div>
+                        </div>x
                     </div>
                 </form>
             </dialog>
@@ -79,15 +81,18 @@
                     // 닫았을때 취소랑 등록 버튼에 따라서 변경할수 있게 생성
                     if(newMenuDialog.returnValue == "add") {
                         const menuDetail = {
-                            "menu_name": document.getElementById("menu_name").value,
-                            "id_image": document.getElementById("id_image").value,
-                            "menu_price": document.getElementById("menu_price").value,
+                            'name': document.getElementById('id_name').value,
+                            'price': document.getElementById('id_price').value,
+                            'image': document.getElementById('id_image').files[0],
                         };
                         // newMenuDialog.showModal();
-                        addMenu(menuDetail)
-                        dialogClear()
+                        // 입력 데이터에 대한 체크도 필요할것으로 판단됨 어떤식으로 입력할지는 모르니
+                        sendMenuDetails(menuDetail)
+                        addMenu(menuDetail);
+
+                        dialogClear();
                     }else{
-                        dialogClear()
+                        dialogClear();
                     }
                 });
 
@@ -96,20 +101,20 @@
                     const newNode = document.getElementById("menuDummy").cloneNode(true);
                     newNode.setAttribute("style", "");
                     newNode.setAttribute("id", "menu_"+menu_length);
-                    newNode.childNodes[1].childNodes[1].setAttribute("id", "menu_checkbox_"+menu_length);
-                    newNode.childNodes[1].childNodes[3].setAttribute("id", "menu_img_"+menu_length);
-                    newNode.childNodes[1].childNodes[5].childNodes[1].childNodes[1].setAttribute("id", "menu_menuName_"+menu_length);
-                    newNode.childNodes[1].childNodes[5].childNodes[1].childNodes[3].childNodes[0].setAttribute("id", "menu_price_"+menu_length);
+                    newNode.getElementsByTagName("input")[0].setAttribute("id", "menu_checkbox_"+menu_length);
+                    newNode.getElementsByTagName("img")[0].setAttribute("id", "menu_img_"+menu_length);
+                    newNode.getElementsByTagName("img")[0].setAttribute("src", dialog_image.src);
+                    newNode.getElementsByTagName("h4")[0].setAttribute("id", "menu_menuName_"+menu_length);
+                    newNode.getElementsByTagName("h4")[0].innerHTML = menuDetails.name;
+                    newNode.getElementsByTagName("span")[0].setAttribute("id", "menu_price_"+menu_length);
+                    newNode.getElementsByTagName("span")[0].innerHTML = menuDetails.price;
                     document.getElementById("showMenuField").appendChild(newNode);
-                    document.getElementById("menu_img_"+menu_length).setAttribute("src", dialog_image.src);
-                    document.getElementById("menu_menuName_"+menu_length).innerHTML = menuDetails.menu_name;
-                    document.getElementById("menu_price_"+menu_length).innerHTML = menuDetails.menu_price;
                 }
                 function removeNemu(){
                     for (let i=0; i<=menu_length; i++){
                         if (document.getElementById("menu_checkbox_"+i) != null) {
                             if (document.getElementById("menu_checkbox_" + i).checked == true) {
-                                document.getElementById("menu_" + i).remove()
+                                document.getElementById("menu_" + i).remove();
                             }
                         }
                     }
@@ -128,9 +133,47 @@
 
                 function dialogClear(){
                     document.getElementById("dialog_image").src = "https://dummyimage.com/450x300/dee2e6/6c757d.jpg";
-                    document.getElementById("menu_name").value = '';
+                    document.getElementById("id_name").value = '';
                     document.getElementById("id_image").value = '';
-                    document.getElementById("menu_price").value = '';
+                    document.getElementById("id_price").value = '';
+                }
+
+                function sendMenuDetails(menuDetails){
+                    const formData = new FormData();
+                    formData.append('name', menuDetails.name)
+                    formData.append('price', menuDetails.price)
+                    formData.append('image', menuDetails.image)
+                    $.ajax({
+                        url: '',
+                        type: 'POST',
+                        data: formData,
+                        processData: false,
+                        contentType: false,
+                        beforeSend: function(data) {
+                            data.setRequestHeader('X-CSRFToken', getCookie('csrftoken'));
+                        },
+                        success: function(data) {
+                            {#alert("메뉴 등록 완료");#}
+                        },
+                        error: function(data) {
+                            {#alert("메뉴 등록에 실패 했습니다.");#}
+                        }
+                    });
+                }
+                function getCookie(name) {
+                    let cookieValue = null;
+                    if (document.cookie && document.cookie !== '') {
+                        const cookies = document.cookie.split(';');
+                        for (let i = 0; i < cookies.length; i++) {
+                            const cookie = cookies[i].trim();
+                            // Does this cookie string begin with the name we want?
+                            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                                break;
+                            }
+                        }
+                    }
+                    return cookieValue;
                 }
             </script>
         </div>

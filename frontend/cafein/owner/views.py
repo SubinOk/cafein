@@ -2,7 +2,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.template.loader import render_to_string
 from django.core.mail import EmailMessage
 
-from .forms import ownerPostForm, ownerChangeForm, ownerManageForm
+from .forms import ownerPostForm, ownerChangeForm, ownerManageForm, cafeMenuForm
 
 #403 오류해결
 from django.views.decorators.csrf import csrf_exempt
@@ -21,7 +21,7 @@ from django.contrib.auth.hashers import check_password
 
 #모델
 from account.models import User
-from cafe.models import Cafe,Cafe_image, Cafe_review, Cafe_comment
+from cafe.models import Cafe, Cafe_image, Cafe_review, Cafe_comment, Cafe_menu
 
 MINIMUM_PASSWORD_LENGTH = 8
 
@@ -222,4 +222,18 @@ def ownerCommentUpload(request):
 
 
 def ownerManageMenu(request):
-    return render(request, 'ownerManageMenu.html')
+    if request.session.get('user'):
+        if request.method == 'POST':
+            form = cafeMenuForm(request.POST, request.FILES)
+            if form.is_valid():
+                form.save(request.session.get('user'))
+                return JsonResponse({'result': True})
+            return JsonResponse({'result': False})
+        elif request.method == 'GET':
+            user_id = request.session.get('user')
+            cafe = Cafe.objects.filter(user=User.objects.filter(user_id=user_id)[0])
+            cafe_menu = Cafe_menu.objects.filter(cafe=cafe[0])
+            menu_form = cafeMenuForm()
+            return render(request, 'ownerManageMenu.html', {'cafe_menu': cafe_menu, 'menu_form': menu_form})
+    else:
+        return redirect('/')

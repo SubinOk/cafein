@@ -1,6 +1,6 @@
 from django import forms
 from account.models import User
-from cafe.models import Cafe, Cafe_image
+from cafe.models import Cafe, Cafe_image, Cafe_menu
 import bcrypt
 import re
 
@@ -294,3 +294,22 @@ class ownerPostForm(forms.ModelForm):
                 image=image,
                 cafe=cafe
             )
+
+
+class cafeMenuForm(forms.ModelForm):
+    class Meta:
+        model = Cafe_menu
+        fields = ['name', 'price', 'image']
+        widgets = {
+            'name': forms.TextInput(attrs={'class': 'form-control mb-3', 'placeholder': '메뉴 이름', 'maxlength': "20"}),
+            'price': forms.TextInput(attrs={'type': 'number', 'class': 'form-control mt-3', 'placeholder': '가격'}),
+        }
+
+    def save(self, user_id):
+        cafe = Cafe.objects.get(user_id=user_id)
+        Cafe_menu.objects.create(
+            cafe=cafe,
+            name=self.cleaned_data.get('name'),
+            image=self.cleaned_data.get("image"),
+            price=self.cleaned_data.get('price'),
+        )
