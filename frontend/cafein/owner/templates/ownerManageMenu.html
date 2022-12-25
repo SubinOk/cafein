@@ -8,71 +8,130 @@
                 <div class="h1 border-bottom pb-3">메뉴 관리</div>
                 <div class="contents-blank"></div>
                 <div class="d-flex justify-content-end align-items-center">
-                    <button class="btn btn-outline-brown rounded-5 mx-2 mb-0 px-4">메뉴 추가</button>
-                    <button class="btn btn-outline-brown rounded-5 mx-2 mb-0 px-4">선택 메뉴 삭제</button>
+                    <button class="btn btn-outline-brown rounded-5 mx-2 mb-0 px-4" id="menuUpdateDetails">메뉴 추가</button>
+                    <button class="btn btn-outline-brown rounded-5 mx-2 mb-0 px-4" onclick="removeNemu()">선택 메뉴 삭제</button>
                     <input type="checkbox" class="mt-0 mx-2" id="all_select" name="all_select">
                     <p class="mb-0 mx-2 h3">전체 선택</p>
                 </div>
                 <div class="blank"></div>
-                <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
-                    <div class="col mb-5">
+                <div class="col mb-5 menu-card-width" id="menuDummy" style="display: none">
+                    <div class="card h-100">
+                        <input type="checkbox" class="mt-0" id="menu_checkbox_0" name="menu_checkbox_0">
+                        <img id="menu_0_img" class="card-img-top menu_img_size" src="https://dummyimage.com/450x300/dee2e6/6c757d.jpg">
+                        <div class="card-body p-4">
+                            <div class="text-center">
+                                <h4 class="fw-bolder" id="menu_0_menuName">카페 아메리카노</h4>
+                                <h5 class="fw-bolder"><span id="menu_price_0"></span><span>원</span>
+                                </h5>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="showMenuField" class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
+                    <div class="col mb-5 menu-card-width" id="menu_1">
                         <div class="card h-100">
-                            <input type="checkbox" class="mt-0" id="menu_1" name="menu_1">
-                            <img class="card-img-top" src="https://dummyimage.com/450x300/dee2e6/6c757d.jpg">
+                            <input type="checkbox" class="mt-0" id="menu_checkbox_1" name="menu_checkbox">
+                            <img id="menu_img_1" class="card-img-top menu_img_size" src="https://dummyimage.com/450x300/dee2e6/6c757d.jpg">
                             <div class="card-body p-4">
                                 <div class="text-center">
-                                    <h5 class="fw-bolder">카페 아메리카노</h5>
+                                    <h4 class="fw-bolder" id="menu_menuName_1">카페 아메리카노</h4>
+                                    <h5 class="fw-bolder"><span id="menu_price_1">4500</span><span>원</span>
+                                    </h5>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <dialog id="favDialog">
+            <dialog id="newMenuDialog">
                 <form method="dialog">
-                    <p><label>좋아하는 동물:
-                        <select>
-                            <option></option>
-                            <option>아르테미아</option>
-                            <option>레서판다</option>
-                            <option>거미원숭이</option>
-                        </select>
-                    </label></p>
-                    <menu>
-                        <button value="cancel">취소</button>
-                        <button id="confirmBtn" value="default">확인</button>
-                    </menu>
+                    <div class="row p-5">
+                        <div class="col pe-4">
+                            <img id="dialog_image" class="card-img-top" src="https://dummyimage.com/450x300/dee2e6/6c757d.jpg">
+                        </div>
+                        <div class="col">
+                            <input type="text" id="menu_name" name="menu_name" class="form-control" placeholder="메뉴 이름" maxlength="20">
+                            <input type="file" id="id_image" name="image" class="mt-3" accept="image/*" >
+                            <input type="number" id="menu_price" name="menu_price" class="form-control mt-3" placeholder="가격" maxlength="20">
+                            <menu>
+                                <button id="confirmBtn" value="add">등록</button>
+                                <button value="cancel">취소</button>
+                            </menu>
+                        </div>
+                    </div>
                 </form>
             </dialog>
-
-            <menu>
-                <button id="updateDetails">상세정보 업데이트</button>
-            </menu>
-
-            <output aria-live="polite"></output>
             <script>
-                const updateButton = document.getElementById('updateDetails');
-                const favDialog = document.getElementById('favDialog');
-                const outputBox = document.getElementsByTagName('output')[0];
-                const selectEl = document.getElementsByTagName('select')[0];
-                const confirmBtn = document.getElementById('confirmBtn');
-
+                const menuUpdateButton = document.getElementById('menuUpdateDetails');
+                const newMenuDialog = document.getElementById('newMenuDialog');
+                let menu_length = document.getElementById("showMenuField").childElementCount;
                 // “Update details” button opens the <dialog> modally
-                updateButton.addEventListener('click', function onOpen() {
-                    if (typeof favDialog.showModal === "function") {
-                        favDialog.showModal();
+                menuUpdateButton.addEventListener('click', function onOpen() {
+                    if (typeof newMenuDialog.showModal === "function") {
+                        newMenuDialog.showModal();
                     } else {
                         alert("The <dialog> API is not supported by this browser");
                     }
                 });
-                // "Favorite animal" input sets the value of the submit button
-                selectEl.addEventListener('change', function onSelect(e) {
-                    confirmBtn.value = selectEl.value;
+                newMenuDialog.addEventListener('close', function checkMenuDetail() {
+                    // 닫았을 때 처리 방식
+                    // newMenuDialog.returnValue << 무슨 버튼으로 입력했는지 확인 가능
+                    // 닫았을때 취소랑 등록 버튼에 따라서 변경할수 있게 생성
+                    if(newMenuDialog.returnValue == "add") {
+                        const menuDetail = {
+                            "menu_name": document.getElementById("menu_name").value,
+                            "id_image": document.getElementById("id_image").value,
+                            "menu_price": document.getElementById("menu_price").value,
+                        };
+                        // newMenuDialog.showModal();
+                        addMenu(menuDetail)
+                        dialogClear()
+                    }else{
+                        dialogClear()
+                    }
                 });
-                // "Confirm" button of form triggers "close" on dialog because of [method="dialog"]
-                favDialog.addEventListener('close', function onClose() {
-                    outputBox.value = favDialog.returnValue + " button clicked - " + (new Date()).toString();
+
+                function addMenu(menuDetails){
+                    menu_length = menu_length + 1;
+                    const newNode = document.getElementById("menuDummy").cloneNode(true);
+                    newNode.setAttribute("style", "");
+                    newNode.setAttribute("id", "menu_"+menu_length);
+                    newNode.childNodes[1].childNodes[1].setAttribute("id", "menu_checkbox_"+menu_length);
+                    newNode.childNodes[1].childNodes[3].setAttribute("id", "menu_img_"+menu_length);
+                    newNode.childNodes[1].childNodes[5].childNodes[1].childNodes[1].setAttribute("id", "menu_menuName_"+menu_length);
+                    newNode.childNodes[1].childNodes[5].childNodes[1].childNodes[3].childNodes[0].setAttribute("id", "menu_price_"+menu_length);
+                    document.getElementById("showMenuField").appendChild(newNode);
+                    document.getElementById("menu_img_"+menu_length).setAttribute("src", dialog_image.src);
+                    document.getElementById("menu_menuName_"+menu_length).innerHTML = menuDetails.menu_name;
+                    document.getElementById("menu_price_"+menu_length).innerHTML = menuDetails.menu_price;
+                }
+                function removeNemu(){
+                    for (let i=0; i<=menu_length; i++){
+                        if (document.getElementById("menu_checkbox_"+i) != null) {
+                            if (document.getElementById("menu_checkbox_" + i).checked == true) {
+                                document.getElementById("menu_" + i).remove()
+                            }
+                        }
+                    }
+                }
+
+                const id_image = document.getElementById('id_image');
+                const dialog_image = document.getElementById('dialog_image');
+                id_image.addEventListener('change', () => {
+                    const file = id_image.files[0];
+                    const reader = new FileReader();
+                    reader.addEventListener('load', () => {
+                        dialog_image.src = reader.result;
+                    });
+                    reader.readAsDataURL(file);
                 });
+
+                function dialogClear(){
+                    document.getElementById("dialog_image").src = "https://dummyimage.com/450x300/dee2e6/6c757d.jpg";
+                    document.getElementById("menu_name").value = '';
+                    document.getElementById("id_image").value = '';
+                    document.getElementById("menu_price").value = '';
+                }
             </script>
         </div>
     </main>

@@ -266,6 +266,13 @@ body{margin-bottom: 60px}
     padding-left: 250px;
     padding-right: 250px;
 }
+.menu_img_size{
+    width: 100%;
+    height: 200px;
+}
+.menu-card-width{
+    width:300px;
+}
 textarea {
     width: 100%;
     height: 6.25em;
