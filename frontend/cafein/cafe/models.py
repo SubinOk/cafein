@@ -104,28 +104,28 @@ class Cafe_keyword(models.Model):
     keyword_id = models.AutoField(primary_key = True)
 
     price_word = models.CharField(max_length=100, null=True)
-    price_count = models.IntegerField()
+    price_count = models.IntegerField(default=0)
 
     drink_word = models.CharField(max_length=100, null=True)
-    drink_count = models.IntegerField()
+    drink_count = models.IntegerField(default=0)
 
     dessert_word = models.CharField(max_length=100, null=True)
-    dessert_count = models.IntegerField()
+    dessert_count = models.IntegerField(default=0)
 
     service_word = models.CharField(max_length=100, null=True)
-    service_count = models.IntegerField()
+    service_count = models.IntegerField(default=0)
 
     customers_word = models.CharField(max_length=100, null=True)
-    customers_count = models.IntegerField()
+    customers_count = models.IntegerField(null =True)
 
     interior_word = models.CharField(max_length=100, null=True)
-    interior_count = models.IntegerField()
+    interior_count = models.IntegerField(null =True)
 
     view_word = models.CharField(max_length=100, null=True)
-    view_count = models.IntegerField()
+    view_count = models.IntegerField(null =True)
 
     parking_word = models.CharField(max_length=100, null=True)
-    parking_count = models.IntegerField()
+    parking_count = models.IntegerField(null =True)
     
     class Meta:
         db_table = 'cafe_keyword'
