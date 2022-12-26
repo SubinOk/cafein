@@ -16,36 +16,37 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr class="cursor" onclick="moveDetailPage(1)">
-                    <th scope="row" class="text-center align-middle">1</th>
-                    <td class="text-center align-middle">22/04/12</td>
-                    <td class="text-center align-middle">드럽게 맛이 없었어요</td>
-                    <td class="text-center align-middle"><img src="{% static 'img/bean/1bean.png' %}">
+                {% for review in reviews %}
+                <tr class="cursor" onclick="moveDetailPage({{ review.review_id }})">
+                    <th scope="row" class="text-center align-middle">{{ forloop.counter }}</th>
+                    <td class="text-center align-middle">{{ review.date }}</td>
+                    <td class="text-center align-middle">{{ review.content }}</td>
+                    <td class="text-center align-middle"><img id="score_{{ forloop.counter }}">
+                        <script>
+                            document.getElementById('score_{{ forloop.counter }}').src = "{% static ''%}" + "img/bean/" + "{{ review.score }}" + "bean.png";
+                        </script>
                     </td>
                 </tr>
-                <tr class="cursor">
-                    <th scope="row" class="text-center align-middle">2</th>
-                    <td class="text-center align-middle">22/04/12</td>
-                    <td class="text-center align-middle ">뷰가 너무 좋아요</td>
-                    <td class="text-center align-middle"><img src="{% static 'img/bean/5bean.png' %}">
-                    </td>
-                </tr>
-                <tr class="cursor">
-                    <th scope="row" class="text-center align-middle">3</th>
-                    <td class="text-center align-middle">22/04/12</td>
-                    <td class="text-center align-middle">생각보다 맛있었어요</td>
-                    <td class="text-center align-middle"><img src="{% static 'img/bean/4bean.png' %}">
-                    </td>
-                </tr>
-                <tr class="cursor">
-                    <th scope="row" class="text-center align-middle">4</th>
-                    <td class="text-center align-middle">22/04/12</td>
-                    <td class="text-center align-middle">직원들이 불친절 해요</td>
-                    <td class="text-center align-middle"><img src="{% static 'img/bean/3bean.png' %}">
-                    </td>
-                </tr>
+                {% endfor %}
                 </tbody>
             </table>
+            {% if reviews.has_other_pages %}
+                <div class="pagination">
+                    {% if reviews.has_previous %}
+                        <a href="?page={{ reviews.previous_page_number }}">Previous</a>
+                    {% endif %}
+                    {% for page in reviews.paginator.page_range %}
+                        {% if page == reviews.number %}
+                            <span class="current">{{ page }}</span>
+                        {% else %}
+                            <a href="?page={{ page }}">{{ page }}</a>
+                        {% endif %}
+                    {% endfor %}
+                    {% if reviews.has_next %}
+                        <a href="?page={{ reviews.next_page_number }}">Next</a>
+                    {% endif %}
+                </div>
+            {% endif %}
         </div>
     </div>
     <script>

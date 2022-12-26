@@ -1,3 +1,4 @@
+from django.core.paginator import Paginator
 from django.shortcuts import render, get_object_or_404, redirect
 from django.template.loader import render_to_string
 from django.core.mail import EmailMessage
@@ -193,7 +194,14 @@ def ownerStatisticsDetail(request):
 
 
 def ownerComent(request):
-    return render(request, 'ownerComent.html')
+    cafe_reviews = Cafe_review.objects.filter(cafe=Cafe.objects.get(user_id=request.session.get('user')))
+
+    paginator = Paginator(cafe_reviews, 2)
+
+    page_number = request.GET.get('page')
+    page_reviews = paginator.get_page(page_number)
+
+    return render(request, 'ownerComent.html', {'reviews': page_reviews})
 
 
 def ownerComentDetail(request, reviewid):
