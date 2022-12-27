@@ -1,21 +1,70 @@
 {% extends "layout.html" %}
+{% load static %}
 {% block content %}
-<main class="container-fluid">
-    <div class="col-4 container">
-        <div class="blank"></div>
-        <div class="blank"></div>
-        <div class="blank"></div>
-        <div class="container">
-            <div class="col text-center h3">
-                환영합니다<br>
-                CafeIn 입니다
-            </div>
-            <div class="contents-blank"></div>
-            <div class="contents-blank"></div>
-        </div>
-        <div class="blank"></div>
-        <div class="blank"></div>
-        <div class="blank"></div>
-    </div>
+<main>
+    <img src="{% static '\img\mainPage\mainImage1.jpg' %}" class="main-image-vh" id="image1">
+    <img src="{% static '\img\mainPage\mainImage2.jpg' %}" class="main-image-vh" id="image2">
+    <img src="{% static '\img\mainPage\mainImage1.jpg' %}" class="main-image-vh" id="image3">
+    <img src="{% static '\img\mainPage\mainImage2.jpg' %}" class="main-image-vh" id="image4">
 </main>
+<script>
+    let lastScrollTop = 0;
+    let image1_location = document.getElementById('image1').offsetTop-75;
+    let image2_location = document.getElementById('image2').offsetTop-75;
+    let image3_location = document.getElementById('image3').offsetTop-75;
+    let image4_location = document.getElementById('image4').offsetTop-75;
+    let flg = true
+    let target = 0
+    window.addEventListener('scroll', function() {
+        let currentScrollTop = window.scrollY;
+        
+        if (currentScrollTop > lastScrollTop) {
+            if( flg ){
+                if (lastScrollTop < image2_location){
+                    window.scrollTo(0, image2_location);
+                    flg=false;
+                    target = image2_location;
+                }else if(lastScrollTop < image3_location){
+                    window.scrollTo(0, image3_location);
+                    flg=false;
+                    target = image3_location;
+                }else if(lastScrollTop < image4_location){
+                    window.scrollTo(0, image4_location);
+                    flg=false;
+                    target = image4_location;
+                }
+            }else{
+                if (window.scrollY >= target){
+                    flg=true;
+                }
+            }
+        } else {
+            if( flg ){
+                if(lastScrollTop > image4_location){
+                    window.scrollTo(0, image4_location);
+                    flg=false;
+                    target = image4_location;
+                }else if (lastScrollTop > image3_location){
+                    window.scrollTo(0, image3_location);
+                    flg=false;
+                    target = image3_location;
+                }else if(lastScrollTop > image2_location){
+                    window.scrollTo(0, image2_location);
+                    flg=false;
+                    target = image2_location;
+                }else if(lastScrollTop > image1_location){
+                    window.scrollTo(0, image1_location);
+                    flg=false;
+                    target = image1_location;
+                }
+             } else{
+                if (window.scrollY <= target){
+                    flg=true;
+                }
+            }
+        }
+        
+        lastScrollTop = currentScrollTop;
+    });
+</script>
 {% endblock %}

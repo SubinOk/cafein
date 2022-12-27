@@ -1,5 +1,5 @@
 {% load static %}
-<html class="">
+<html>
 <head>
     <meta charset="utf-8" />
     <title>{% block title %}{% endblock %}</title>
@@ -9,7 +9,7 @@
     <link href="{% static '/css/cafe.css' %}" rel="stylesheet">
 </head>
 <body> 
-    <nav class="bg-white px-250 py-2 navbar navbar-expand-lg navbar-light">
+    <header class="bg-white px-250 navbar navbar-expand-lg navbar-light navbar-fixed-top fixed-header">
         <div class="container">
             <!--로고-->
             {% if request.session.user == None %}
@@ -93,12 +93,12 @@
                 </div>
             </div>
         </div>
-    </nav>
-    <div class="px-250">
+    </header>
+    <div class="content-margin-top">
         {% block content %}
         {% endblock %}
     </div>
-    <div class="border-top px-250 mt-5">
+    <div class="px-250 pt-5">
         <p class="text-muted mt-3">
             Copyright © 2022 Aivle School 2nd
         </p>
