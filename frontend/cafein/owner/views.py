@@ -156,6 +156,8 @@ def ownerManage(request):
                 'images': images,
             }
             if form.is_valid():
+                if not form.check_cafePhone():
+                    return render_with_error(request, 'ownerManage.html', form, ['cafephone'])
                 form.cafeUpdate(request.session.get('user'), cafe_name, update_image)
             return redirect('/owner/home')
         else:
