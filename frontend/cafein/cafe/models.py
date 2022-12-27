@@ -34,7 +34,6 @@ class Cafe_menu(models.Model):
     name = models.CharField('메뉴명', max_length=100, null=True)
     price = models.CharField('가격', max_length=100, null=True)
     image = models.ImageField('메뉴IMAGE', upload_to='cafe/menu/', blank=True, null=True)
-    #혼잡도 추가 
 
     class Meta:
         db_table = 'cafe_menu'
