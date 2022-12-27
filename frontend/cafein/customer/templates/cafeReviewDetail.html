@@ -1,0 +1,66 @@
+{% extends "layout.html" %}
+{% load static %}
+{% block content %}
+    <main>
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <div class="col contents-padding container">
+            <div class="row justify-content-between">
+                <div class="h1 col-11 d-flex align-self-center">리뷰 게시판</div>
+                <div class="col-1">
+                    <div>
+                        <a class="login-button btn btn-outline-brown ms-3" href="/customer/{{ contents.cafeName }}/review">뒤로가기</a>
+                    </div>
+                </div>
+            </div>
+            <div class=blank></div>
+            <div class="p-5">
+                <div class="row p-3 border">
+                    <span class="text-center align-middle col-2 display-7">리뷰 제목</span>
+                    <span class="text-start align-middle col display-7">{{ contents.cafe_review.title }}</span>
+                </div>
+                <div class="row p-3 border">
+                    <span class="col row d-flex align-items-center">
+                        <span class="col-4 text-center align-middle display-7" >날짜</span>
+                        <span class="col text-start align-middle col display-7" >{{ contents.cafe_review.date }}</span>
+                    </span>
+                    <span class="col row d-flex align-items-center">
+                        <span class="col-4 text-center display-7" >별점</span>
+                        {% if contents.cafe_review.score == 1 %}
+                        <span class="col"><img src="{% static 'img/bean/1bean.png' %}"></span>
+                        {% elif contents.cafe_review.score == 2 %}
+                        <span class="col"><img src="{% static 'img/bean/2bean.png' %}"></span>
+                        {% elif contents.cafe_review.score == 3 %}
+                        <span class="col"><img src="{% static 'img/bean/3bean.png' %}"></span>
+                        {% elif contents.cafe_review.score == 4 %}
+                        <span class="col"><img src="{% static 'img/bean/4bean.png' %}"></span>
+                        {% elif contents.cafe_review.score == 5 %}
+                        <span class="col"><img src="{% static 'img/bean/5bean.png' %}"></span>
+                        {% endif %}
+                    </span>
+                </div>
+                <div class="row p-3 border">
+                    <img src="{{ contents.cafe_review.image.url }}">
+                </div>
+                <div class="row p-3 border">
+                    <span class="col row d-flex align-items-center">
+                        <span class="col-2 text-center align-middle display-7" >리뷰 내용</span>
+                        <span class="col" ></span>
+                    </span>
+                    <div class="contents-blank"></div>
+                    <div class="contents-blank"></div>
+                    <p class="review-contents display-7">{{ contents.cafe_review.content }}</p>
+                </div>
+                <div class="row p-3 border">
+                    <span class="col row d-flex align-items-center">
+                        <span class="col-2 text-center align-middle display-7">댓글</span>
+                        <span class="col"></span>
+                    </span>
+                    <div class="contents-blank"></div>
+                    <div class="review-contents" id="review-comment-field">
+                        <p class="display-7" id="review-comment">{{ contents.cafe_comment.content }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+{% endblock %}

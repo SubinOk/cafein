@@ -1,8 +1,8 @@
-
 from django.shortcuts import redirect, render
+from django.core.paginator import Paginator
 
 from customer.forms import customerPostForm
-from cafe.models import Cafe
+from cafe.models import Cafe, Cafe_review, Cafe_comment
 
 def customerHome(request):
     if request.session.get('user'):
@@ -35,10 +35,35 @@ def signup(request):
     return redirect('/')
 
 def cafeHome(request, cafeName):
-    print(cafeName)
     cafe = Cafe.objects.get(name=cafeName)
     
     return render(request, 'cafeHome.html', {'cafe': cafe})
+
+def cafeReview(request, cafeName):
+    
+    cafe_reviews = Cafe_review.objects.filter(cafe=Cafe.objects.get(name=cafeName))
+
+    paginator = Paginator(cafe_reviews, 2)
+
+    page_number = request.GET.get('page')
+    page_reviews = paginator.get_page(page_number)
+
+    return render(request, 'cafeReview.html', {'reviews': page_reviews, 'cafeName': cafeName})
+
+def cafeReviewDetail(request, cafeName, reviewid):
+    cafe = Cafe.objects.get(name=cafeName)
+    cafe_review = Cafe_review.objects.get(cafe=cafe, review_id=reviewid)
+    cafe_comment = Cafe_comment.objects.get(review=reviewid)
+    
+    contents = {
+        'cafe_review' : cafe_review,
+        'cafe_comment': cafe_comment,
+        'cafeName': cafeName,
+    }
+    return render(request, 'cafeReviewDetail.html', {'contents': contents})
+
+def createReview(request, cafeName):
+    pass
 
 def render_with_error(request, html, form, error_type):
     error_flg = {}

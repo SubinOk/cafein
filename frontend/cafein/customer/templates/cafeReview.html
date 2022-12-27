@@ -1,0 +1,65 @@
+{% extends "layout.html" %}
+{% load static %}
+{% block content %}
+<main>
+    <div class="col contents-padding container">
+        <div class="row justify-content-between">
+            <div class="h1 col-11 d-flex align-self-center">리뷰 게시판</div>
+            <div class="col-1">
+                <div>
+                    <a class="login-button btn btn-outline-brown ms-3" href="/customer/{{ cafeName }}/createReview">리뷰 작성</a>
+                </div>
+            </div>
+        </div>
+        <div class=blank></div>
+        <div class="p-5">
+            <table class="table table-bordered p-4 table-hover table-striped">
+                <thead>
+                <tr>
+                    <th scope="col" class="w-15 text-center">번호</th>
+                    <th scope="col" class="w-15 text-center">날짜</th>
+                    <th scope="col" class="w-45 text-center">리뷰 제목</th>
+                    <th scope="col" class="text-center">별점</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for review in reviews %}
+                <tr class="cursor" onclick="moveDetailPage({{ review.review_id }})">
+                    <th scope="row" class="text-center align-middle">{{ forloop.counter }}</th>
+                    <td class="text-center align-middle">{{ review.date }}</td>
+                    <td class="text-center align-middle">{{ review.content }}</td>
+                    <td class="text-center align-middle"><img id="score_{{ forloop.counter }}">
+                        <script>
+                            document.getElementById('score_{{ forloop.counter }}').src = "{% static ''%}" + "img/bean/" + "{{ review.score }}" + "bean.png";
+                        </script>
+                    </td>
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+            {% if reviews.has_other_pages %}
+                <div class="pagination">
+                    {% if reviews.has_previous %}
+                        <a href="?page={{ reviews.previous_page_number }}">Previous</a>
+                    {% endif %}
+                    {% for page in reviews.paginator.page_range %}
+                        {% if page == reviews.number %}
+                            <span class="current">{{ page }}</span>
+                        {% else %}
+                            <a href="?page={{ page }}">{{ page }}</a>
+                        {% endif %}
+                    {% endfor %}
+                    {% if reviews.has_next %}
+                        <a href="?page={{ reviews.next_page_number }}">Next</a>
+                    {% endif %}
+                </div>
+            {% endif %}
+        </div>
+    </div>
+    <script>
+        function moveDetailPage( pageid ){
+            window.location.assign('/customer/{{ cafeName }}/review/' + pageid);
+        }
+    </script>
+</main>
+{% endblock %}
