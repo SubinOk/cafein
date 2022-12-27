@@ -1,8 +1,9 @@
 from django.shortcuts import redirect, render
 from django.core.paginator import Paginator
 
-from customer.forms import customerPostForm
+from customer.forms import customerPostForm, createViewForm
 from cafe.models import Cafe, Cafe_review, Cafe_comment
+from account.models import User
 
 def customerHome(request):
     if request.session.get('user'):
@@ -63,7 +64,20 @@ def cafeReviewDetail(request, cafeName, reviewid):
     return render(request, 'cafeReviewDetail.html', {'contents': contents})
 
 def createReview(request, cafeName):
-    pass
+    if request.method == 'POST':
+        form = createViewForm(request.POST, request.FILES)
+        if form.is_valid():
+            cafeReview = form.save()
+            cafeReview.cafe = Cafe.objects.get(name=cafeName)
+            cafeReview.comment = Cafe_comment.objects.create(
+                review=cafeReview,
+                writer=User.objects.get(user_id=request.session.get('user'))
+            )
+            cafeReview.save()
+            return redirect('/customer/'+cafeName+'/review/'+str(cafeReview.review_id))
+    else:
+        form = createViewForm()
+        return render(request, 'cafeCreateReview.html', {'form': form})
 
 def render_with_error(request, html, form, error_type):
     error_flg = {}

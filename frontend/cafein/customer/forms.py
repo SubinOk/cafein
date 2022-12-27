@@ -3,6 +3,8 @@ from account.models import User
 import bcrypt
 import re
 
+from cafe.models import Cafe_review
+
 class customerPostForm(forms.ModelForm):
     class Meta:
         model = User
@@ -81,3 +83,7 @@ class customerPostForm(forms.ModelForm):
         user.save()
 
         
+class createViewForm(forms.ModelForm):
+    class Meta:
+        model = Cafe_review
+        fields = ['title', 'score', 'image', 'content']
