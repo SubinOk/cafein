@@ -12,8 +12,8 @@ class Command(BaseCommand):
         df = pd.read_csv('cafe/resource/통계_name.csv', names = columns, header=0)
         df = df.fillna(0)
         
-        name1 = df.iloc[0,0] 
-        cafe = Cafe.objects.filter(name = name1)
+        name = df.iloc[0,0] 
+        cafe = Cafe.objects.filter(name = name)
 
         objs = (Cafe_sentiment(
             total = row[1],

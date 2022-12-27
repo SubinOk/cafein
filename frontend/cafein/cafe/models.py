@@ -129,10 +129,27 @@ class Cafe_keyword(models.Model):
     class Meta:
         db_table = 'cafe_keyword'
 
+class Cafe_favorites(models.Model):
+    user = models.ForeignKey(User,on_delete=models.CASCADE, blank=True, null=True)
 
+    favorites_id = models.AutoField(primary_key = True)
+    cafe = models.ManyToManyField(
+        "cafe.Cafe",
+        related_name="cafe_list",
+        blank=True
+    )
+
+    class Meta:
+        db_table = 'cafe_favorites'
 
     
 
+class Cafe_congestion(models.Model):
+    favorites_id = models.AutoField(primary_key = True)
+    congestion = models.IntegerField(null =True)
+
+    class Meta:
+        db_table = 'cafe_congestion'
 
 
 
