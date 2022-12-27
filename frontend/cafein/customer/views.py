@@ -2,11 +2,12 @@
 from django.shortcuts import redirect, render
 
 from customer.forms import customerPostForm
-
+from cafe.models import Cafe
 
 def customerHome(request):
     if request.session.get('user'):
-        return render(request, 'customerHome.html')
+        cafe = Cafe.objects.all()
+        return render(request, 'customerHome.html', {'cafe': cafe})
     else:
         return redirect('/')
 
@@ -32,6 +33,12 @@ def signup(request):
             form = customerPostForm()
             return render(request, 'signup.html', {'form': form})
     return redirect('/')
+
+def cafeHome(request, cafeName):
+    print(cafeName)
+    cafe = Cafe.objects.get(name=cafeName)
+    
+    return render(request, 'cafeHome.html', {'cafe': cafe})
 
 def render_with_error(request, html, form, error_type):
     error_flg = {}

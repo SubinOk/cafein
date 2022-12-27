@@ -3,16 +3,14 @@
 <main>
     <div class="contents-padding container">
         <div class="row justify-content-between" id="target">
-            <div class="h1 col-11 d-flex align-self-center">고객 홈</div>
+            <div class="h1 col-11 d-flex align-self-center">{{ cafe.name }}<span>일단 즐겨찾기 공간</span></div>
         </div>
+        <div><a href="/customer/{{ cafe.name }}/comment">댓글작성하러가기 버튼</a><div>
         <div class="contents-blank"></div>
         <div class="container">
             <div class="nav-scroller py-1 mb-2">
-                {% for cafe in cafe %}
-                    <div><a href="/customer/{{ cafe.name }}/home">{{ cafe.name }}</a></div>
-                    <div>{{ cafe.address }}</div>
-                    <div>{{ cafe.cafe_phone }}</div>
-                {% endfor %}
+                <div>{{ cafe.address }}</div>
+                <div>{{ cafe.cafe_phone }}</div>
             </div>
             <div class="contents-blank"></div>
         </div>
