@@ -40,16 +40,16 @@ def cafeHome(request, cafeName):
     
     return render(request, 'cafeHome.html', {'cafe': cafe})
 
-def cafeReview(request, cafeName):
+def cafeReview(request):
     
-    cafe_reviews = Cafe_review.objects.filter(cafe=Cafe.objects.get(name=cafeName))
+    cafe_reviews = Cafe_review.objects.all()
 
     paginator = Paginator(cafe_reviews, 2)
 
     page_number = request.GET.get('page')
     page_reviews = paginator.get_page(page_number)
 
-    return render(request, 'cafeReview.html', {'reviews': page_reviews, 'cafeName': cafeName})
+    return render(request, 'cafeReview.html', {'reviews': page_reviews})
 
 def cafeReviewDetail(request, cafeName, reviewid):
     cafe = Cafe.objects.get(name=cafeName)

@@ -5,11 +5,6 @@
     <div class="col contents-padding container">
         <div class="row justify-content-between">
             <div class="h1 col-11 d-flex align-self-center">리뷰 게시판</div>
-            <div class="col-1">
-                <div>
-                    <a class="login-button btn btn-outline-brown ms-3" href="/customer/{{ cafeName }}/createReview">리뷰 작성</a>
-                </div>
-            </div>
         </div>
         <div class=blank></div>
         <div class="p-5">
@@ -17,6 +12,7 @@
                 <thead>
                 <tr>
                     <th scope="col" class="w-15 text-center">번호</th>
+                    <th scope="col" class="w-15 text-center">카페명</th>
                     <th scope="col" class="w-15 text-center">날짜</th>
                     <th scope="col" class="w-45 text-center">리뷰 제목</th>
                     <th scope="col" class="text-center">별점</th>
@@ -24,8 +20,9 @@
                 </thead>
                 <tbody>
                 {% for review in reviews %}
-                <tr class="cursor" onclick="moveDetailPage({{ review.review_id }})">
+                <tr class="cursor" onclick="moveDetailPage('{{ review.cafe.name }}', {{ review.review_id }})">
                     <th scope="row" class="text-center align-middle">{{ forloop.counter }}</th>
+                    <td class="text-center align-middle">{{ review.cafe.name }}</td>
                     <td class="text-center align-middle">{{ review.date }}</td>
                     <td class="text-center align-middle">{{ review.content }}</td>
                     <td class="text-center align-middle"><img id="score_{{ forloop.counter }}">
@@ -57,8 +54,8 @@
         </div>
     </div>
     <script>
-        function moveDetailPage( pageid ){
-            window.location.assign('/customer/{{ cafeName }}/review/' + pageid);
+        function moveDetailPage( cafeName, pageid ){
+            window.location.assign('/customer/'+cafeName+'/review/' + pageid);
         }
     </script>
 </main>
