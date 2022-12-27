@@ -13,9 +13,7 @@ class Command(BaseCommand):
         df = df.fillna(0)
         
         name1 = df.iloc[0,0] 
-        print(name1)
         cafe = Cafe.objects.filter(name = name1)
-        cafe = cafe[0].cafe_id
 
         objs = (Cafe_sentiment(
             total = row[1],
