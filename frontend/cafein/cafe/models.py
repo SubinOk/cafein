@@ -34,7 +34,6 @@ class Cafe_menu(models.Model):
     name = models.CharField('메뉴명', max_length=100, null=True)
     price = models.CharField('가격', max_length=100, null=True)
     image = models.ImageField('메뉴IMAGE', upload_to='cafe/menu/', blank=True, null=True)
-    #혼잡도 추가 
 
     class Meta:
         db_table = 'cafe_menu'
@@ -130,10 +129,27 @@ class Cafe_keyword(models.Model):
     class Meta:
         db_table = 'cafe_keyword'
 
+class Cafe_favorites(models.Model):
+    user = models.ForeignKey(User,on_delete=models.CASCADE, blank=True, null=True)
 
+    favorites_id = models.AutoField(primary_key = True)
+    cafe = models.ManyToManyField(
+        "cafe.Cafe",
+        related_name="cafe_list",
+        blank=True
+    )
+
+    class Meta:
+        db_table = 'cafe_favorites'
 
     
 
+class Cafe_congestion(models.Model):
+    favorites_id = models.AutoField(primary_key = True)
+    congestion = models.IntegerField(null =True)
+
+    class Meta:
+        db_table = 'cafe_congestion'
 
 
 

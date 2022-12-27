@@ -21,7 +21,7 @@ class ownerManageForm(forms.ModelForm):
                                                              'name': 'address_detail',
                                                              'placeholder': '상세 주소'}),
             'cafe_phone': forms.TextInput(attrs={'class': 'form-control',
-                                                               'placeholder': '전화번호'})
+                                                            'placeholder': '전화번호 ("-" 없이 작성)'}),
         }
 
     # 카페 이미지 추가해야함 
@@ -37,9 +37,9 @@ class ownerManageForm(forms.ModelForm):
 
     # 카페번호 '-'없이 숫자만 입력하도록 
     def check_cafePhone(self):
-        phone = self.cleaned_data.get("phone")
+        cafe_phone = self.cleaned_data.get("cafe_phone")
         pattern = re.compile('^[0]\d{2}\d{3,4}\d{4}$')
-        if not pattern.match(phone):
+        if not pattern.match(cafe_phone):
             return False
         return True
 
@@ -214,17 +214,17 @@ class ownerPostForm(forms.ModelForm):
 
     # 사장 전화번호 '-'없이 숫자만 입력하도록 
     def check_phone(self):
-        cafe_phone = self.cleaned_data.get("phone")
+        phone = self.cleaned_data.get("phone")
         pattern = re.compile('^[0]\d{2}\d{3,4}\d{4}$')
-        if not pattern.match(cafe_phone):
+        if not pattern.match(phone):
             return False
         return True
 
     # 카페번호 '-'없이 숫자만 입력하도록 
     def check_cafePhone(self):
-        phone = self.cleaned_data.get("cafe_phone")
+        cafe_phone = self.cleaned_data.get("cafe_phone")
         pattern = re.compile('^[0]\d{2}\d{3,4}\d{4}$')
-        if not pattern.match(phone):
+        if not pattern.match(cafe_phone):
             return False
         return True
 

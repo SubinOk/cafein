@@ -1,6 +1,6 @@
 from django import forms
 from account.models import User
-import bcrypt
+from cafe.models import Cafe_review
 import re
 
 from cafe.models import Cafe_review
@@ -46,7 +46,7 @@ class customerPostForm(forms.ModelForm):
     def check_password(self):
         password = self.cleaned_data.get("password")
         # 영어,숫자,특수문자 포함하고 8~25자리수를 허용
-        pattern = re.compile('^(?=.*[\d])(?=.*[A-Z])(?=.*[a-z])(?=.*[!@#$%^&*()])[\w\d!@#$%^&*()]{8,25}$')
+        pattern = re.compile('^(?=.*[\d])(?=.*[A-Z])(?=.*[a-z])(?=.*[!@#$%^&*.()])[\w\d!@#$%^&*()]{8,25}$')
         if not pattern.match(password):
             return False
         else:
