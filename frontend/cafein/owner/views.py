@@ -24,6 +24,16 @@ from django.contrib.auth.hashers import check_password
 from account.models import User
 from cafe.models import Cafe, Cafe_image, Cafe_review, Cafe_comment, Cafe_menu, Cafe_sentiment
 
+# 웹크롤링
+from . import preprocess
+from . import datacrawl
+from . import model
+from . import getkeywords
+
+import pandas as pd
+from datetime import datetime
+
+
 MINIMUM_PASSWORD_LENGTH = 8
 
 
@@ -265,5 +275,29 @@ def ownerManageMenu(request):
         return redirect('/')
 
 def analysis(request):
+    def crawl(name, number):
+            cafeName = name
+            cafeNum = number
+            print(cafeName, cafeNum)
+            now = datetime.now()
+            
+            rawdata = datacrawl.collectData(cafeName, cafeNum)
+            data = preprocess.processData(cafeName, rawdata)
+            result = model.prediction(data)
+
+            result.to_csv(f'.frontend/cafein/files/{cafeName}_{now.strftime("%Y%m%d")}_result.csv', index=False, encoding='utf-8-sig')
+            
+            wordlist = getkeywords.getWords(result)
+            
+            wordlist.to_csv(f'.frontend/cafein/files/{cafeName}_{now.strftime("%Y%m%d")}_wordlist.csv', index=False, encoding='utf-8-sig')
     
-    return HttpResponse('Hello world!')
+    if request.session.get('user'):
+        cafe = Cafe.objects.get(user = request.session.get('user'))
+        name = cafe.name
+        number = cafe.cafe_phone
+        
+    crawl(name, number)
+    
+    return HttpResponse("성공")
+    
+  
