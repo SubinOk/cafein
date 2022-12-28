@@ -70,33 +70,18 @@ class Cafe_sentiment(models.Model):
     sentiment_id = models.AutoField(primary_key = True)
     total = models.DecimalField('전체긍정비율', max_digits = 5, decimal_places=3)
 
-    price_rank = models.IntegerField()
-    price_sentiment = models.DecimalField(max_digits = 5, decimal_places=3)
-
-    drink_rank = models.IntegerField()
-    drink_sentiment = models.DecimalField(max_digits = 5, decimal_places=3)
-
-    dessert_rank = models.IntegerField()
-    dessert_sentiment = models.DecimalField(max_digits = 5, decimal_places=3)
-
-    service_rank = models.IntegerField()
-    service_sentiment = models.DecimalField(max_digits = 5, decimal_places=3)
-
-    customers_rank = models.IntegerField()
-    customers_sentiment = models.DecimalField(max_digits = 5, decimal_places=3)
-
-    interior_rank = models.IntegerField()
-    interior_sentiment = models.DecimalField(max_digits = 5, decimal_places=3)
-
-    view_rank = models.IntegerField()
-    view_sentiment = models.DecimalField(max_digits = 5, decimal_places=3)
-
-    parking_rank = models.IntegerField()
-    parking_sentiment = models.DecimalField(max_digits = 5, decimal_places=3)
-
-
     class Meta:
         db_table = 'cafe_sentiment'
+
+class Cafe_rank(models.Model):
+    rank_id = models.AutoField(primary_key = True)
+    category = models.CharField(max_length=100, null=True)
+    rank = models.IntegerField('순위', null=True)
+    ratio = models.DecimalField('카테고리별 긍정비율',max_digits = 5, decimal_places=3)
+    sentiment = models.ForeignKey(Cafe_sentiment, on_delete=models.CASCADE , blank=True, null =True)
+
+    class Meta:
+        db_table = 'cafe_rank'
 
 class Cafe_keyword(models.Model):
     cafe = models.ForeignKey(Cafe, on_delete=models.CASCADE , blank=True, null =True)
