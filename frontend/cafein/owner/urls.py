@@ -18,4 +18,5 @@ urlpatterns = [
     path('coment/<int:reviewid>/', views.ownerComentDetail, name='ownerComentDetail'),
     path('upload/', views.ownerCommentUpload, name='ownerCommentUpload'),
     path('menu/', views.ownerManageMenu, name='ownerManageMenu'),
+    path('analysis', views.analysis, name='analysis'),
 ]

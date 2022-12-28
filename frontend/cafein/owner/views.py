@@ -15,7 +15,7 @@ import json
 import bcrypt
 import jwt
 from django.views           import View
-from django.http            import JsonResponse
+from django.http            import JsonResponse, HttpResponse
 from django.db.models       import Q
 from django.core.mail.message import EmailMessage
 from django.contrib.auth.hashers import check_password
@@ -263,3 +263,7 @@ def ownerManageMenu(request):
             return render(request, 'ownerManageMenu.html', {'cafe_menu': cafe_menu, 'menu_form': menu_form})
     else:
         return redirect('/')
+
+def analysis(request):
+    
+    return HttpResponse('Hello world!')
