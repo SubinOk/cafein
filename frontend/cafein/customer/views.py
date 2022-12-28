@@ -65,14 +65,16 @@ def cafeReviewDetail(request, cafeName, reviewid):
 
 def createReview(request, cafeName):
     if request.method == 'POST':
-        form = createViewForm(request.POST, request.FILES)
+        form = createViewForm(request.POST)
         if form.is_valid():
             cafeReview = form.save()
+            cafeReview.image = request.FILES.get('image')
             cafeReview.cafe = Cafe.objects.get(name=cafeName)
             cafeReview.comment = Cafe_comment.objects.create(
                 review=cafeReview,
-                writer=User.objects.get(user_id=request.session.get('user'))
+                writer=User.objects.get(user_id=cafeReview.cafe.user)
             )
+            cafeReview.writer = User.objects.get(user_id=request.session.get('user'))
             cafeReview.save()
             return redirect('/customer/'+cafeName+'/review/'+str(cafeReview.review_id))
     else:

@@ -86,4 +86,4 @@ class customerPostForm(forms.ModelForm):
 class createViewForm(forms.ModelForm):
     class Meta:
         model = Cafe_review
-        fields = ['title', 'score', 'image', 'content']
+        fields = ['title', 'score', 'content']
