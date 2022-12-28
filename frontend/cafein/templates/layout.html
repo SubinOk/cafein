@@ -15,7 +15,7 @@
             {% if request.session.user == None %}
             <div class="">
                 <a href="/">
-                    <img class="head-logo" src="/media/layout/logo_final.png">
+                    <img class="head-logo" src="/static/img/header/logo_main.png">
                 </a>
             </div>
             {% else %}
@@ -23,7 +23,7 @@
                 <div class="">
                     <div>
                         <a href="/owner/home">
-                            <img class="head-logo" src="/media/layout/logo_final.png">
+                            <img class="head-logo" src="/static/img/header/logo_main.png">
                         </a>
                     </div>
                 </div>
@@ -31,7 +31,7 @@
                 <div class="">
                     <div>
                         <a href="/customer/home">
-                            <img class="head-logo" src="/media/layout/logo_final.png">
+                            <img class="head-logo" src="/static/img/header/logo_main.png">
                         </a>
                     </div>
                 </div>
@@ -74,18 +74,18 @@
             <div class="justify-content-end">
                 <div class="status-button navbar navbar-expand-lg navbar-dark bd-navbar"> 
                     <input placeholder="검색어를 입력하세요." type="Search" id="formSearch" class="pe-5 form-control searchbox">
-                    <img class="header-icon pe-3" src='/media/layout/assets_TEMP_de484c5886e442828cd43b718515b4b6.png'>
+                    <img class="header-icon pe-3" src='/static/img/header/search.png'>
                     {% if request.session.user == None %}
                     <div>
                         <a class="login-button btn btn-outline-brown  ms-3" href="/login">로그인</a>
                     </div>
                     {% else %}
                     <div class="dropdown">
-                        <a class="status-button border-0 btn nav-item nav-link ms-3" data-bs-toggle="dropdown" aria-expanded="false"><img src="/media/layout/user-icon.png" class="rounded-circle header-icon"></a>
+                        <a class="status-button border-0 btn nav-item nav-link ms-3" data-bs-toggle="dropdown" aria-expanded="false"><img src="/static/img/header/user-icon.png" class="rounded-circle header-icon"></a>
                         <ul class="dropdown-menu dropdown-menu-end shadow border border-300">
                             <div class="head-menu">
-                                <li><a class="dropdown-item" href="{% url 'owner:checkPassword' %}"><img class="login-menu" src="/media/layout/Vector3.png">계정 관리</a></li>
-                                <li><a class="dropdown-item" href="{% url 'main:logout' %}"><img class="login-menu" src="/media/layout/settings.png">로그아웃</a></li>
+                                <li><a class="dropdown-item" href="{% url 'owner:checkPassword' %}"><img class="login-menu" src="/static/img/header/settings.png">계정 관리</a></li>
+                                <li><a class="dropdown-item" href="{% url 'main:logout' %}"><img class="login-menu" src="/static/img/header/logout.png">로그아웃</a></li>
                             </div>
                         </ul>
                     </div>
