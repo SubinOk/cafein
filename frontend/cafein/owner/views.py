@@ -22,7 +22,7 @@ from django.contrib.auth.hashers import check_password
 
 #모델
 from account.models import User
-from cafe.models import Cafe, Cafe_image, Cafe_review, Cafe_comment, Cafe_menu, Cafe_sentiment
+from cafe.models import Cafe, Cafe_image, Cafe_review, Cafe_comment, Cafe_menu, Cafe_sentiment, Cafe_rank
 
 # 웹크롤링
 from . import preprocess
@@ -42,8 +42,10 @@ def ownerHome(request):
         try: 
             cafe = Cafe.objects.get(user = request.session.get('user'))
             cafe_sentiment = Cafe_sentiment.objects.get(cafe = cafe)
+            cafe_rank = Cafe_rank.objects.filter(sentiment=cafe_sentiment.sentiment_id).order_by('rank')
             cafe_reviews = Cafe_review.objects.filter(cafe=Cafe.objects.get(user_id=request.session.get('user')))[:3]
-            return render(request, 'ownerHome.html', {'cafe_sentiment':cafe_sentiment, 'cafe':cafe, 'reviews': cafe_reviews})
+            return render(request, 'ownerHome.html', {'cafe_sentiment':cafe_sentiment, 'cafe':cafe, 'reviews': cafe_reviews
+                                                      ,'cafe_rank': cafe_rank})
         except:
             return render(request,'ownerHome2.html')
     else:
@@ -202,7 +204,10 @@ def cafeUpdate(request):
 
 def ownerStatistics(request):
     if request.session.get('user'):
-        return render(request, 'ownerStatistics.html')
+        data = request.GET.get('data')
+        if data is None:
+            data = "service"
+        return render(request, 'ownerStatistics.html', {'data': data})
     else:
         return redirect('/')
 
