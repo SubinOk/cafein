@@ -1,14 +1,11 @@
 {% extends "layout.html" %}
 {% block content %}
 <main class="container-fluid">
-    <div class="col-4 container">
+    <div class="col-3 container">
         <div class="blank"></div>
         <div class="blank"></div>
         <div class="blank"></div>
         <div class="container row">
-            <div class="col">
-                <a class="login-button btn btn-outline-brown float-end" href="{% url 'main:signup' %}" aria-expanded="false">회원가입</a>
-            </div>
             <div class="contents-blank"></div>
             <form action="" method="post">
                 {% csrf_token %}
@@ -38,14 +35,18 @@
                     </script>
                 {% endif %}
                 <div class="contents-blank"></div>
+                <div class="contents-blank"></div>
+                <div class="login-option-container">
+                    <a class="login-option" href="{% url 'main:signup' %}">회원가입</a>
+                    <a class="login-option" href="{% url 'main:password_reset' %}">비밀번호 찾기</a>
+                </div>
+                <div class="contents-blank"></div>
+                <div class="contents-blank"></div>
                 <div class="text-center">
-                    <button class="border cafein-button px-5" type="submit">로그인</button>
+                    <button class="login-button cafein-button px-5" type="submit">로그인</button>
                 </div>
             </form>
-            <div class="contents-blank"></div>
-            <div class="text-right">
-                <a class="find-password text-dark" href="{% url 'main:password_reset' %}">비밀번호 찾기</a>
-            </div>
+            
         </div>
         <div class="blank"></div>
         <div class="blank"></div>
