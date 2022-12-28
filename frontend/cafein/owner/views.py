@@ -29,7 +29,8 @@ MINIMUM_PASSWORD_LENGTH = 8
 
 def ownerHome(request):
     if request.session.get('user'):
-        return render(request, 'ownerHome.html')
+        cafe_reviews = Cafe_review.objects.filter(cafe=Cafe.objects.get(user_id=request.session.get('user')))[:3]
+        return render(request, 'ownerHome.html',{'reviews': cafe_reviews})
     else:
         return redirect('/')
 

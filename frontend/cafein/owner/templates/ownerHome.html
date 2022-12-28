@@ -1,4 +1,5 @@
 {% extends "layout.html" %}
+{% load static %}
 {% block content %}
     <main>
         <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
@@ -44,37 +45,34 @@
                 <div class="row pe-5">
                     <h2 class="col-6 align-self-center">최근 리뷰</h2>
                     <div class="col">
-                        <a class="login-button btn btn-outline-brown float-end nav-item nav-link" href="#" data-bs-toggle="dropdown" aria-expanded="false">상세보기</a>
+                        <a class="login-button btn btn-outline-brown float-end nav-item nav-link" href="{% url 'owner:ownerComent' %}">상세보기</a>
                     </div>
-                    <table class="table">
-                        <thead>
-                        <tr>
-                            <th scope="col">#</th>
-                            <th scope="col">제목</th>
-                            <th scope="col">별점</th>
-                            <th scope="col">날자</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr>
-                            <th scope="row">1</th>
-                            <td>Mark</td>
-                            <td>Otto</td>
-                            <td>@mdo</td>
-                        </tr>
-                        <tr>
-                            <th scope="row">2</th>
-                            <td>Jacob</td>
-                            <td>Thornton</td>
-                            <td>@fat</td>
-                        </tr>
-                        <tr>
-                            <th scope="row">3</th>
-                            <td colspan="2">Larry the Bird</td>
-                            <td>@twitter</td>
-                        </tr>
-                        </tbody>
-                    </table>
+                    <div class="p-5">
+                        <table class="table table-bordered p-4 table-hover table-striped">
+                            <thead>
+                            <tr>
+                                <th scope="col" class="w-5 text-center">번호</th>
+                                <th scope="col" class="w-15 text-center">날짜</th>
+                                <th scope="col" class="w-55 text-center">리뷰 제목</th>
+                                <th scope="col" class="text-center">별점</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for review in reviews %}
+                            <tr class="cursor" onclick="moveDetailPage({{ review.review_id }})">
+                                <th scope="row" class="text-center align-middle">{{ forloop.counter }}</th>
+                                <td class="text-center align-middle">{{ review.date|date:"Y/m/d" }}</td>
+                                <td class="text-center align-middle">{{ review.content }}</td>
+                                <td class="text-center align-middle"><img id="score_{{ forloop.counter }}">
+                                    <script>
+                                        document.getElementById('score_{{ forloop.counter }}').src = "{% static ''%}" + "img/bean/" + "{{ review.score }}" + "bean.png";
+                                    </script>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>

@@ -243,11 +243,17 @@ body{margin-bottom: 60px}
 .statisticsDetail-width{
     width:100px;
 }
+.w-5{
+    width:5%;
+}
 .w-15{
     width:15%;
 }
 .w-45{
     width:45%;
+}
+.w-55{
+    width:55%;
 }
 .cursor{
     cursor:pointer;
