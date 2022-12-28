@@ -2,17 +2,15 @@
 {% load static %}
 {% block content %}
 <main>
-    <img src="{% static '\img\mainPage\mainImage1.jpg' %}" class="main-image-vh" id="image1">
-    <img src="{% static '\img\mainPage\mainImage2.jpg' %}" class="main-image-vh" id="image2">
-    <img src="{% static '\img\mainPage\mainImage1.jpg' %}" class="main-image-vh" id="image3">
-    <img src="{% static '\img\mainPage\mainImage2.jpg' %}" class="main-image-vh" id="image4">
+    <img src="{% static '\img\mainPage\banner1.jpg' %}" class="main-image-vh" id="image1">
+    <img src="{% static '\img\mainPage\banner2.jpg' %}" class="main-image-vh" id="image2">
+    <img src="{% static '\img\mainPage\banner3.jpg' %}" class="main-image-vh" id="image3">
 </main>
 <script>
     let lastScrollTop = 0;
     let image1_location = document.getElementById('image1').offsetTop-75;
     let image2_location = document.getElementById('image2').offsetTop-75;
     let image3_location = document.getElementById('image3').offsetTop-75;
-    let image4_location = document.getElementById('image4').offsetTop-75;
     let flg = true
     let target = 0
     window.addEventListener('scroll', function() {
@@ -28,10 +26,6 @@
                     window.scrollTo(0, image3_location);
                     flg=false;
                     target = image3_location;
-                }else if(lastScrollTop < image4_location){
-                    window.scrollTo(0, image4_location);
-                    flg=false;
-                    target = image4_location;
                 }
             }else{
                 if (window.scrollY >= target){
@@ -40,11 +34,7 @@
             }
         } else {
             if( flg ){
-                if(lastScrollTop > image4_location){
-                    window.scrollTo(0, image4_location);
-                    flg=false;
-                    target = image4_location;
-                }else if (lastScrollTop > image3_location){
+                if (lastScrollTop > image3_location){
                     window.scrollTo(0, image3_location);
                     flg=false;
                     target = image3_location;
