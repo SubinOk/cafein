@@ -6,49 +6,71 @@
         <script type="text/javascript">
             google.charts.load('current', {'packages':['corechart']});
             google.charts.setOnLoadCallback(drawChart);
+            
             function drawChart() {
-                var data = google.visualization.arrayToDataTable([
-                    ['Year', 'Sales', 'Expenses'],
-                    ['2004',  1000,      400],
-                    ['2005',  1170,      460],
-                    ['2006',  660,       1120],
-                    ['2007',  1030,      540]
+                var data = new google.visualization.DataTable();
+                data.addColumn('string','긍부정');
+                data.addColumn('number','비중');
+     
+                data.addRows([ 
+                    ['만족', {{ cafe_sentiment.total }}],
+                    ['불만족', 1 - {{ cafe_sentiment.total }}],
                 ]);
-                var options = {
-                    title: 'Company Performance',
-                    curveType: 'function',
-                    legend: { position: 'bottom' }
+                var opt = {
+                        'width':400,
+                        'height':400,
+                        'pieHole': 0.6,
+                        'pieSliceText':'label',
+                        'colors': ['#78AAE7', '#E67C92'],
+                        'pieSliceText': 'none',
+                        'legend':'bottom'
                 };
-                var chart = new google.visualization.LineChart(document.getElementById('curve_chart'));
-                chart.draw(data, options);
-
-                var chart2 = new google.visualization.LineChart(document.getElementById('curve_chart2'));
-                chart2.draw(data, options);
+                var chart = new google.visualization.PieChart(document.getElementById('myChart'));
+                chart.draw(data, opt);
             }
+        
+            
         </script>
         <div>
             <div class="col contents-padding container">
-                <h1>카페 A</h1>
-                <div class="row">
-                    <div class="contents-header col-md-6">
-                        <div class="content-detail">
-                            <div id="curve_chart"></div>
+                
+                <div class = "col">
+
+                        <h2>고객 통계</h2>
+                        <div class="col">
+                        <a class="login-button btn btn-outline-brown float-end nav-item nav-link" href="#" data-bs-toggle="dropdown" aria-expanded="false">상세 보기</a>
                         </div>
-                    </div>
-                    <div class="contents-header col-md-6">
-                        <div class="content-detail">
-                            <div id="curve_chart2"></div>
+                        <div class="col">
+                    
+                    
+                        <div class="col">
+                            <div class="h3 pb-5 text-bold">고객들의 전체 만족도</div>
+                            <div id="myChart"></div>
                         </div>
-                    </div>
                 </div>
+                        <div class="col">
+                            <div class="h3 pb-5 text-bold">고객들이 만족한 항목</div>
+                            <div class="m-4 h3">1순위</div>
+                            <div class="m-4 h3">2순위</div>
+                            <div class="m-4 h3">3순위</div>
+                            <div class="m-4 h3">4순위</div>
+                            <div class="m-4 h3">5순위</div>
+                            <div class="m-4 h3">6순위</div>
+                            <div class="m-4 h3">7순위</div>
+                            <div class="m-4 h3">8순위</div>
+                        </div>  
+
+                     
+               
                 <div class="blank"></div>
-                <div class="row pe-5">
-                    <h2 class="col-6 align-self-center">최근 리뷰</h2>
+                
+                    <h2>최근 리뷰</h2>
                     <div class="col">
                         <a class="login-button btn btn-outline-brown float-end nav-item nav-link" href="{% url 'owner:ownerComent' %}">상세보기</a>
                     </div>
                     <div class="p-5">
-                        <table class="table table-bordered p-4 table-hover table-striped">
+    
+                    <table class="table table-bordered p-4 table-hover table-striped">
                             <thead>
                             <tr>
                                 <th scope="col" class="w-5 text-center">번호</th>
@@ -72,9 +94,8 @@
                             {% endfor %}
                             </tbody>
                         </table>
-                    </div>
                 </div>
+            </div>        
             </div>
-        </div>
     </main>
 {% endblock %}

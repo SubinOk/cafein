@@ -22,15 +22,20 @@ from django.contrib.auth.hashers import check_password
 
 #모델
 from account.models import User
-from cafe.models import Cafe, Cafe_image, Cafe_review, Cafe_comment, Cafe_menu
+from cafe.models import Cafe, Cafe_image, Cafe_review, Cafe_comment, Cafe_menu, Cafe_sentiment
 
 MINIMUM_PASSWORD_LENGTH = 8
 
 
 def ownerHome(request):
     if request.session.get('user'):
-        cafe_reviews = Cafe_review.objects.filter(cafe=Cafe.objects.get(user_id=request.session.get('user')))[:3]
-        return render(request, 'ownerHome.html',{'reviews': cafe_reviews})
+        try: 
+            cafe = Cafe.objects.get(user = request.session.get('user'))
+            cafe_sentiment = Cafe_sentiment.objects.get(cafe = cafe)
+            cafe_reviews = Cafe_review.objects.filter(cafe=Cafe.objects.get(user_id=request.session.get('user')))[:3]
+            return render(request, 'ownerHome.html', {'cafe_sentiment':cafe_sentiment, 'cafe':cafe, 'reviews': cafe_reviews})
+        except:
+            return render(request,'ownerHome2.html')
     else:
         return redirect('/')
 
