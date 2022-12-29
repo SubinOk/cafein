@@ -2,13 +2,21 @@ from django.shortcuts import redirect, render
 from django.core.paginator import Paginator
 
 from customer.forms import customerPostForm, createViewForm
-from cafe.models import Cafe, Cafe_review, Cafe_comment
+from cafe.models import Cafe, Cafe_review, Cafe_comment, Cafe_image
 from account.models import User
 
 def customerHome(request):
     if request.session.get('user'):
-        cafe = Cafe.objects.all()
-        return render(request, 'customerHome.html', {'cafe': cafe})
+        cafes = Cafe.objects.all()
+        cafe_image = []
+        for cafe in cafes:
+            cafe_image.append(Cafe_image.objects.filter(cafe=cafe)[0])
+        
+        paginator = Paginator(cafe_image, 6)
+
+        page_number = request.GET.get('page')
+        cafe_images = paginator.get_page(page_number)
+        return render(request, 'customerHome.html', {'cafe': cafes, 'cafe_images': cafe_images})
     else:
         return redirect('/')
 

@@ -499,3 +499,8 @@ textarea {
 .login-option-container2{
     display: flex;
 }
+
+.cus-main-image-size{
+    height: 250px;
+    width: 250px;
+}
