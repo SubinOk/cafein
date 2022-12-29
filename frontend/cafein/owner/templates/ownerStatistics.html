@@ -1,6 +1,96 @@
 {% extends "layout.html" %}
 {% block content %}
 <main>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+        google.charts.load('current', {'packages':['corechart']});
+        google.charts.setOnLoadCallback(drawChart);
+        var chart, data, percent, target;
+        var datas = []
+        {% for rank_data in cafe_rank %}
+        temp = '';
+        temp = [['만족', Math.round({{ rank_data.ratio }} * 100)],['불만족', Math.round(100 - {{ rank_data.ratio }} * 100)],];
+        datas.push(temp);
+        {% if rank_data.category == data %}
+        init_data = temp;
+        {% endif %}
+        {% endfor %}
+        
+
+        var options = {
+            'width':400,
+            'height':400,
+            'pieHole': 0.6,
+            'pieSliceText':'label',
+            'colors': ['#78AAE7', '#E67C92'],
+            'pieSliceText': 'none',
+            'legend':'bottom',
+            'animation': {
+                'duration': 100,
+                'easing': 'out',
+                'startup': true
+            },
+        };
+        
+        function drawChart() {
+            // 초기표시시에 설정되는 데이터
+            data = new google.visualization.DataTable();
+            data.addColumn('string','긍부정');
+            data.addColumn('number','비중');
+            data.addRows(init_data);
+            chart = new google.visualization.PieChart(document.getElementById('piechart'));
+            chart.draw(data, options);
+            
+        }
+        function showData(show_data) {
+            percent = data.getValue(0,1)
+            target = show_data[0][1]
+            if(percent != target){
+                if(percent < target){
+                    changeGraphUp(percent, target)
+                }else{
+                    changeGraphDown(percent, target)
+                }
+            }
+        }
+    
+        function changeGraphUp(percent, target) {
+            total = 100
+            var handler = setInterval(function(){
+                // values increment
+                percent += 1;
+                // apply new values
+                data.setValue(0, 1, percent);
+                data.setValue(1, 1, total - percent);
+                // update the pie
+                chart.draw(data, options);
+                // check if we have reached the desired value
+                if (percent == target)
+                    // stop the loop
+                    clearInterval(handler);
+                
+            }, 15);
+        }
+    
+        function changeGraphDown(percent, target) {
+            total = 100
+            var handler = setInterval(function(){
+                percent -= 1;
+                // apply new values
+                data.setValue(0, 1, percent);
+                data.setValue(1, 1, total - percent);
+                // update the pie
+                chart.draw(data, options);
+                // check if we have reached the desired value
+                if (percent == target)
+                    // stop the loop
+                    clearInterval(handler);
+                // values increment
+                
+            }, 15);
+        }
+        
+    </script>
     <div class="contents-padding container">
         <h1> 고객 통계 </h1>
         <div class="row justify-content-between" id="target">
@@ -10,35 +100,35 @@
             <div class="nav-scroller py-1 mb-2">
                 <nav class="btn-group nav d-flex justify-content-between" role="group">
                     <div class="p-2">
-                        <input type="radio" class="link-secondary btn-check" name="btn-radio" id="btn-radio1" autocomplete="off" {% if data == 'service' %}checked{% endif %}>
+                        <input type="radio" class="link-secondary btn-check" name="btn-radio" id="btn-radio1" onchange="showData(datas[0])" autocomplete="off" {% if data == 'service' %}checked{% endif %}>
                         <label class="btn btn-outline-brown btn-lg statisticsDetail-width" for="btn-radio1">#서비스</label>
                     </div>
                     <div class="p-2">
-                        <input type="radio" class="link-secondary btn-check" name="btn-radio" id="btn-radio2" autocomplete="off" {% if data == 'price' %}checked{% endif %}>
+                        <input type="radio" class="link-secondary btn-check" name="btn-radio" id="btn-radio2" onchange="showData(datas[1])" autocomplete="off" {% if data == 'price' %}checked{% endif %}>
                         <label class="btn btn-outline-brown btn-lg statisticsDetail-width" for="btn-radio2">#가격</label>
                     </div>
                     <div class="p-2">
-                        <input type="radio" class="link-secondary btn-check" name="btn-radio" id="btn-radio3" autocomplete="off" {% if data == 'dessert' %}checked{% endif %}>
+                        <input type="radio" class="link-secondary btn-check" name="btn-radio" id="btn-radio3" onchange="showData(datas[2])" autocomplete="off" {% if data == 'dessert' %}checked{% endif %}>
                         <label class="btn btn-outline-brown btn-lg statisticsDetail-width" for="btn-radio3">#디저트</label>
                     </div>
                     <div class="p-2">
-                        <input type="radio" class="link-secondary btn-check" name="btn-radio" id="btn-radio4" autocomplete="off" {% if data == 'drink' %}checked{% endif %}>
+                        <input type="radio" class="link-secondary btn-check" name="btn-radio" id="btn-radio4" onchange="showData(datas[3])" autocomplete="off" {% if data == 'drink' %}checked{% endif %}>
                         <label class="btn btn-outline-brown btn-lg statisticsDetail-width" for="btn-radio4">#커피</label>
                     </div>
                     <div class="p-2">
-                        <input type="radio" class="link-secondary btn-check" name="btn-radio" id="btn-radio5" autocomplete="off" {% if data == 'customer' %}checked{% endif %}>
+                        <input type="radio" class="link-secondary btn-check" name="btn-radio" id="btn-radio5" onchange="showData(datas[4])" autocomplete="off" {% if data == 'customer' %}checked{% endif %}>
                         <label class="btn btn-outline-brown btn-lg statisticsDetail-width" for="btn-radio5">#고객수</label>
                     </div>
                     <div class="p-2">
-                        <input type="radio" class="link-secondary btn-check" name="btn-radio" id="btn-radio6" autocomplete="off" {% if data == 'interior' %}checked{% endif %}>
+                        <input type="radio" class="link-secondary btn-check" name="btn-radio" id="btn-radio6" onchange="showData(datas[5])" autocomplete="off" {% if data == 'interior' %}checked{% endif %}>
                         <label class="btn btn-outline-brown btn-lg statisticsDetail-width" for="btn-radio6">#인테리어</label>
                     </div>
                     <div class="p-2">
-                        <input type="radio" class="link-secondary btn-check" name="btn-radio" id="btn-radio7" autocomplete="off" {% if data == 'view' %}checked{% endif %}>
+                        <input type="radio" class="link-secondary btn-check" name="btn-radio" id="btn-radio7" onchange="showData(datas[6])" autocomplete="off" {% if data == 'view' %}checked{% endif %}>
                         <label class="btn btn-outline-brown btn-lg statisticsDetail-width" for="btn-radio7">#뷰</label>
                     </div>
                     <div class="p-2">
-                        <input type="radio" class="link-secondary btn-check" name="btn-radio" id="btn-radio8" autocomplete="off" {% if data == 'parking' %}checked{% endif %}>
+                        <input type="radio" class="link-secondary btn-check" name="btn-radio" id="btn-radio8" onchange="showData(datas[7])" autocomplete="off" {% if data == 'parking' %}checked{% endif %}>
                         <label class="btn btn-outline-brown btn-lg statisticsDetail-width" for="btn-radio8">#주차</label>
                     </div>
                 </nav>
@@ -46,5 +136,8 @@
             <div class="contents-blank"></div>
         </div>
     </div>
+    <main>
+        <div id="piechart"></div>
+    </main>
 </main>
 {% endblock %}

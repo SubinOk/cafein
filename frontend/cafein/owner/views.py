@@ -207,7 +207,11 @@ def ownerStatistics(request):
         data = request.GET.get('data')
         if data is None:
             data = "service"
-        return render(request, 'ownerStatistics.html', {'data': data})
+        cafe = Cafe.objects.get(user = request.session.get('user'))
+        cafe_sentiment = Cafe_sentiment.objects.get(cafe = cafe)
+        cafe_rank = Cafe_rank.objects.filter(sentiment=cafe_sentiment.sentiment_id).order_by('rank_id')
+            
+        return render(request, 'ownerStatistics.html', {'data': data, 'cafe_rank': cafe_rank})
     else:
         return redirect('/')
 
