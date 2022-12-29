@@ -90,10 +90,11 @@
                             </script>
                             {% endif %}
                             {{ form.max_occupancy }}
+                            <div class="text-first"><a href="{% url 'owner:ownerManageMenu' %}" class="btn">메뉴 수정</a></div>
                         </div>
                     </div>
                 </form>
-                <div class="text-end"><a href="{% url 'owner:ownerManageMenu' %}" class="btn">메뉴 수정</a></div>
+                
                 {% for image in imageform %}
                     {% if forloop.counter == 1 %}
                     <script>
