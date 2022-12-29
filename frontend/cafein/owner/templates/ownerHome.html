@@ -42,7 +42,7 @@
                     <div class="col">
                         <div class="h3 pb-5 text-bold">고객들이 만족한 항목</div>
                         {% for rank in cafe_rank %}
-                        <div class="m-4 h3"><strong class="font-weight-bold">{{ forloop.counter }}</strong>&nbsp;&nbsp;&nbsp; <a class="text-dark text-decoration-none" href="{% url 'owner:ownerStatistics' %}?data={{rank.category}}">{{rank.category}}</a></div>
+                        <div class="m-4 h3"><strong class="font-weight-bold">{{ forloop.counter }}</strong>&nbsp;&nbsp;&nbsp; <a class="text-dark text-decoration-none cafe_rank" href="{% url 'owner:ownerStatistics' %}?data={{rank.category}}">{{rank.category}}</a></div>
                         {% endfor %}
                     </div>  
                 </div>

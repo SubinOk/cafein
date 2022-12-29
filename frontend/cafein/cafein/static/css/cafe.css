@@ -412,4 +412,10 @@ textarea {
     border-color: #e0e0e0;
     background-color: #fafafa;
 }
-
+.cafe_rank {
+    position: absolute;
+    z-index: 1;
+}
+.cafe_rank:hover{
+    font-size: 25px;
+}
