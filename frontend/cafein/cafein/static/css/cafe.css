@@ -178,7 +178,7 @@ body{
 }
 .contents-padding {
     /*max-width: 100%;*/
-    margin-top:50px;
+    margin-top:90px;
     /*margin-left: 270px;*/
     /*margin-right: 60px;*/
 }
@@ -335,8 +335,10 @@ body{
     height: 100%;
 }
 .pw-box{
-    box-shadow: 1px 1px 4px 0.3px gray;
+    /* box-shadow: 1px 1px 4px 0.3px gray; */
+    border: 1px solid;
     margin-top: 150px;
+    border-radius: 5px;
 }
 .header-icon{
     height:30px;
@@ -383,9 +385,23 @@ body{
 .w-55{
     width:55%;
 }
-.w-60{
-    width: 60%;
+
+.w-65{
+    width:65%;
 }
+
+.w-75{
+    width:75%;
+}
+
+.w-85{
+    width:85%;
+}
+
+.w-95{
+    width:95%;
+}
+
 .cursor{
     cursor:pointer;
 }
@@ -470,4 +486,16 @@ textarea {
 }
 .cafe_rank:hover{
     font-size: 25px;
+}
+.check_button{
+    width: 45px;
+    height: 35px;
+    color: white;
+    font-size: 13;
+    margin-left: 10px;
+    background-color: rgba(60, 98, 85, 1);
+}
+
+.login-option-container2{
+    display: flex;
 }
