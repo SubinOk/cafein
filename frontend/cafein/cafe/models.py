@@ -79,7 +79,9 @@ class Cafe_rank(models.Model):
     rank = models.IntegerField('순위', null=True)
     ratio = models.DecimalField('카테고리별 긍정비율',max_digits = 5, decimal_places=3)
     sentiment = models.ForeignKey(Cafe_sentiment, on_delete=models.CASCADE , blank=True, null =True)
-
+    cnt = models.IntegerField(null=True)
+    positive_cnt = models.IntegerField(null=True)
+    
     class Meta:
         db_table = 'cafe_rank'
 
