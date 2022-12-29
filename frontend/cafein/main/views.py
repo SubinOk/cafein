@@ -40,7 +40,7 @@ def mainPage(request):
             return redirect('/owner/home')
         else:
             return redirect('/customer/home')
-    return render(request, 'mainPage.html')
+    return render(request, 'mainPage.html',{'main': 'main'})
 
 
 # 비밀번호 재설정
