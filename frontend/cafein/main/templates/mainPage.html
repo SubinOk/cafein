@@ -15,7 +15,9 @@
     let target = 0
     window.addEventListener('scroll', function() {
         let currentScrollTop = window.scrollY;
-        
+        image1_location = document.getElementById('image1').offsetTop-75;
+        image2_location = document.getElementById('image2').offsetTop-75;
+        image3_location = document.getElementById('image3').offsetTop-75;
         if (currentScrollTop > lastScrollTop) {
             if( flg ){
                 if (lastScrollTop < image2_location){
