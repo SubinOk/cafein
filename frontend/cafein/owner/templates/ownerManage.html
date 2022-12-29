@@ -4,7 +4,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <main>
         <div>
-            <div class="col contents-padding container">
+            <div class="col container">
                 <h1>카페 관리</h1>
                 <form action="" method="post" enctype="multipart/form-data">
                     {% csrf_token %}
@@ -90,10 +90,11 @@
                             </script>
                             {% endif %}
                             {{ form.max_occupancy }}
+                            <div class="text-first"><a href="{% url 'owner:ownerManageMenu' %}" class="btn">메뉴 수정</a></div>
                         </div>
                     </div>
                 </form>
-                <div class="text-end"><a href="{% url 'owner:ownerManageMenu' %}" class="btn">메뉴 수정</a></div>
+                
                 {% for image in imageform %}
                     {% if forloop.counter == 1 %}
                     <script>

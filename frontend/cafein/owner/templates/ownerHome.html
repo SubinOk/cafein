@@ -32,7 +32,7 @@
             
         </script>
         <div>
-            <div class="contents-padding container">
+            <div class="container">
                 <h2>고객 통계</h2>
                 <div class="row">
                     <div class="col">
@@ -79,7 +79,12 @@
                     </tbody>
                 </table>
                 </div>
-            </div>        
             </div>
+        </div>
+        <script>
+            function moveDetailPage( pageid ){
+                window.location.assign('/owner/coment/' + pageid);
+            }
+        </script>
     </main>
 {% endblock %}

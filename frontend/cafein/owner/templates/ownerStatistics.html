@@ -91,53 +91,58 @@
         }
         
     </script>
-    <div class="contents-padding container">
+    <div class="container">
         <h1> 고객 통계 </h1>
-        <div class="row justify-content-between" id="target">
-        </div>
+        <div class="blank"></div>
         <div class="contents-blank"></div>
-        <div class="container">
+        <div class="contents-blank"></div>
+        
+        <div class="d-flex justify-content-center">
             <div class="nav-scroller py-1 mb-2">
-                <nav class="btn-group nav d-flex justify-content-between" role="group">
+                <nav class="d-flex justify-content-center" role="group">
                     <div class="p-2">
                         <input type="radio" class="link-secondary btn-check" name="btn-radio" id="btn-radio1" onchange="showData(datas[0])" autocomplete="off" {% if data == 'service' %}checked{% endif %}>
-                        <label class="btn btn-outline-brown btn-lg statisticsDetail-width" for="btn-radio1">#서비스</label>
+                        <label class="btn btn-outline-green btn-lg" for="btn-radio1">#서비스</label>
                     </div>
                     <div class="p-2">
                         <input type="radio" class="link-secondary btn-check" name="btn-radio" id="btn-radio2" onchange="showData(datas[1])" autocomplete="off" {% if data == 'price' %}checked{% endif %}>
-                        <label class="btn btn-outline-brown btn-lg statisticsDetail-width" for="btn-radio2">#가격</label>
+                        <label class="btn btn-outline-green btn-lg" for="btn-radio2">#가격</label>
                     </div>
                     <div class="p-2">
                         <input type="radio" class="link-secondary btn-check" name="btn-radio" id="btn-radio3" onchange="showData(datas[2])" autocomplete="off" {% if data == 'dessert' %}checked{% endif %}>
-                        <label class="btn btn-outline-brown btn-lg statisticsDetail-width" for="btn-radio3">#디저트</label>
+                        <label class="btn btn-outline-green btn-lg" for="btn-radio3">#디저트</label>
                     </div>
                     <div class="p-2">
                         <input type="radio" class="link-secondary btn-check" name="btn-radio" id="btn-radio4" onchange="showData(datas[3])" autocomplete="off" {% if data == 'drink' %}checked{% endif %}>
-                        <label class="btn btn-outline-brown btn-lg statisticsDetail-width" for="btn-radio4">#커피</label>
+                        <label class="btn btn-outline-green btn-lg" for="btn-radio4">#커피</label>
                     </div>
                     <div class="p-2">
                         <input type="radio" class="link-secondary btn-check" name="btn-radio" id="btn-radio5" onchange="showData(datas[4])" autocomplete="off" {% if data == 'customer' %}checked{% endif %}>
-                        <label class="btn btn-outline-brown btn-lg statisticsDetail-width" for="btn-radio5">#고객수</label>
+                        <label class="btn btn-outline-green btn-lg" for="btn-radio5">#고객수</label>
                     </div>
                     <div class="p-2">
                         <input type="radio" class="link-secondary btn-check" name="btn-radio" id="btn-radio6" onchange="showData(datas[5])" autocomplete="off" {% if data == 'interior' %}checked{% endif %}>
-                        <label class="btn btn-outline-brown btn-lg statisticsDetail-width" for="btn-radio6">#인테리어</label>
+                        <label class="btn btn-outline-green btn-lg" for="btn-radio6">#인테리어</label>
                     </div>
                     <div class="p-2">
                         <input type="radio" class="link-secondary btn-check" name="btn-radio" id="btn-radio7" onchange="showData(datas[6])" autocomplete="off" {% if data == 'view' %}checked{% endif %}>
-                        <label class="btn btn-outline-brown btn-lg statisticsDetail-width" for="btn-radio7">#뷰</label>
+                        <label class="btn btn-outline-green btn-lg" for="btn-radio7">#뷰</label>
                     </div>
                     <div class="p-2">
                         <input type="radio" class="link-secondary btn-check" name="btn-radio" id="btn-radio8" onchange="showData(datas[7])" autocomplete="off" {% if data == 'parking' %}checked{% endif %}>
-                        <label class="btn btn-outline-brown btn-lg statisticsDetail-width" for="btn-radio8">#주차</label>
+                        <label class="btn btn-outline-brown btn-lg" for="btn-radio8">#주차</label>
                     </div>
                 </nav>
             </div>
-            <div class="contents-blank"></div>
         </div>
     </div>
     <main>
         <div id="piechart"></div>
     </main>
 </main>
+<div class="contents-blank"></div>
+<div class="contents-blank"></div>
+<div class="contents-blank"></div>
+<div class="contents-blank"></div>
+<div class="contents-blank"></div>
 {% endblock %}
