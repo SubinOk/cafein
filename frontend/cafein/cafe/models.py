@@ -69,6 +69,7 @@ class Cafe_sentiment(models.Model):
     cafe = models.ForeignKey(Cafe, on_delete=models.CASCADE , blank=True, null =True)
     sentiment_id = models.AutoField(primary_key = True)
     total = models.DecimalField('전체긍정비율', max_digits = 5, decimal_places=3)
+    total_count = models.IntegerField(null=True)
 
     class Meta:
         db_table = 'cafe_sentiment'
