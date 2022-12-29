@@ -24,14 +24,17 @@ from django.contrib.auth.hashers import check_password
 from account.models import User
 from cafe.models import Cafe, Cafe_image, Cafe_review, Cafe_comment, Cafe_menu, Cafe_sentiment, Cafe_rank
 
-# 웹크롤링
+# # 웹크롤링
 from . import preprocess
 from . import datacrawl
 from . import model
 from . import getkeywords
+from . import main
 
 import pandas as pd
 from datetime import datetime
+from multiprocessing import Process
+import os
 
 
 MINIMUM_PASSWORD_LENGTH = 8
@@ -284,29 +287,30 @@ def ownerManageMenu(request):
         return redirect('/')
 
 def analysis(request):
-    def crawl(name, number):
-            cafeName = name
-            cafeNum = number
-            print(cafeName, cafeNum)
-            now = datetime.now()
-            
-            rawdata = datacrawl.collectData(cafeName, cafeNum)
-            data = preprocess.processData(cafeName, rawdata)
-            result = model.prediction(data)
 
-            result.to_csv(f'.frontend/cafein/files/{cafeName}_{now.strftime("%Y%m%d")}_result.csv', index=False, encoding='utf-8-sig')
-            
-            wordlist = getkeywords.getWords(result)
-            
-            wordlist.to_csv(f'.frontend/cafein/files/{cafeName}_{now.strftime("%Y%m%d")}_wordlist.csv', index=False, encoding='utf-8-sig')
-    
+    # def start_server(port):
+    #     # os.chdir('owner/views.py')
+    #     os.system(f'python manage.py runserver {port}')
+    #     main.crawl(name,number)
+    #     print('멀티프로세싱')
+
     if request.session.get('user'):
         cafe = Cafe.objects.get(user = request.session.get('user'))
         name = cafe.name
         number = cafe.cafe_phone
-        
-    crawl(name, number)
+
+    print(cafe)
+    proc = Process(target=main.crawl, args=(name,number))
+    proc.start()
+    #os.chdir('C:/dev/cafein/frontend/cafein/owner/')
     
-    return HttpResponse("성공")
+    #os.path.basename('C:/dev/cafein/frontend/cafein/owner/main.py')
+    #os.system(f'python manage.py runserver {8888}')
+
+
+
+    return HttpResponse("리뷰분석중")
+    
+    
     
   
