@@ -93,7 +93,7 @@ def scrapReviews(html, datelist, reviewlist):
 def collectData(cafename, cafenum):
     cafeID = findCafe(cafenum, cafename)
     
-    driver = webdriver.Chrome('./modeling/chromedriver')
+    driver = webdriver.Chrome('owner/model/chromedriver')
     action = ActionChains(driver)
 
     days = []
@@ -120,6 +120,6 @@ def collectData(cafename, cafenum):
     tmp = now + timedelta(days=-90)
     condition = df.loc[df['date']>=tmp]
 
-    condition.to_csv(f'.cafein/files/{cafename}_{now.strftime("%Y%m%d")}_raw.csv', index=False, encoding='utf-8-sig')
+    condition.to_csv(f'cafein/files/{cafename}_{now.strftime("%Y%m%d")}_raw.csv', index=False, encoding='utf-8-sig')
   
     return condition

@@ -41,11 +41,11 @@ def prediction(df):
 
     test_X, _ = convert_examples_to_features(df['reviews'], df['y'], max_seq_len=max_seq_len, tokenizer=tokenizer)
     
-    sent_model = tf.keras.models.load_model('./modeling/nlp/model/sentimentBert')
+    sent_model = tf.keras.models.load_model('owner/model/sentimentBert')
     sent_pred = sent_model.predict(test_X)
     sent_pred = np.where(sent_pred>0.2, 1, 0).reshape(-1)
 
-    keyword_model = tf.keras.models.load_model('./modeling/nlp/model/keywordBert')
+    keyword_model = tf.keras.models.load_model('owner/model/keywordBert')
     keyword_pred = keyword_model.predict(test_X)
     keyword_pred = np.where(keyword_pred>0.5, 1, 0)
 
