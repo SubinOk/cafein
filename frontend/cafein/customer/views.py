@@ -1,5 +1,6 @@
 from django.shortcuts import redirect, render
 from django.core.paginator import Paginator
+from django.http import JsonResponse
 
 from customer.forms import customerPostForm, createViewForm
 from cafe.models import Cafe, Cafe_review, Cafe_comment, Cafe_image
@@ -16,10 +17,33 @@ def customerHome(request):
 
         page_number = request.GET.get('page')
         cafe_images = paginator.get_page(page_number)
-        return render(request, 'customerHome.html', {'cafe': cafes, 'cafe_images': cafe_images})
+        return render(request, 'customerHome.html')
     else:
         return redirect('/')
+    
+def getCafeData(request):
+    cafes = Cafe.objects.all()
+    cafe_image = []
+    for cafe in cafes:
+        cafe_image.append(Cafe_image.objects.filter(cafe=cafe)[0])
+    
+    paginator = Paginator(cafe_image, 6)
 
+    page_number = request.GET.get('page')
+    cafe_images_page = paginator.get_page(page_number)
+    
+    if int(page_number) == int(paginator.num_pages):
+        last_page = True
+    else:
+        last_page = False
+    cafe_images = []
+    for cafe_image in cafe_images_page.object_list:
+        cafe_images.append({
+            'cafe': cafe_image.cafe.name,
+            'image':cafe_image.image.url
+                            })
+
+    return JsonResponse({'cafe_images': cafe_images, 'last_page': last_page})
 
 def signup(request):
     if not(request.session.get('user')):
