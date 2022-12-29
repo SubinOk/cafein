@@ -117,7 +117,7 @@ body{
     --bs-btn-disabled-border-color: #583A23;
     --bs-gradient: none;
 }
-.outline-green {
+.btn-outline-green {
     --bs-btn-color: rgba(60, 98, 85, 1);
     --bs-btn-border-color: rgba(60, 98, 85, 1);
     --bs-btn-hover-color: #fff;
