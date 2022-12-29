@@ -25,14 +25,14 @@ def crawl(name, number):
         data = preprocess.processData(cafeName, rawdata)
         result = model.prediction(data)
 
-        result.to_csv(f'.cafein/files/{cafeName}.csv', index=False, encoding='utf-8-sig')
+        result.to_csv(f'cafein/files/{cafeName}result.csv', index=False, encoding='utf-8-sig')
                 
         wordlist = getkeywords.getWords(result)
                 
-        wordlist.to_csv(f'.cafein/files/{cafeName}.csv', index=False, encoding='utf-8-sig')
+        wordlist.to_csv(f'cafein/files/{cafeName}.csv', index=False, encoding='utf-8-sig')
      
         # 통계값 저장
-        data = pd.read_csv(f'.cafein/files/{cafeName}.csv', encoding='utf-8-sig')
+        data = pd.read_csv(f'cafein/files/{cafeName}result.csv', encoding='utf-8-sig')
         
         # 전체 긍부정 
         total_pn = len(data.loc[data['sentiment']==1])/len(data)
@@ -60,7 +60,7 @@ def crawl(name, number):
         row = [f'{cafeName}', total_pn, len(data)] 
         df_total.loc[1] = row
         
-        df_total.to_csv("df_total.csv",index=False)
+        df_total.to_csv("cafein/files/df_total.csv",index=False)
         
         # category | rank | sentiment | cnt | positive_cnt
         df_category = pd.DataFrame({"category":[], "rank":[], "sentiment":[], "cnt":[], "positive_cnt":[]})
@@ -75,4 +75,4 @@ def crawl(name, number):
                 row.append(p_count[i])
                 df_category.loc[i] = row
         
-        df_category.to_csv("df_category.csv",index=False)
+        df_category.to_csv("cafein/files/df_category.csv",index=False)
