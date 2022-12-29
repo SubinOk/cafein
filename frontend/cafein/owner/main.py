@@ -10,8 +10,6 @@ import os
 
 def crawl(name, number):
 
-    
-        os.system(f'python manage.py runserver {8888}')
         cafeName = name
         cafeNum = number
         print(name,number)
@@ -27,9 +25,9 @@ def crawl(name, number):
         data = preprocess.processData(cafeName, rawdata)
         result = model.prediction(data)
 
-        result.to_csv(f'.frontend/cafein/files/{cafeName}_{now.strftime("%Y%m%d")}_result.csv', index=False, encoding='utf-8-sig')
+        result.to_csv(f'.cafein/files/{cafeName}_{now.strftime("%Y%m%d")}_result.csv', index=False, encoding='utf-8-sig')
                 
         wordlist = getkeywords.getWords(result)
                 
-        wordlist.to_csv(f'.frontend/cafein/files/{cafeName}_{now.strftime("%Y%m%d")}_wordlist.csv', index=False, encoding='utf-8-sig')
+        wordlist.to_csv(f'.cafein/files/{cafeName}_{now.strftime("%Y%m%d")}_wordlist.csv', index=False, encoding='utf-8-sig')
     

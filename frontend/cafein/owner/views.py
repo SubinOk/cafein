@@ -299,14 +299,12 @@ def analysis(request):
         name = cafe.name
         number = cafe.cafe_phone
 
-    print(cafe)
     proc = Process(target=main.crawl, args=(name,number))
     proc.start()
     #os.chdir('C:/dev/cafein/frontend/cafein/owner/')
     
     #os.path.basename('C:/dev/cafein/frontend/cafein/owner/main.py')
     #os.system(f'python manage.py runserver {8888}')
-
 
 
     return HttpResponse("리뷰분석중")
