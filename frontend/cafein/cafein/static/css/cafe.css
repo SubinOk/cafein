@@ -33,11 +33,6 @@ body{
     text-decoration: none;
 }
 
-.active{
-    color:#583A23;
-    background-color: yellow;
-}
-
 .searchbox{
     font-family: 'Pretendard-Regular';
     font-size: 16px;
@@ -96,6 +91,9 @@ body{
     margin-top: 5px;
     padding-left: 20px;
 }
+.container{
+    justify-content: center;
+}
 .header-style{
     height: 60px;
     /* width: 1100px; */
@@ -127,11 +125,9 @@ body{
     background-color: rgba(255, 255, 255, 1);
     color:rgba(88, 58, 35, 1);
 }
+
 .login-menu {
     height: 30px;
-}
-.form-control{
-    font-size: 15px;
 }
 
 .side-menu {
@@ -154,7 +150,6 @@ body{
     font-size: 18px;
     text-align: left;
     text-indent: 3em;
-    /* font-family: "Inter", sans-serif; */
     font-family: 'Pretendard-Regular';
 }
 .contents-header {
@@ -162,7 +157,6 @@ body{
     color: rgba(88, 58, 35, 1);
     font-size: 24px;
     text-align: left;
-    /* font-family: "Inter", sans-serif; */
     font-family: 'Pretendard-Regular';
 }
 .contents-padding {
@@ -204,13 +198,19 @@ body{
     color: #583A23;
     border-color: #CFAD8E;
 }
-.cafein-button{
-    width: 325px;
-    color: white;
-    background-color: RGB(60, 98, 85);
-    padding-top: 10px;
-    padding-bottom: 10px;
+.ptd-15{
+    font-family: 'Pretendard-Regular';
     font-size: 15px;
+}
+
+.ptd-16{
+    font-family: 'Pretendard-Regular';
+    font-size: 16px;
+}
+
+.btn-green{
+    color: white;
+    background-color: rgba(60, 98, 85, 1);
 }
 .contents-blank{
     padding-top: 5px;
@@ -390,8 +390,8 @@ textarea {
 }
 
 .not-current{
-    font-size: 12px;
-    padding: 2px 6px;
+    font-size: 14px;
+    padding: 8px 10px;
     color: #757575;
     text-decoration: none;
 }
@@ -402,20 +402,17 @@ textarea {
 }
 
 .current{
-    font-size: 12px;
-    color: rgba(88, 58, 35, 1);
+    width: 30px;
+    font-size: 14px;
+    color: #ffffff;
     font-weight: bold;
-    margin: 0px 2px;
-    padding: 2px 6px;
+    text-align: center;
+    margin: 2px;
+    padding: 3px 6px 3px 6px;
     border-style: solid;
+    border-radius: 100%;
     border-width: 1px;
-    border-color: #e0e0e0;
-    background-color: #fafafa;
+    border-color: rgba(88, 58, 35, 1);
+    background-color: rgba(88, 58, 35, 1);
 }
-.cafe_rank {
-    position: absolute;
-    z-index: 1;
-}
-.cafe_rank:hover{
-    font-size: 25px;
-}
+
