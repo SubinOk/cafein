@@ -1,6 +1,6 @@
 ## nlp
 - 카페명 및 전화번호를 입력하였을 때, 네이버 지도 내 리뷰를 크롤링하여 키워드, 긍부정 분석을 진행하는 모델입니다.
-- [모델 파일을 저장](https://drive.google.com/file/d/16I3DW3GScvwqBDl7yVYvBr9gsa0pVVs7/view)하여 nlp/model 폴더에 압축을 풀어주세요.
+- [모델 파일을 저장](https://drive.google.com/file/d/16I3DW3GScvwqBDl7yVYvBr9gsa0pVVs7/view)하여 frontend/cafein/ownermodel폴더 만드시고 압축을 풀어주세요.
 - 사용하는 크롬 브라우저 버전에 맞는 크롬 드라이브를 [설치](https://chromedriver.chromium.org/downloads)해주세요.
 
 <br>
