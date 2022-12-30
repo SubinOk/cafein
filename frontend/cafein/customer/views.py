@@ -10,15 +10,6 @@ from django.db.models import Q
 
 def customerHome(request):
     if request.session.get('user'):
-        cafes = Cafe.objects.all()
-        cafe_image = []
-        for cafe in cafes:
-            cafe_image.append(Cafe_image.objects.filter(cafe=cafe)[0])
-        
-        paginator = Paginator(cafe_image, 6)
-
-        page_number = request.GET.get('page')
-        cafe_images = paginator.get_page(page_number)
         return render(request, 'customerHome.html')
     else:
         return redirect('/')
