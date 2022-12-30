@@ -543,6 +543,9 @@ textarea {
     height: 250px;
     width: 250px;
 }
+.cus-main-image-size:hover{
+    filter: brightness(75%);
+}
 
 .check_button2{
     width: 150px;
