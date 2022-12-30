@@ -20,20 +20,20 @@
                 <div class="contents-blank"></div>
                 <hr>
                 <div class="contents-blank"></div>
-
                 <div>
-                    <a class="login-button btn btn-outline-brown float-end" href="/owner/delete" aria-expanded="false">탈퇴하기</a>
+                    <a class="login-button login-option change-margin2" href="/owner/delete" aria-expanded="false">탈퇴하기</a>
                 </div>
+                <div class="contents-blank"></div>
                 <form action="/owner/change/" method="post" enctype="multipart/form-data">
                     {% csrf_token %}
-                    <table class="table border-top mt-2">
+                    <table class="table border-top mt-2 change-margin w-55">
                         <tbody>
                         <tr>
-                            <th scope="row">아이디</th>
+                            <th scope="row" class="align-middle">아이디</th>
                             <td colspan="2"><input disabled class="form-control" value={{ request.session.user }}></td>
                         </tr>
                         <tr>
-                            <th scope="row">비밀번호</th>
+                            <th scope="row" class="align-middle">비밀번호</th>
                             <td>{{ form.password }}
                                 {% if error_flg.password %}
                                 <p class="text-danger h6">&nbsp;비밀번호의 형식이 맞지 않습니다.</p>
@@ -62,7 +62,7 @@
                             {% endif %}
                         </tr>
                         <tr>
-                            <th scope="row">전화번호</th>
+                            <th scope="row" class="align-middle">전화번호</th>
                             <td colspan="2">{{ form.phone }}
                                 {% if error_flg.phone %}
                                     <p class="text-danger h6">&nbsp;입력하신 전화번호에 '-'이 포함되어있습니다.</p>
@@ -81,8 +81,14 @@
                         </tr>
                         </tbody>
                     </table>
+                    <div class="contents-blank"></div>
+                    <div class="contents-blank"></div>
+                    <div class="contents-blank"></div>
+                    <div class="contents-blank"></div>
+                    <div class="contents-blank"></div>
+                    <div class="contents-blank"></div>
                     <div class="text-center">
-                        <button type="submit" class="login-button btn btn-outline-brown">변경사항 저장</button>
+                        <button type="submit" class="login-button check_button2">변경사항 저장</button>
                     </div>
                 </form>
             </div>
