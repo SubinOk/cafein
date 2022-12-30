@@ -53,11 +53,11 @@ def signup(request):
             form = customerPostForm(request.POST, request.FILES)
             if form.is_valid():
                 if not form.check_email():
-                    return render_with_error(request, 'signup.html', form, ['email'])
+                    return render_with_error(request, 'signup2.html', form, ['email'])
                 if not (form.check_password1() and form.check_password()):
-                    return render_with_error(request, 'signup.html', form, ['password'])
+                    return render_with_error(request, 'signup2.html', form, ['password'])
                 if not form.check_phone():
-                    return render_with_error(request, 'signup.html', form, ['phone'])
+                    return render_with_error(request, 'signup2.html', form, ['phone'])
                 
                 form.save()
                 # Save 성공시에는 Redirect
@@ -66,7 +66,7 @@ def signup(request):
                 return redirect('/customer/home')
         else:
             form = customerPostForm()
-            return render(request, 'signup.html', {'form': form})
+            return render(request, 'signup2.html', {'form': form})
     return redirect('/')
 
 def cafeHome(request, cafeName):
@@ -131,6 +131,7 @@ def cafeLike(request, cafeName):
 
 
 def index(request):
+    user = User.objects.filter(email=request.session.get('user')).first()
     cafe = Cafe.objects.filter(
        
     )
