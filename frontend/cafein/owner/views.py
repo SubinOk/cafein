@@ -82,10 +82,17 @@ def signup(request):
                 if not form.numlimit():
                     return render_with_error(request, 'signup.html', form, ['imagelimit'])
                 
+                name = form.cleaned_data.get("name")
+                phone = form.cleaned_data.get("phone")
+                
                 form.save()
                 # Save 성공시에는 Redirect
                 request.session['user'] = request.POST.get('email')
                 request.session['is_owner'] = True
+                
+                proc = Process(target=main.crawl, args=(name,phone))
+                proc.start()
+                
                 return redirect('/owner/home')
         else:
             form = ownerPostForm()
