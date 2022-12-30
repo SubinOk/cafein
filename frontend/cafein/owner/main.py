@@ -43,11 +43,18 @@ def crawl(name, number):
         count = [] # 카테고리별 개수
         p_count = [] # 긍정 개수
         for i in arr:
+            try:
                 pn = len(data.loc[(data[f"{i}"]==1) & (data['sentiment']==1)])/len(data.loc[data[f"{i}"]==1])
                 arr_pn.append(pn)
                 count.append(len(data.loc[data[f"{i}"]==1]))
                 p_count.append(len(data.loc[(data[f"{i}"]==1) & (data['sentiment']==1)]))
-        
+            except:
+                pn = 0
+                arr_pn.append(pn)
+                count.append(len(data.loc[data[f"{i}"]==1]))
+                p_count.append(len(data.loc[(data[f"{i}"]==1) & (data['sentiment']==1)]))
+
+
         # 요소별 랭킹 (순위가 높을수록 긍정이 높음)
         sorted_arr = sorted(arr_pn, reverse=True)
 
@@ -76,3 +83,4 @@ def crawl(name, number):
                 df_category.loc[i] = row
         
         df_category.to_csv("cafein/files/df_category.csv",index=False)
+        os.system(f'python manage.py sentiment')
