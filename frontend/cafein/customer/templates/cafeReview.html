@@ -8,17 +8,17 @@
         </div>
         <div class=blank></div>
         <div class="p-5">
-            <table class="table table-bordered p-4 table-hover table-striped">
+            <table class="table-brown p-4 ptd-15">
                 <thead>
                 <tr>
-                    <th scope="col" class="w-15 text-center">번호</th>
+                    <th scope="col" class="w-5 text-center">번호</th>
                     <th scope="col" class="w-15 text-center">카페명</th>
-                    <th scope="col" class="w-15 text-center">날짜</th>
+                    <th scope="col" class="w-20 text-center">날짜</th>
                     <th scope="col" class="w-45 text-center">리뷰 제목</th>
                     <th scope="col" class="text-center">별점</th>
                 </tr>
                 </thead>
-                <tbody>
+                <tbody class="ptd-14">
                 {% for review in reviews %}
                 <tr class="cursor" onclick="moveDetailPage('{{ review.cafe.cafe_id }}', {{ review.review_id }})">
                     <th scope="row" class="text-center align-middle">{{ forloop.counter }}</th>
