@@ -118,8 +118,6 @@ class Cafe_keyword(models.Model):
         db_table = 'cafe_keyword'
 
 
-    
-
 class Cafe_congestion(models.Model):
     congestion_id = models.AutoField(primary_key = True)
     congestion = models.IntegerField(null =True)

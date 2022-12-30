@@ -84,3 +84,4 @@ def crawl(name, number):
         
         df_category.to_csv("cafein/files/df_category.csv",index=False)
         os.system(f'python manage.py sentiment')
+        #os.system(f'python manage.py congestion')
