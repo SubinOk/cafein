@@ -38,11 +38,12 @@
                     <div class="col">
                         <div class="h3 text-bold">고객들의 전체 만족도</div>
                         <div id="myChart" class="d-flex justify-content-center"></div>
+                        <div class="h3 text-center">해당 그래프는 90일간의 데이터를 분석한 결과입니다.</div>
                     </div>
                     <div class="col">
                         <div class="h3 pb-5 text-bold">고객들이 만족한 항목</div>
                         {% for rank in cafe_rank %}
-                        <div class="m-4 h3"><strong class="font-weight-bold">{{ forloop.counter }}</strong>&nbsp;&nbsp;&nbsp; <a class="text-dark text-decoration-none cafe_rank" href="{% url 'owner:ownerStatistics' %}?data={{rank.category}}">{{rank.category}}</a></div>
+                        <div class="m-4 h3"><strong class="font-weight-bold">{{ forloop.counter }}</strong>&nbsp;&nbsp;&nbsp; <a class="text-dark text-decoration-none cafe_rank" href="{% url 'owner:ownerStatistics' %}?data={{rank.category}}">{{rank.category}}&nbsp;&nbsp;{{rank.cnt}}건의 데이터을 분석하였습니다.</a></div>
                         {% endfor %}
                     </div>  
                 </div>

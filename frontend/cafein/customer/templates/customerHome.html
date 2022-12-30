@@ -2,28 +2,48 @@
 {% load static %}
 {% block content %}
 <main>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <div class="container">
         <div class="contents-blank"></div>
-        <div class="row">
-            {% for cafe_image in cafe_images %}
-            <div class="col-4 px-5 pb-5">
-                <div class="d-flex justify-content-center">
-                    <img class="cus-main-image-size" src='{{ cafe_image.image.url }}'>
-                </div>
-                <div>{{ cafe_image.cafe.name }}</div>
-            </div>
-            {% endfor %}
-            <div class="contents-blank"></div>
+        <div class="row" id="cafe_list">
         </div>
         <div class="d-flex justify-content-center">
-            <a href="/">
+            <a id="nextPage" onclick='getCafeData()'>
                 <img src="{% static '/img/arrow.png' %}">
             </a>
         </div>
     </div>
     <script>
-        function moveDetailPage( cafeName, pageid ){
-            window.location.assign('/customer/'+cafeName+'/review/' + pageid);
+        var page = 1;
+        function getCafeData(){
+            $.ajax({
+                url: '/customer/findCafe/?page='+page,
+                type: 'GET',
+                response: {},
+                success: function(response) {
+                    showCafeList(response)
+                    page = page + 1;
+                }
+            }); 
+        }
+        getCafeData()
+
+        function showCafeList(response){
+            var cafe_images = response.cafe_images;
+            var html = '';
+            for (var i = 0; i < cafe_images.length; i++) {
+                html += '<div class="col-4 px-5 pb-5">';
+                html += '<div class="d-flex justify-content-center">';
+                html += '<img class="cus-main-image-size" src="' + cafe_images[i].image + '">';
+                html += '</div>';
+                html += '<div>' + cafe_images[i].cafe + '</div>';
+                html += '</div>';
+            }
+            $('#cafe_list').append(html);
+
+            if (response.last_page == true){
+                document.getElementById('nextPage').style.display = "none";
+            }
         }
     </script>
 </main>

@@ -1,22 +1,23 @@
 {% extends "layout.html" %}
 {% block content %}
 <main class="container-fluid">
-    <div class="col-4 container">
-        <div class="blank"></div>
+    <div class="container">
         <div class="blank"></div>
         <div class="blank"></div>
         <div class="container row">
-            <div class="col text-center ptd-15">
+            <div class="col text-center ptd-16">
                 환영합니다.<br/>
                 원하시는 회원가입을 선택해 주세요.
             </div>
             <div class="blank"></div>
-            <div class="d-flex">
-                <div class='col'>
-                    <button class="signup-button" onclick = "location.href = '{% url 'customer:signup' %}' ">고객 회원가입</button>
+            <div class="d-flex justify-content-center">
+                <div class='signup-box' onclick = "location.href = '{% url 'customer:signup' %}' ">
+                    <img class="signup-icon" src='/media/layout/signup_customer.png'>
+                    <button class="signup-button ptd-16" >고객 회원가입</button>
                 </div>
-                <div class='col'>
-                    <button class="signup-button offset-md-3" onclick = "location.href = '{% url 'owner:signup' %}' ">사장 회원가입</button>
+                <div class='signup-box justify-content-center'>
+                    <img class="signup-icon" src='/media/layout/signup_owner.png'>
+                    <button class="signup-button ptd-16" onclick = "location.href = '{% url 'owner:signup' %}' ">사장 회원가입</button>
                 </div>
             </div>
         </div>
