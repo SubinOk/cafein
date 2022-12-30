@@ -80,6 +80,7 @@ body{
     margin-top: 20px;
 }
 
+
 .signup-button{
     margin: 20px;
     color: #583A23;
@@ -241,6 +242,11 @@ body{
     text-align: center;
 }
 
+.ptd-12{
+    font-family: 'Pretendard-Regular';
+    font-size: 12px;
+}
+
 .ptd-14{
     font-family: 'Pretendard-Regular';
     font-size: 14px;
@@ -265,6 +271,7 @@ body{
     color: white;
     background-color: rgba(60, 98, 85, 1);
     border-style: none;
+    border-radius: 5px;
     box-sizing: border-box;
     width: 100%;
     height: 40px;
@@ -362,6 +369,7 @@ body{
 .pw-box{
     /* box-shadow: 1px 1px 4px 0.3px gray; */
     border: 1px solid;
+    border-color: #dcdcdc;
     margin-top: 150px;
     border-radius: 5px;
 }
@@ -513,11 +521,12 @@ textarea {
     font-size: 25px;
 }
 .check_button{
-    width: 45px;
+    width: 80px;
     height: 35px;
     color: white;
     font-size: 13;
     margin-left: 10px;
+    border-radius: 5px;
     background-color: rgba(60, 98, 85, 1);
 }
 
@@ -525,7 +534,38 @@ textarea {
     display: flex;
 }
 
+.change-margin{
+    margin: auto;
+    margin-left: auto;
+    margin-right: auto;
+    /* text-align: center; */
+    vertical-align: middle;
+
+}
+
+.change-margin2{
+    margin-left: 700px;
+}
+
+.name-margin{
+    margin-top: 5px;
+}
+
 .cus-main-image-size{
     height: 250px;
     width: 250px;
+}
+
+.check_button2{
+    width: 150px;
+    height: 35px;
+    color: white;
+    font-size: 14;
+    border-radius: 5px;
+    background-color: rgba(60, 98, 85, 1);
+}
+
+.check_button3{
+    font-size: 13;
+    /* font-style: ; */
 }

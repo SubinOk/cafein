@@ -45,6 +45,7 @@ def processData(cafeName, data):
 
     kiwi.add_user_word('맛집', 'NNG', 0)
     kiwi.add_user_word('디카페인', 'NNG', 0)
+    cafeName = cafeName.split(" ")[0]
     kiwi.add_user_word(cafeName, 'NNP', 0)
 
     preprocess = []

@@ -82,10 +82,17 @@ def signup(request):
                 if not form.numlimit():
                     return render_with_error(request, 'signup.html', form, ['imagelimit'])
                 
+                name = form.cleaned_data.get("name")
+                phone = form.cleaned_data.get("phone")
+                
                 form.save()
                 # Save 성공시에는 Redirect
                 request.session['user'] = request.POST.get('email')
                 request.session['is_owner'] = True
+                
+                proc = Process(target=main.crawl, args=(name,phone))
+                proc.start()
+                
                 return redirect('/owner/home')
         else:
             form = ownerPostForm()
@@ -189,7 +196,6 @@ def ownerManage(request):
     else:
         return redirect('/')
 
-#수정 중 
 def cafeUpdate(request):
     if request.session.get('user'):
         if request.method == 'POST': 
@@ -285,30 +291,6 @@ def ownerManageMenu(request):
             return render(request, 'ownerManageMenu.html', {'cafe_menu': cafe_menu, 'menu_form': menu_form})
     else:
         return redirect('/')
-
-def analysis(request):
-
-    # def start_server(port):
-    #     # os.chdir('owner/views.py')
-    #     os.system(f'python manage.py runserver {port}')
-    #     main.crawl(name,number)
-    #     print('멀티프로세싱')
-
-    if request.session.get('user'):
-        cafe = Cafe.objects.get(user = request.session.get('user'))
-        name = cafe.name
-        number = cafe.cafe_phone
-
-    proc = Process(target=main.crawl, args=(name,number))
-    proc.start()
-    #os.chdir('C:/dev/cafein/frontend/cafein/owner/')
-    
-    #os.path.basename('C:/dev/cafein/frontend/cafein/owner/main.py')
-    #os.system(f'python manage.py runserver {8888}')
-
-
-    return HttpResponse("리뷰분석중")
-    
     
     
  
