@@ -1,4 +1,20 @@
 {% extends "layout.html" %}
 {% block content %}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <h1> 리뷰를 분석중입니다...</h1><br/>
+<script>
+    $(document).ready(function() {
+        var intervalId = setInterval(function() {
+            $.ajax({
+                url: '/owner/checkCafeData/?cafe_id={{cafe.cafe_id}}',
+                type: 'GET',
+                success: function(response) {
+                    if (response.result){
+                        location.href="";
+                    }
+                }
+            }); 
+        }, 5000);
+    }); 
+</script>
 {% endblock %}
