@@ -196,7 +196,6 @@ def ownerManage(request):
     else:
         return redirect('/')
 
-#수정 중 
 def cafeUpdate(request):
     if request.session.get('user'):
         if request.method == 'POST': 
@@ -292,30 +291,6 @@ def ownerManageMenu(request):
             return render(request, 'ownerManageMenu.html', {'cafe_menu': cafe_menu, 'menu_form': menu_form})
     else:
         return redirect('/')
-
-def analysis(request):
-
-    # def start_server(port):
-    #     # os.chdir('owner/views.py')
-    #     os.system(f'python manage.py runserver {port}')
-    #     main.crawl(name,number)
-    #     print('멀티프로세싱')
-
-    if request.session.get('user'):
-        cafe = Cafe.objects.get(user = request.session.get('user'))
-        name = cafe.name
-        number = cafe.cafe_phone
-
-    proc = Process(target=main.crawl, args=(name,number))
-    proc.start()
-    #os.chdir('C:/dev/cafein/frontend/cafein/owner/')
-    
-    #os.path.basename('C:/dev/cafein/frontend/cafein/owner/main.py')
-    #os.system(f'python manage.py runserver {8888}')
-
-
-    return HttpResponse("리뷰분석중")
-    
     
     
   
