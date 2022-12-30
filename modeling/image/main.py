@@ -2,14 +2,15 @@ from yolov3 import detect
 import argparse
 import os
 import video_to_image
+import pandas as pd
 
 # ====== Arguments Initialization ====== #
 parser = argparse.ArgumentParser()
 args = parser.parse_args("")
 
 # args.weights = './modeling/image/yolov3/pretrained/yolov3.pt'
-args.source = './modeling/image/data/image'
-args.project = './modeling/image/result'
+args.source = './image/data/image'
+args.project = './image/result'
 args.name = 'exp'
 args.save_txt = True  
 args.nosave = True 
@@ -22,7 +23,7 @@ if __name__ == "__main__":
     video_to_image.save()
     detect.main(args)
 
-    root_dir = "./modeling/image/result/" + args.name + "/labels"
+    root_dir = "./image/result/" + args.name + "/labels"
     files = os.listdir(root_dir)
 
     cnt = 0
@@ -31,4 +32,11 @@ if __name__ == "__main__":
         label = open(path, 'r')
         cnt += len(label.readlines())
 
-    print("현재 사람 수: ", round(cnt/len(files)))
+#people_cnt = 3
+    people_cnt = round(cnt/len(files))
+
+    result = pd.DataFrame({'people':people_cnt}, index=[0])
+    result.to_csv("./../frontend/cafein/cafein/files/result/temp.csv", index=False)
+
+#result.to_csv("./image/data/temp.csv", index=False)
+# print("현재 사람 수: ", round(cnt/len(files)))
