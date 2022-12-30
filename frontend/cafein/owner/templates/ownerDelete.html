@@ -1,7 +1,7 @@
 {% extends "layout.html" %}
 {% block content %}
     <main>
-        <div class="container">
+        <div class="container w-55">
             <div class="blank"></div>
             <div class="contents-blank"></div>
             <div class="pw-box px-5">
@@ -9,14 +9,19 @@
                 <div class="contents-blank"></div>
                 <div class="contents-blank"></div>
                 <div class="col text-left h4">
-                    비밀번호를 입력하세요.
+                    &nbsp&nbsp비밀번호를 입력하세요.
                 </div>
+                <div class="contents-blank"></div>
                 <div class="contents-blank"></div>
                 <form action="" method="post">
                     {% csrf_token %}
+                    <div class = "container login-option-container2"> 
                     <input type="password" id="id_password" name="id_password" class="form-control">
+                    <button type="submit" class="border check-button check_button">확인</button>
+                    </div>
+                    <div class="contents-blank"></div>
                     {% if error_flg.password %}
-                        <p class="text-danger">&nbsp;비밀번호가 일치 하지 않습니다.</p>
+                        <p class="text-danger">&nbsp;&nbsp;&nbsp;비밀번호가 일치 하지 않습니다.</p>
                         <script>
                             document.getElementById('id_password').classList.add("border-danger")
                             window.onload = function(){
@@ -26,11 +31,8 @@
                             }
                         </script>
                     {% endif %}
-                    <div class="contents-blank"></div>
-                    <div class="contents-blank"></div>
-                    <button type="submit" class="border check-button">확인</button>
+                    <div class="contents-blank"></div>                
                 </form>
-                <div class="contents-blank"></div>
                 <div class="contents-blank"></div>
                 <div class="contents-blank"></div>
             </div>
