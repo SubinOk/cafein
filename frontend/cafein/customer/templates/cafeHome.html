@@ -9,6 +9,16 @@
             <div>
                 <a class="login-button btn btn-outline-brown ms-3" href="/customer/{{ cafe.name }}/createReview">리뷰 작성</a>
             </div>
+            <div>
+                <a href="/customer/like/{{ cafe.name }}">
+                    아무 글씨
+                    {% if user in cafe.like_users.all %}
+                    <i class="fas fa-heart"></i>
+                    {% else %}
+                    <i class="fa-light fa-heart"></i>
+                    {% endif %}
+                </a>
+            </div>
         </div>
         <div class="contents-blank"></div>
         <div class="container">

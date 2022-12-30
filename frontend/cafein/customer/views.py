@@ -1,10 +1,12 @@
-from django.shortcuts import redirect, render
+from django.http import JsonResponse
+from django.shortcuts import get_object_or_404, redirect, render
 from django.core.paginator import Paginator
 from django.http import JsonResponse
 
 from customer.forms import customerPostForm, createViewForm
 from cafe.models import Cafe, Cafe_review, Cafe_comment, Cafe_image
 from account.models import User
+from django.db.models import Q
 
 def customerHome(request):
     if request.session.get('user'):
@@ -118,3 +120,18 @@ def render_with_error(request, html, form, error_type):
     for error in error_type:
         error_flg[error] = True
     return render(request, html, {'form': form, 'error_flg': error_flg})
+
+def cafeLike(request, cafeName):
+    cafe = get_object_or_404(Cafe, name=cafeName)
+    if request.user in cafe.like_users.all():
+        cafe.like_users.remove(request.user)
+    else:
+        cafe.like_users.add(request.user)
+    return render(request, 'cafeHome.html')
+
+
+def index(request):
+    cafe = Cafe.objects.filter(
+       
+    )
+    return render(request, 'cafeLike.html', {'cafe': cafe })

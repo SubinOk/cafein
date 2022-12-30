@@ -10,6 +10,8 @@ urlpatterns =[
     path('review/', views.cafeReview, name='cafeReview'),
     path('<cafeName>/createReview', views.createReview, name='createReview'),
     path('<cafeName>/review/<int:reviewid>', views.cafeReviewDetail, name='cafeReviewDetail'),
+    path('like/<cafeName>', views.cafeLike, name='cafeLike'),
+    path('like/', views.index, name='cafeLikeList'),
     path('findCafe/', views.getCafeData, name='getCafeData'),
 ]
 

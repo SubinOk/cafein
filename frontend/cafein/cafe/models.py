@@ -13,7 +13,7 @@ class Cafe(models.Model):
     datail_add = models.CharField('상세주소', max_length=100, null=True)
     cafe_phone = models.CharField(max_length=50, null=True)
     user = models.ForeignKey(User,on_delete=models.CASCADE, blank=True, null=True)
-    
+    like_users = models.ManyToManyField(User, related_name="like_users",blank=True )
     class Meta:
         db_table = 'cafe'
     

@@ -1,0 +1,6 @@
+<h1>즐찾</h1>
+{% for cafe in cafe %}
+    <div><a href="/customer/{{ cafe.name }}/home">{{ cafe.name }}</a></div>
+    <div>{{ cafe.address }}</div>
+    <div>{{ cafe.cafe_phone }}</div>
+{% endfor %}
