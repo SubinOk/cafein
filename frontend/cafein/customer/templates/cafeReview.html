@@ -20,9 +20,9 @@
                 </thead>
                 <tbody>
                 {% for review in reviews %}
-                <tr class="cursor" onclick="moveDetailPage('{{ review.cafe.name }}', {{ review.review_id }})">
+                <tr class="cursor" onclick="moveDetailPage('{{ review.cafe.cafe_id }}', {{ review.review_id }})">
                     <th scope="row" class="text-center align-middle">{{ forloop.counter }}</th>
-                    <td class="text-center align-middle">{{ review.cafe.name }}</td>
+                    <td class="text-center align-middle">{{ review.cafe.cafe_id }}</td>
                     <td class="text-center align-middle">{{ review.date }}</td>
                     <td class="text-center align-middle">{{ review.content }}</td>
                     <td class="text-center align-middle"><img id="score_{{ forloop.counter }}">
@@ -54,8 +54,8 @@
         </div>
     </div>
     <script>
-        function moveDetailPage( cafeName, pageid ){
-            window.location.assign('/customer/'+cafeName+'/review/' + pageid);
+        function moveDetailPage( cafeId, pageid ){
+            window.location.assign('/customer/'+cafeId+'/review/' + pageid);
         }
     </script>
 </main>

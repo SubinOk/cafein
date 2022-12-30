@@ -1,21 +1,21 @@
 {% extends "layout.html" %}
 {% block content %}
+<script src="https://kit.fontawesome.com/875cfd8d24.js" crossorigin="anonymous"></script>
 <main>
     <div class="container">
         <div class="row justify-content-between" id="target">
-            <div class="h1 col-11 d-flex align-self-center">{{ cafe.name }}<span>일단 즐겨찾기 공간</span></div>
+            <div class="h1 col-11 d-flex align-self-center">{{ cafe.name }}</div>
         </div>
         <div class="col-1">
             <div>
-                <a class="login-button btn btn-outline-brown ms-3" href="/customer/{{ cafe.name }}/createReview">리뷰 작성</a>
+                <a class="login-button btn btn-outline-brown ms-3" href="/customer/{{ cafe.cafe_id }}/createReview">리뷰 작성</a>
             </div>
             <div>
-                <a href="/customer/like/{{ cafe.name }}">
-                    아무 글씨
-                    {% if user in cafe.like_users.all %}
-                    <i class="fas fa-heart"></i>
+                <a href="/customer/like/{{ cafe.cafe_id }}">
+                    {% if customer in cafe.like_users.all %}
+                    <i class="fa-sharp fa-solid fa-heart"></i>
                     {% else %}
-                    <i class="fa-light fa-heart"></i>
+                    <i class="fa-regular fa-heart"></i>
                     {% endif %}
                 </a>
             </div>
