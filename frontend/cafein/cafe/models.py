@@ -125,14 +125,6 @@ class Cafe_congestion(models.Model):
     class Meta:
         db_table = 'cafe_congestion'
 
-class Cafe_date(models.Model):
-    date_id = models.AutoField(primary_key= True)
-    date = models.DateField(default=0)
-    cafe = models.ForeignKey(Cafe, on_delete=models.CASCADE , blank=True, null =True)
-
-    class Meta:
-        db_table = 'cafe_date'
-
 class Cafe_wordcloud(models.Model):
     word_id = models.AutoField(primary_key= True)
     price = models.ImageField('price IMAGE', blank=True, null=True)

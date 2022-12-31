@@ -143,17 +143,6 @@ class Migration(migrations.Migration):
             },
         ),
         migrations.CreateModel(
-            name='Cafe_date',
-            fields=[
-                ('date_id', models.AutoField(primary_key=True, serialize=False)),
-                ('date', models.DateField(default=0)),
-                ('cafe', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, to='cafe.cafe')),
-            ],
-            options={
-                'db_table': 'cafe_date',
-            },
-        ),
-        migrations.CreateModel(
             name='Cafe_congestion',
             fields=[
                 ('congestion_id', models.AutoField(primary_key=True, serialize=False)),
