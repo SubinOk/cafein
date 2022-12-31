@@ -15,7 +15,10 @@ from datetime import datetime, timedelta
 
 def findCafe(phone, name):
     url = f'https://m.map.naver.com/search2/searchMore.naver?query={phone}&page=1'
-    response = requests.get(url)
+    headers = {
+        "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/102.0.5005.141 Whale/3.15.136.29 Safari/537.36", 
+    }
+    response = requests.get(url, headers=headers)
     places = response.json()['result']['site']['list']
     for place in places:
         if place['name'] == name:
