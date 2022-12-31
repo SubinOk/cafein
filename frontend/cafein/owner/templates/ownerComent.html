@@ -6,7 +6,7 @@
         <h1>리뷰 게시판</h1>
         <div class=blank></div>
         <div class="p-5">
-            <table class="table-brown p-4 ptd-15">
+            <table class="table-brown p-4 ptd-15 w-95">
                 <thead>
                 <tr>
                     <th scope="col" class="w-5 text-center">번호</th>
@@ -15,11 +15,11 @@
                     <th scope="col" class="text-center">별점</th>
                 </tr>
                 </thead>
-                <tbody class="ptd-14">
+                <tbody>
                 {% for review in reviews %}
-                <tr class="cursor table-hover" onclick="moveDetailPage({{ review.review_id }})">
+                <tr class="cursor ptd-14" onclick="moveDetailPage({{ review.review_id }})">
                     <th scope="row" class="text-center align-middle">{{ forloop.counter }}</th>
-                    <td class="text-center align-middle h5">{{ review.date }}</td>
+                    <td class="text-center align-middle">{{ review.date }}</td>
                     <td class="text-center align-middle">{{ review.content }}</td>
                     <td class="text-center align-middle"><img id="score_{{ forloop.counter }}">
                         <script>
