@@ -1,7 +1,7 @@
 {% extends "layout.html" %}
 {% block content %}
 <main class="container-fluid">
-    <div class="container w-30">
+    <div class="container w-30 d-flex align-items-center h-85">
         <script>
             function addLoadEvent(func){
                 const oldonload = window.onload;
@@ -15,8 +15,6 @@
                 }
             }
         </script>
-        <div class="blank"></div>
-        <div class="contents-blank"></div>
         <form action="" method="post" enctype="multipart/form-data">
             {% csrf_token %}
             {{ form.email }}
@@ -141,9 +139,6 @@
                 }
             );
         </script>
-        <div class="blank"></div>
-        <div class="blank"></div>
-        <div class="blank"></div>
     </div>
 </main>
 

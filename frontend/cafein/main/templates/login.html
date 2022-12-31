@@ -1,12 +1,8 @@
 {% extends "layout.html" %}
 {% block content %}
 <main class="container-fluid">
-    <div class="container">
+    <div class="container d-flex align-items-center h-75">
         <div class="container w-30">
-            <div class="blank"></div>
-            <div class="blank"></div>
-            <div class="blank"></div>
-            <div class="blank"></div>
             <div class="login-option-container">
                 <a class="login-option" href="{% url 'main:signup' %}">&nbsp;회원가입</a>
                 <a class="login-option" href="{% url 'main:password_reset' %}">비밀번호 찾기&nbsp;</a>

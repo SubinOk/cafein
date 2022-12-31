@@ -1,6 +1,6 @@
 {% extends "layout.html" %}
 {% block content %}
-<main class="container-fluid">
+<main class="container-fluid d-flex align-items-center h-75">
     <div class="container w-30">
         <script>
             function addLoadEvent(func){
@@ -15,10 +15,6 @@
                 }
             }
         </script>
-        <div class="blank"></div>
-        <div class="blank"></div>
-        <div class="blank"></div>
-        <div class="blank"></div>
         <div class="contents-blank"></div>
         <form action="" method="post" enctype="multipart/form-data">
             {% csrf_token %}
@@ -79,14 +75,9 @@
             </script>
             {% endif %}
             <div class="contents-blank"></div>
-            
             <div class="contents-blank"></div>
             <button type="submit" class="form-control btn-point px-5">회원가입</button>
         </form>
-        
-        <div class="blank"></div>
-        <div class="blank"></div>
-        <div class="blank"></div>
     </div>
 </main>
 
