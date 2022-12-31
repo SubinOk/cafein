@@ -6,18 +6,18 @@
         <h1>리뷰 게시판</h1>
         <div class=blank></div>
         <div class="p-5">
-            <table class="table table-bordered p-4 table-hover table-striped">
+            <table class="table-brown p-4 ptd-15">
                 <thead>
                 <tr>
                     <th scope="col" class="w-5 text-center">번호</th>
-                    <th scope="col" class="w-15 text-center">날짜</th>
+                    <th scope="col" class="w-20 text-center">날짜</th>
                     <th scope="col" class="w-55 text-center">리뷰 제목</th>
                     <th scope="col" class="text-center">별점</th>
                 </tr>
                 </thead>
-                <tbody>
+                <tbody class="ptd-14">
                 {% for review in reviews %}
-                <tr class="cursor" onclick="moveDetailPage({{ review.review_id }})">
+                <tr class="cursor table-hover" onclick="moveDetailPage({{ review.review_id }})">
                     <th scope="row" class="text-center align-middle">{{ forloop.counter }}</th>
                     <td class="text-center align-middle h5">{{ review.date }}</td>
                     <td class="text-center align-middle">{{ review.content }}</td>

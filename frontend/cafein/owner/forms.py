@@ -168,7 +168,7 @@ class ownerPostForm(forms.ModelForm):
                                                                'placeholder': '전화번호 ("-" 없이 작성)'}))
 
     # 카페 이미지 추가해야함
-    image = forms.ImageField(widget=forms.FileInput(attrs={'multiple': ''}))
+    image = forms.ImageField(widget=forms.FileInput(attrs={'multiple': '', 'class': 'text-gray ptd-13'}))
 
     # email이 이미 등록되었는지, 그리고 이메일 형식에 맞는지에 대한 validation
     def check_email(self):
