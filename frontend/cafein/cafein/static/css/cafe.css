@@ -784,3 +784,7 @@ textarea {
 .margin_right5{
     margin-right: 5;
 }
+
+.h-85{
+    height: 85%!important;
+}
