@@ -33,6 +33,7 @@ def getCafeData(request):
     for cafe_image in cafe_images_page.object_list:
         cafe_images.append({
             'cafe': cafe_image.cafe.name,
+            'cafe_id': cafe_image.cafe.cafe_id,
             'image':cafe_image.image.url
                             })
 
@@ -60,10 +61,13 @@ def signup(request):
             return render(request, 'signup2.html', {'form': form})
     return redirect('/')
 
-def cafeHome(request, cafeName):
-    cafe = Cafe.objects.get(name=cafeName)
-    
-    return render(request, 'cafeHome.html', {'cafe': cafe})
+def cafeHome(request, cafeId):
+    if request.method == "POST":
+        pass
+    else:
+        cafe = Cafe.objects.get(cafe_id=cafeId)
+        customer = User.objects.filter(email=request.session.get('user'))[0]
+    return render(request, 'cafeHome.html', {'cafe': cafe, 'customer':customer})
 
 def cafeReview(request):
     
@@ -76,32 +80,32 @@ def cafeReview(request):
 
     return render(request, 'cafeReview.html', {'reviews': page_reviews})
 
-def cafeReviewDetail(request, cafeName, reviewid):
-    cafe = Cafe.objects.get(name=cafeName)
+def cafeReviewDetail(request, cafeId, reviewid):
+    cafe = Cafe.objects.get(cafe_id=cafeId)
     cafe_review = Cafe_review.objects.get(cafe=cafe, review_id=reviewid)
     cafe_comment = Cafe_comment.objects.get(review=reviewid)
     
     contents = {
         'cafe_review' : cafe_review,
         'cafe_comment': cafe_comment,
-        'cafeName': cafeName,
+        'cafeId': cafeId,
     }
     return render(request, 'cafeReviewDetail.html', {'contents': contents})
 
-def createReview(request, cafeName):
+def createReview(request, cafeId):
     if request.method == 'POST':
         form = createViewForm(request.POST)
         if form.is_valid():
             cafeReview = form.save()
             cafeReview.image = request.FILES.get('image')
-            cafeReview.cafe = Cafe.objects.get(name=cafeName)
+            cafeReview.cafe = Cafe.objects.get(cafe_id=cafeId)
             cafeReview.comment = Cafe_comment.objects.create(
                 review=cafeReview,
                 writer=User.objects.get(user_id=cafeReview.cafe.user)
             )
             cafeReview.writer = User.objects.get(user_id=request.session.get('user'))
             cafeReview.save()
-            return redirect('/customer/'+cafeName+'/review/'+str(cafeReview.review_id))
+            return redirect('/customer/'+str(cafeId)+'/review/'+str(cafeReview.review_id))
     else:
         form = createViewForm()
         return render(request, 'cafeCreateReview.html', {'form': form})
@@ -112,18 +116,17 @@ def render_with_error(request, html, form, error_type):
         error_flg[error] = True
     return render(request, html, {'form': form, 'error_flg': error_flg})
 
-def cafeLike(request, cafeName):
-    cafe = get_object_or_404(Cafe, name=cafeName)
-    if request.user in cafe.like_users.all():
-        cafe.like_users.remove(request.user)
+def cafeLike(request, cafeId):
+    cafe = get_object_or_404(Cafe, cafe_id=cafeId)
+    customer = User.objects.filter(email=request.session.get('user'))[0]
+    if customer in cafe.like_users.all():
+        cafe.like_users.remove(customer)
     else:
-        cafe.like_users.add(request.user)
-    return render(request, 'cafeHome.html')
+        cafe.like_users.add(customer)
+    return redirect('/customer/'+str(cafeId)+'/home')
 
 
 def index(request):
-    user = User.objects.filter(email=request.session.get('user')).first()
-    cafe = Cafe.objects.filter(
-       
-    )
+    customer = User.objects.filter(email=request.session.get('user'))[0]
+    cafe = customer.like_users.all()
     return render(request, 'cafeLike.html', {'cafe': cafe })

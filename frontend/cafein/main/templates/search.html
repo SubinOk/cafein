@@ -1,7 +1,7 @@
 {% extends "layout.html" %}
 {% block content %}
 <main class="container-fluid">
-    <div class="h2 pb-4 mb-5 search-border-bottom-point">‘{{ results.search_word }}’에 대한 검색 결과 {{ results.search_cnt }}건</div>
+    <div class="h2 pb-4 mb-5 border-bottom">‘{{ results.search_word }}’에 대한 검색 결과 {{ results.search_cnt }}건</div>
 
     <div class="row" id="cafe_list">
         {% for cafe in results.cafe_content %}
