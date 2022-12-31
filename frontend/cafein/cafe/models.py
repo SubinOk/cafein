@@ -49,8 +49,8 @@ class Cafe_review(models.Model):
     date = models.DateTimeField('작성일', auto_now_add = True)
     cafe = models.ForeignKey(Cafe, on_delete=models.CASCADE , blank=True, null =True)
     writer = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True)
-   
-      
+
+
     class Meta:
         db_table = 'cafe_review'
 
@@ -117,31 +117,34 @@ class Cafe_keyword(models.Model):
     class Meta:
         db_table = 'cafe_keyword'
 
-class Cafe_favorites(models.Model):
-    user = models.ForeignKey(User,on_delete=models.CASCADE, blank=True, null=True)
-
-    favorites_id = models.AutoField(primary_key = True)
-    cafe = models.ManyToManyField(
-        "cafe.Cafe",
-        related_name="cafe_list",
-        blank=True
-    )
-
-    class Meta:
-        db_table = 'cafe_favorites'
-
-    
-
 class Cafe_congestion(models.Model):
-    favorites_id = models.AutoField(primary_key = True)
+    congestion_id = models.AutoField(primary_key = True)
     congestion = models.IntegerField(null =True)
-
+    cafe = models.ForeignKey(Cafe, on_delete=models.CASCADE , blank=True, null =True)
+    
     class Meta:
         db_table = 'cafe_congestion'
 
+class Cafe_date(models.Model):
+    date_id = models.AutoField(primary_key= True)
+    date = models.DateField(default=0)
+    cafe = models.ForeignKey(Cafe, on_delete=models.CASCADE , blank=True, null =True)
 
+    class Meta:
+        db_table = 'cafe_date'
 
+class Cafe_wordcloud(models.Model):
+    word_id = models.AutoField(primary_key= True)
+    price = models.ImageField('price IMAGE', blank=True, null=True)
+    drink = models.ImageField('drink IMAGE', blank=True, null=True)
+    dessert = models.ImageField('dessert IMAGE', blank=True, null=True)
+    service = models.ImageField('service IMAGE', blank=True, null=True)
+    customers = models.ImageField('customers IMAGE', blank=True, null=True)
+    interior = models.ImageField('interior IMAGE', blank=True, null=True)
+    view = models.ImageField('view IMAGE', blank=True, null=True)
+    parking = models.ImageField('parking IMAGE', blank=True, null=True)
 
-    
+    class Meta:
+        db_table = 'cafe_wordcloud'
 
     
