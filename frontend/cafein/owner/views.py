@@ -50,7 +50,8 @@ def ownerHome(request):
             return render(request, 'ownerHome.html', {'cafe_sentiment':cafe_sentiment, 'cafe':cafe, 'reviews': cafe_reviews
                                                       ,'cafe_rank': cafe_rank})
         except:
-            return render(request,'ownerHome2.html')
+            cafe = Cafe.objects.get(user = request.session.get('user'))
+            return render(request,'ownerHome2.html', {'cafe': cafe})
     else:
         return redirect('/')
 
@@ -293,4 +294,10 @@ def ownerManageMenu(request):
         return redirect('/')
     
     
- 
+def checkCafeData(request):
+    cafe = Cafe.objects.get(cafe_id=request.GET.get('cafe_id'))
+    cafe_sentiment = Cafe_sentiment.objects.filter(cafe=cafe)
+    if len(cafe_sentiment) == 1:
+        return JsonResponse({'result': True})
+    else:
+        return JsonResponse({'result': False})
