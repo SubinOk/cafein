@@ -221,7 +221,7 @@ def ownerStatistics(request):
         cafe_sentiment = Cafe_sentiment.objects.get(cafe = cafe)
         cafe_rank = Cafe_rank.objects.filter(sentiment=cafe_sentiment.sentiment_id).order_by('rank_id')
             
-        return render(request, 'ownerStatistics.html', {'data': data, 'cafe_rank': cafe_rank})
+        return render(request, 'ownerStatistics.html', {'data': data, 'cafe_rank': cafe_rank, 'cafe_name': cafe.name})
     else:
         return redirect('/')
 

@@ -1,4 +1,5 @@
 {% extends "layout.html" %}
+{% load static %}
 {% block content %}
 <main>
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
@@ -13,6 +14,7 @@
         datas.push(temp);
         {% if rank_data.category == data %}
         init_data = temp;
+        init_cnt = {{ forloop.counter }} - 1;
         {% endif %}
         {% endfor %}
         
@@ -42,9 +44,17 @@
             chart.draw(data, options);
             
         }
-        function showData(show_data) {
-            percent = data.getValue(0,1)
-            target = show_data[0][1]
+
+        function showWordCloud(id){
+            url = '/media/wordcloud/' + '{{ cafe_name }}' + '_' + id + '.png';
+            document.getElementById("wordCloud").src = url;
+        }
+
+        function showData(show_data, id) {
+            showWordCloud(id);
+
+            percent = data.getValue(0,1);
+            target = show_data[0][1];
             if(percent != target){
                 if(percent < target){
                     changeGraphUp(percent, target)
@@ -101,35 +111,35 @@
             <div class="nav-scroller py-1 mb-2">
                 <nav class="d-flex justify-content-center" role="group">
                     <div class="p-2">
-                        <input type="radio" class="link-secondary btn-check" name="btn-radio" id="btn-radio1" onchange="showData(datas[0])" autocomplete="off" {% if data == 'service' %}checked{% endif %}>
+                        <input type="radio" class="link-secondary btn-check" name="btn-radio" id="btn-radio1" onchange="showData(datas[0], 0)" autocomplete="off" {% if data == 'service' %}checked{% endif %}>
                         <label class="btn btn-outline-green btn-lg" for="btn-radio1">#서비스</label>
                     </div>
                     <div class="p-2">
-                        <input type="radio" class="link-secondary btn-check" name="btn-radio" id="btn-radio2" onchange="showData(datas[1])" autocomplete="off" {% if data == 'price' %}checked{% endif %}>
+                        <input type="radio" class="link-secondary btn-check" name="btn-radio" id="btn-radio2" onchange="showData(datas[1], 1)" autocomplete="off" {% if data == 'price' %}checked{% endif %}>
                         <label class="btn btn-outline-green btn-lg" for="btn-radio2">#가격</label>
                     </div>
                     <div class="p-2">
-                        <input type="radio" class="link-secondary btn-check" name="btn-radio" id="btn-radio3" onchange="showData(datas[2])" autocomplete="off" {% if data == 'dessert' %}checked{% endif %}>
+                        <input type="radio" class="link-secondary btn-check" name="btn-radio" id="btn-radio3" onchange="showData(datas[2], 2)" autocomplete="off" {% if data == 'dessert' %}checked{% endif %}>
                         <label class="btn btn-outline-green btn-lg" for="btn-radio3">#디저트</label>
                     </div>
                     <div class="p-2">
-                        <input type="radio" class="link-secondary btn-check" name="btn-radio" id="btn-radio4" onchange="showData(datas[3])" autocomplete="off" {% if data == 'drink' %}checked{% endif %}>
+                        <input type="radio" class="link-secondary btn-check" name="btn-radio" id="btn-radio4" onchange="showData(datas[3], 3)" autocomplete="off" {% if data == 'drink' %}checked{% endif %}>
                         <label class="btn btn-outline-green btn-lg" for="btn-radio4">#커피</label>
                     </div>
                     <div class="p-2">
-                        <input type="radio" class="link-secondary btn-check" name="btn-radio" id="btn-radio5" onchange="showData(datas[4])" autocomplete="off" {% if data == 'customer' %}checked{% endif %}>
+                        <input type="radio" class="link-secondary btn-check" name="btn-radio" id="btn-radio5" onchange="showData(datas[4], 4)" autocomplete="off" {% if data == 'customer' %}checked{% endif %}>
                         <label class="btn btn-outline-green btn-lg" for="btn-radio5">#고객수</label>
                     </div>
                     <div class="p-2">
-                        <input type="radio" class="link-secondary btn-check" name="btn-radio" id="btn-radio6" onchange="showData(datas[5])" autocomplete="off" {% if data == 'interior' %}checked{% endif %}>
+                        <input type="radio" class="link-secondary btn-check" name="btn-radio" id="btn-radio6" onchange="showData(datas[5], 5)" autocomplete="off" {% if data == 'interior' %}checked{% endif %}>
                         <label class="btn btn-outline-green btn-lg" for="btn-radio6">#인테리어</label>
                     </div>
                     <div class="p-2">
-                        <input type="radio" class="link-secondary btn-check" name="btn-radio" id="btn-radio7" onchange="showData(datas[6])" autocomplete="off" {% if data == 'view' %}checked{% endif %}>
+                        <input type="radio" class="link-secondary btn-check" name="btn-radio" id="btn-radio7" onchange="showData(datas[6], 6)" autocomplete="off" {% if data == 'view' %}checked{% endif %}>
                         <label class="btn btn-outline-green btn-lg" for="btn-radio7">#뷰</label>
                     </div>
                     <div class="p-2">
-                        <input type="radio" class="link-secondary btn-check" name="btn-radio" id="btn-radio8" onchange="showData(datas[7])" autocomplete="off" {% if data == 'parking' %}checked{% endif %}>
+                        <input type="radio" class="link-secondary btn-check" name="btn-radio" id="btn-radio8" onchange="showData(datas[7], 7)" autocomplete="off" {% if data == 'parking' %}checked{% endif %}>
                         <label class="btn btn-outline-green btn-lg" for="btn-radio8">#주차</label>
                     </div>
                 </nav>
@@ -141,8 +151,13 @@
             <div id="piechart"></div>
             <div class="h3">해당 그래프는 90일간의 데이터를 분석한 결과입니다.</div>
         </div>
-        <div class="col"></div>
+        <div class="col">
+            <img id="wordCloud">
+        </div>
     </div>
+    <script>
+        showWordCloud(init_cnt);
+    </script>
 </main>
 <div class="contents-blank"></div>
 <div class="contents-blank"></div>
