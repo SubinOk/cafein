@@ -20,14 +20,7 @@ def crawl(name, number):
         cafeName = name
         cafeNum = number
         print(name,number)
-        # cafeName = input("카페명을 입력하세요: ")
-        # cafeNum = input("카페 전화번호를 입력하세요: ")
 
-        # cafeName = '팡팡팡'
-        # cafeNum = '053-252-2025'
-
-        now = datetime.now()
-        
         rawdata = datacrawl.collectData(cafeName, cafeNum)
         data = preprocess.processData(cafeName, rawdata)
         result = model.prediction(data)
@@ -118,4 +111,4 @@ def crawl(name, number):
                 colormap= cmap
                 ).generate_from_frequencies(wc_list[i]) # 워드 클라우드 빈도수 지정
                 
-                wordCloud.to_file(filename=f"{cafeName}_{i}.png")
+                wordCloud.to_file(filename=f"cafein/files/wordcloud{cafeName}_{i}.png")
