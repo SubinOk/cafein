@@ -8,6 +8,13 @@ from . import getkeywords
 from multiprocessing import Process
 import os
 
+# 워드클라우드
+from wordcloud import WordCloud
+from PIL import Image
+import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
+
 def crawl(name, number):
 
         cafeName = name
@@ -25,14 +32,12 @@ def crawl(name, number):
         data = preprocess.processData(cafeName, rawdata)
         result = model.prediction(data)
 
-        result.to_csv(f'cafein/files/{cafeName}result.csv', index=False, encoding='utf-8-sig')
                 
         wordlist = getkeywords.getWords(result)
                 
-        wordlist.to_csv(f'cafein/files/{cafeName}.csv', index=False, encoding='utf-8-sig')
      
         # 통계값 저장
-        data = pd.read_csv(f'cafein/files/{cafeName}result.csv', encoding='utf-8-sig')
+        data = result
         
         # 전체 긍부정 
         total_pn = len(data.loc[data['sentiment']==1])/len(data)
@@ -84,3 +89,33 @@ def crawl(name, number):
         
         df_category.to_csv("cafein/files/df_category.csv",index=False)
         os.system(f'python manage.py sentiment')
+
+        # 워드클라우드
+        data = wordlist 
+        
+        data = data.fillna(0)
+        
+        # 카테고리별 df -> wc
+        arr = ["price", "drink", "dessert", "service", "customers", "interior", "view", "parking"]
+        wc_list =[]
+
+        for i in arr:
+                df = data[[f'{i}_word', f'{i}_count']]
+                wc = df.set_index(f'{i}_word').to_dict()[f'{i}_count']
+                wc_list.append(wc)
+        
+        from matplotlib.colors import LinearSegmentedColormap
+        colors = ['#744C2E', '#583A23', '#825634', '#DFC4AF','#C39068']
+        cmap = LinearSegmentedColormap.from_list('my_cmap',colors,gamma=2)
+
+        for i in range(8):
+                wordCloud = WordCloud(
+                font_path = "H2HDRM", # 폰트 지정
+                width = 400, # 워드 클라우드의 너비 지정
+                height = 400, # 워드클라우드의 높이 지정
+                max_font_size=100, # 가장 빈도수가 높은 단어의 폰트 사이즈 지정
+                background_color = 'white',# 배경색 지정
+                colormap= cmap
+                ).generate_from_frequencies(wc_list[i]) # 워드 클라우드 빈도수 지정
+                
+                wordCloud.to_file(filename=f"{cafeName}_{i}.png")
