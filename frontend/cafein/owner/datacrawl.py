@@ -13,7 +13,7 @@ import time
 from datetime import datetime, timedelta
 
 
-def findCafe(phone, name):
+def findCafe(phone,name):
     url = f'https://m.map.naver.com/search2/searchMore.naver?query={phone}&page=1'
     headers = {
         "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/102.0.5005.141 Whale/3.15.136.29 Safari/537.36", 

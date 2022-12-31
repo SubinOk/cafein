@@ -84,7 +84,7 @@ def signup(request):
                     return render_with_error(request, 'signup.html', form, ['imagelimit'])
                 
                 name = form.cleaned_data.get("name")
-                phone = form.cleaned_data.get("cafephone")
+                phone = form.cleaned_data.get("cafe_phone")
                 
                 form.save()
                 # Save 성공시에는 Redirect
