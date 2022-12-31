@@ -38,7 +38,7 @@ class ownerManageForm(forms.ModelForm):
     # 카페번호 '-'없이 숫자만 입력하도록 
     def check_cafePhone(self):
         cafe_phone = self.cleaned_data.get("cafe_phone")
-        pattern = re.compile('^[0]\d{2}\d{3,4}\d{4}$')
+        pattern = re.compile("(^[0-9]*$)")
         if not pattern.match(cafe_phone):
             return False
         return True
@@ -223,7 +223,7 @@ class ownerPostForm(forms.ModelForm):
     # 카페번호 '-'없이 숫자만 입력하도록 
     def check_cafePhone(self):
         cafe_phone = self.cleaned_data.get("cafe_phone")
-        pattern = re.compile('^[0]\d{2}\d{3,4}\d{4}$')
+        pattern = re.compile("(^[0-9]*$)")
         if not pattern.match(cafe_phone):
             return False
         return True
