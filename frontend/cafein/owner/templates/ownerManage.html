@@ -6,12 +6,13 @@
         <div>
             <div class="col container">
                 <h1>카페 관리</h1>
+                <div class="contents-blank"></div>
+                <hr>
+                <div class="text-first menu_change">
+                    <button onclick="location.href='{% url 'owner:ownerManageMenu' %}'" class="login-button login-option margin_right5">메뉴 수정</button>
+                </div>
                 <form action="" method="post" enctype="multipart/form-data">
                     {% csrf_token %}
-                    <div>
-                        <button type="submit" class="login-button btn btn-outline-brown float-end">수정</button>
-                    </div>
-                    <div class=blank></div>
                     <div class=contents-blank></div>
                     <div class='row'>
                         <div class='col-5'>
@@ -53,6 +54,7 @@
                             <div class=contents-blank></div>
                             <div>
                                 <button type="button" id="btn" class="form-control">이미지 선택</button>
+                                <div class="contents-blank"></div>
                                 <div id="divBox" class='wrap my-3'>
                                     <div class='row'>
                                         <div class='col-4'>
@@ -74,8 +76,11 @@
                                 </div>
                             </div>
                             {{ form.address }}
+                            <div class="contents-blank"></div>
                             {{ form.datail_add }}
+                            <div class="contents-blank"></div>
                             {{ form.cafe_phone }}
+                            <div class="contents-blank"></div>
                             {% if error_flg.cafephone %}
                             <p class="text-danger">&nbsp;입력하신 전화번호에 '-'이 포함되어있습니다.</p>
                             <script>
@@ -90,7 +95,11 @@
                             </script>
                             {% endif %}
                             {{ form.max_occupancy }}
-                            <div class="text-first"><a href="{% url 'owner:ownerManageMenu' %}" class="btn">메뉴 수정</a></div>
+                            <div class="contents-blank menu_change2"></div>
+                            <div class=contents-blank></div>
+                            <div class="menu_change2">
+                                <button type="submit" class="border check-button check_button">카페 수정</button>
+                            </div>
                         </div>
                     </div>
                 </form>

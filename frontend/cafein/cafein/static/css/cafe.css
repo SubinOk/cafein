@@ -753,3 +753,21 @@ textarea {
     border-radius: 70px;
   }
   
+
+.menu_change{
+    text-align: right;
+    margin-left: 81%;
+}
+
+.menu_change2{
+    text-align: right;
+}
+
+
+.font_size14{
+    font-size: 14px;
+}
+
+.margin_right5{
+    margin-right: 5;
+}
