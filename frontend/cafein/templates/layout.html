@@ -75,7 +75,7 @@
                 <div class="status-button navbar navbar-expand-lg navbar-dark bd-navbar"> 
                     {% if request.session.user == None %}
                     <div>
-                        <a class="login-button btn btn-outline-brown  ms-3" href="/login">로그인</a>
+                        <a class="login-button btn-wo-shadow ms-3 ptd-16 pt-3 pb-3" href="/login">로그인</a>
                     </div>
                     {% else %}
                     <form action="{% url 'main:search' %}" method="get">
