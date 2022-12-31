@@ -21,6 +21,7 @@ from django.contrib.auth import (
 from django.utils.translation import gettext_lazy as _
 
 from account.models import User
+from cafe.models import Cafe, Cafe_image
 
 from .forms import UserloginPostForm
 
@@ -120,3 +121,21 @@ def singup(request):
 def logout(request):
     request.session.flush() 
     return redirect('/')
+
+def search(request):
+    query = request.GET.get('search')
+    cafes = Cafe.objects.filter(name__contains=query)
+    cafe_content = []
+    for cafe in cafes:
+        print(cafe)
+        cafe_data = {'cafe': cafe, 'cafe_image': Cafe_image.objects.filter(cafe=cafe)[0]}
+        cafe_content.append(cafe_data)
+        
+    print(cafe_content)
+    
+    results={
+        'cafe_content': cafe_content,
+        'search_word': query,
+        'search_cnt': len(cafes),
+    }
+    return render(request, 'search.html', {'results': results})

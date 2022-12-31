@@ -73,13 +73,15 @@
 
             <div class="justify-content-end">
                 <div class="status-button navbar navbar-expand-lg navbar-dark bd-navbar"> 
-                    <input placeholder="검색어를 입력하세요." type="Search" id="formSearch" class="pe-5 form-control searchbox">
-                    <img class="header-icon pe-3" src='/static/img/header/search.png'>
                     {% if request.session.user == None %}
                     <div>
                         <a class="login-button btn btn-outline-brown  ms-3" href="/login">로그인</a>
                     </div>
                     {% else %}
+                    <form action="{% url 'main:search' %}" method="get">
+                        <input placeholder="검색어를 입력하세요." type="Search" id="formSearch" name="search" class="pe-5 form-control searchbox">
+                    </form>
+                    <img class="header-icon pe-3" src='/static/img/header/search.png'>
                     <div class="dropdown">
                         <a class="status-button border-0 btn nav-item nav-link ms-3 btn-wo-shadow" data-bs-toggle="dropdown" aria-expanded="false"><img src="/static/img/header/user-icon.png" class="rounded-circle header-icon"></a>
                         <ul class="dropdown-menu dropdown-menu-end shadow border border-300">
@@ -104,7 +106,7 @@
         {% endblock %}
     </div>
     <div class="page-footer text-muted">
-            Copyright © 2022 Aivle School 2nd
+        Copyright © 2022 Aivle School 2nd
     </div>
 </body>
 </html>

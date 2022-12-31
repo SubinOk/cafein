@@ -771,3 +771,6 @@ textarea {
 .margin_right5{
     margin-right: 5;
 }
+  .search-border-bottom-point{
+    border-bottom: 5px solid var(--point-color);
+  }
