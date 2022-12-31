@@ -558,6 +558,7 @@ textarea {
 }
 .cus-main-image-size:hover{
     filter: brightness(75%);
+    cursor: pointer;
 }
 
 .check_button2{
@@ -787,4 +788,10 @@ textarea {
 
 .h-85{
     height: 85%!important;
+}
+
+.truncate {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
