@@ -394,6 +394,10 @@ body{
     background-color: #dcdcdc;
     display: none;
 }
+.error-message{
+    color: red;
+    font-size: 10px;
+}
 .modify-page-padding{
     padding-left: 100px;
     padding-right: 120px;

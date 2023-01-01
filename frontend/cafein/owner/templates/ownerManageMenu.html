@@ -2,6 +2,19 @@
 {% load static %}
 {% block content %}
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script>
+        function addLoadEvent(func){
+            const oldonload = window.onload;
+            if(typeof window.onload != 'function'){
+                window.onload = func;
+            }else{
+                window.onload = function(){
+                    oldonload();
+                    func();
+                }
+            }
+        }
+    </script>
     <main>
         <div>
             <div class="col container">
@@ -11,8 +24,7 @@
                 <div class="d-flex justify-content-end align-items-center">
                     <button class="login-option mx-1 mb-0 px-2" id="menuUpdateDetails">메뉴 추가</button>
                     <button class="login-option mx-1 mb-0 px-2" onclick="removeMenu()">선택 메뉴 삭제</button>
-                    <input type="checkbox" class="mt-0 mx-2" id="all_select" name="all_select">
-                    <div class="mb-0 mx-2 text-gray ptd-14">전체 선택</div>
+                    <input type="checkbox" class="mt-0 mx-2" value='selectall' name="selectall" onclick="selectAll(this)"/><p class="mb-0 mx-2 text-gray ptd-14">전체 선택</p>
                 </div>
                 <div class="blank"></div>
                 <div class="col mb-5 menu-card-width" id="menuDummy" style="display: none">
@@ -32,7 +44,7 @@
                     {% for menu in cafe_menu %}
                     <div class="col mb-5 menu-card-width" id="menu_{{ forloop.counter }}">
                         <div class="card h-100">
-                            <input type="checkbox" class="mt-0" id="menu_checkbox_{{ forloop.counter }}" name="menu_checkbox">
+                            <input type="checkbox" class="mt-0" id="menu_checkbox_{{ forloop.counter }}" name="menu_checkbox" onclick="checkSelectAll()">
                             <img id="menu_img_{{ forloop.counter }}" class="card-img-top menu_img_size mx-auto" src="{{ menu.image.url }}">
                             <div class="card-body p-4">
                                 <div class="text-center">
@@ -54,14 +66,20 @@
                         </div>
                         <div class="col">
                             <form>
-                                {{ menu_form.as_p }}
+                                {% comment %} {{ menu_form.as_p }} {% endcomment %}
+                                {{ menu_form.name }}
+                                <p id="id_name_error"></p>
+                                {{ menu_form.price }}
+                                <div class="contents-blank"></div>
+                                {{ menu_form.image }}
+                                <p id="id_image_error"></p>
                             </form>
                             <div class="contents-blank"></div>
                             <div>
                                 <button class = "login-option" id="confirmBtn" value="add">등록</button>
                                 <button class = "login-option" value="cancel">취소</button>
                             </div>
-                        </div>x
+                        </div>
                     </div>
                 </form>
             </dialog>
@@ -89,10 +107,7 @@
                         };
                         // newMenuDialog.showModal();
                         // 입력 데이터에 대한 체크도 필요할것으로 판단됨 어떤식으로 입력할지는 모르니
-                        sendMenuDetails(menuDetail)
-                        addMenu(menuDetail);
-
-                        dialogClear();
+                        sendMenuDetails(menuDetail);
                     }else{
                         dialogClear();
                     }
@@ -113,6 +128,34 @@
                     document.getElementById("showMenuField").appendChild(newNode);
                 }
 
+                function selectAll(selectAll)  {
+                    const checkboxes 
+                         = document.getElementsByName('menu_checkbox');
+                    
+                    checkboxes.forEach((checkbox) => {
+                      checkbox.checked = selectAll.checked;
+                    })
+                }
+
+                function checkSelectAll()  {
+                  // 전체 체크박스
+                  const checkboxes 
+                    = document.querySelectorAll('input[name="menu_checkbox"]');
+                  // 선택된 체크박스
+                  const checked 
+                    = document.querySelectorAll('input[name="menu_checkbox"]:checked');
+                  // select all 체크박스
+                  const selectAll 
+                    = document.querySelector('input[name="selectall"]');
+                  
+                  if(checkboxes.length === checked.length)  {
+                    selectAll.checked = true;
+                  }else {
+                    selectAll.checked = false;
+                  }
+                
+                }
+    
                 function removeMenu(){
                     const menuList = [];
                     for (let i=1; i<=menu_length; i++){
@@ -144,11 +187,11 @@
                     document.getElementById("id_price").value = '';
                 }
 
-                function sendMenuDetails(menuDetails){
+                function sendMenuDetails(menuDetail){
                     const formData = new FormData();
-                    formData.append('name', menuDetails.name);
-                    formData.append('price', menuDetails.price);
-                    formData.append('image', menuDetails.image);
+                    formData.append('name', menuDetail.name);
+                    formData.append('price', menuDetail.price);
+                    formData.append('image', menuDetail.image);
                     $.ajax({
                         url: '',
                         type: 'POST',
@@ -159,7 +202,34 @@
                             data.setRequestHeader('X-CSRFToken', getCookie('csrftoken'));
                         },
                         success: function(data) {
-                            {#alert("메뉴 등록 완료");#}
+                            result = data['result'];
+
+                            if (result == true){
+                                addMenu(menuDetail);
+                                dialogClear();
+                            } else {
+                                newMenuDialog.showModal();
+                                if (result['error'] == "name") {
+                                    document.getElementById('id_name').classList.add("border-danger")
+                                        addLoadEvent(
+                                            function(){
+                                                document.getElementById("id_name").addEventListener("focusout", function(){
+                                                    document.getElementById('id_name').classList.remove("border-danger")
+                                                });
+                                            }
+                                    );
+                                    const errorMessage = document.createElement('div');
+                                    errorMessage.textContent = '중복된 메뉴명입니다.';
+                                    errorMessage.classList.add('error-message');    
+                                    document.getElementById('id_name_error').appendChild(errorMessage);
+                                }
+                                if (result['error'] == "image"){
+                                    const errorMessageimg = document.createElement('div');
+                                    errorMessageimg.textContent = '4MB 미만의 크기의 이미지파일만 사용 가능합니다.';
+                                    errorMessageimg.classList.add('error-message');    
+                                    document.getElementById('id_image_error').appendChild(errorMessageimg);
+                                }
+                            }
                         },
                         error: function(data) {
                             {#alert("메뉴 등록에 실패 했습니다.");#}

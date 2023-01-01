@@ -301,9 +301,32 @@ class cafeMenuForm(forms.ModelForm):
         model = Cafe_menu
         fields = ['name', 'price', 'image']
         widgets = {
-            'name': forms.TextInput(attrs={'class': 'form-control mb-3', 'placeholder': '메뉴 이름', 'maxlength': "20"}),
-            'price': forms.TextInput(attrs={'type': 'number', 'class': 'form-control mt-3', 'placeholder': '가격'}),
+            'name': forms.TextInput(attrs={'class': 'form-control mb-3', 'placeholder': '메뉴 이름', 'maxlength': "20", 'id': 'id_name'}),
+            'price': forms.TextInput(attrs={'type': 'number', 'class': 'form-control mt-3', 'placeholder': '가격', 'id': 'id_price'}),
+            'image': forms.FileInput(attrs={'multiple': '', 'id': 'id_image'})
         }
+
+    # 메뉴 이름 같은 게 있는지 확인하기 
+    def check_menuname(self):
+        menuname = self.cleaned_data.get("name")
+        try:
+            Cafe_menu.objects.get(name=menuname)
+            return False
+        except Cafe_menu.DoesNotExist:
+            return True
+        
+    # 4MB 용량제한 & 확장자 제한
+    def imagelimit(self):
+        image = self.files.getlist("image")
+        for image in image:
+            if image.size < 4 * 1024 * 1024:
+                image_extensions = ['.png', '.jpg', '.jpeg']
+                image_lower = str(image).lower()
+                is_allowed_extension = [image_extension in image_lower for image_extension in image_extensions]
+                if True in is_allowed_extension:
+                    return True
+        return False
+    
 
     def save(self, user_id):
         cafe = Cafe.objects.get(user_id=user_id)
