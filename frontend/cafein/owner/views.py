@@ -151,7 +151,7 @@ def ownerDelete(request):
             if check_password(password, owner.password):
                 # 위의 체크를 문제없이 통과하면 이후 페이지로 전송
                 owner.delete()
-                request.session.pop('user')
+                request.session.flush() 
                 return redirect('/')
             else:
                 return render_with_error(request, 'ownerDelete.html', '', ['password'])
