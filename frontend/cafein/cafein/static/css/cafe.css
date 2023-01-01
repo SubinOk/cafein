@@ -291,6 +291,8 @@ body{
 }
 
 .login-option{
+    background-color: transparent;
+    border-style: none;
     font-size: 14px;
     color: var(--light-gray);
     text-decoration: none;
@@ -455,8 +457,12 @@ body{
     padding-top: 0px;
     padding-bottom: 0px;
 }
+.menu-cb{
+    width:15px;
+}
+
 .menu_img_size{
-    width: 100%;
+    width: 200px;
     height: 200px;
 }
 .menu-card-width{
