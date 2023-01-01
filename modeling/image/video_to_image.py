@@ -1,7 +1,8 @@
 import os
 import cv2
 
-ROOT_PATH = "./modeling/image/data"
+#ROOT_PATH = "./modeling/image/data"
+ROOT_PATH = "./image/data"
 VIDEO_PATH = ROOT_PATH + "/video"
 IMAGE_PATH = ROOT_PATH + "/image"
 

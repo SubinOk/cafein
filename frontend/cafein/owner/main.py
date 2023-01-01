@@ -111,4 +111,4 @@ def crawl(name, number):
                 colormap= cmap
                 ).generate_from_frequencies(wc_list[i]) # 워드 클라우드 빈도수 지정
                 
-                wordCloud.to_file(filename=f"cafein/media/wordcloud/{cafeName}_{i}.png")
+                wordCloud.to_file(filename=f"media/wordcloud/{cafeName}_{i}.png")
