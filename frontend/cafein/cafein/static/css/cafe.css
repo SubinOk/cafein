@@ -806,3 +806,8 @@ textarea {
     text-align: right;
     margin-right: 240px;
 }
+
+.row2 {
+    position: relative;
+    display: flex;
+}
