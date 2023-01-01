@@ -105,7 +105,7 @@ def createReview(request, cafeId):
             )
             cafeReview.writer = User.objects.get(user_id=request.session.get('user'))
             cafeReview.save()
-            return redirect('/customer/'+str(cafeId)+'/review/'+str(cafeReview.review_id))
+            return redirect('/customer/'+str(cafeReview.cafe.cafe_id)+'/review/'+str(cafeReview.review_id))
     else:
         form = createViewForm()
         return render(request, 'cafeCreateReview.html', {'form': form})
