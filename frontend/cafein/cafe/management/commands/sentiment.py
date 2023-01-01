@@ -2,6 +2,7 @@ import pandas as pd
 from itertools import islice
 from django.core.management.base import BaseCommand
 from cafe.models import Cafe_sentiment,Cafe,Cafe_rank,Cafe_congestion,Cafe_wordcloud
+from django.core.files import File
 
 class Command(BaseCommand):
     def handle(self, *args, **options):
@@ -62,8 +63,55 @@ class Command(BaseCommand):
                 break
             Cafe_congestion.objects.bulk_create(batch, batch_size)
 
-        # #워드클라우드 저장
-        # objs = 
+        cafe_wordcloud = Cafe_wordcloud()
+        
+        # Open the first image file
+        image_file_1 = open(f'media/wordcloud/{name}_0.png', 'rb')
+
+        # Create a Django File object
+        django_file_1 = File(image_file_1)
+
+        # Save the image to the first ImageField
+        cafe_wordcloud.price.save(f'{name}_0.png', django_file_1, save=True)
+
+        
+        image_file_1 = open(f'media/wordcloud/{name}_1.png', 'rb')
+        django_file_1 = File(image_file_1)
+        cafe_wordcloud.drink.save(f'{name}_1.png', django_file_1, save=True)
+        
+        image_file_1 = open(f'media/wordcloud/{name}_2.png', 'rb')
+        django_file_1 = File(image_file_1)
+        cafe_wordcloud.dessert.save(f'{name}_2.png', django_file_1, save=True)
+
+        image_file_1 = open(f'media/wordcloud/{name}_3.png', 'rb')
+        django_file_1 = File(image_file_1)
+        cafe_wordcloud.service.save(f'{name}_3.png', django_file_1, save=True)
+
+        image_file_1 = open(f'media/wordcloud/{name}_4.png', 'rb')
+        django_file_1 = File(image_file_1)
+        cafe_wordcloud.customers.save(f'{name}_4.png', django_file_1, save=True)
+
+        image_file_1 = open(f'media/wordcloud/{name}_5.png', 'rb')
+        django_file_1 = File(image_file_1)
+        cafe_wordcloud.interior.save(f'{name}_5.png', django_file_1, save=True)
+
+        image_file_1 = open(f'media/wordcloud/{name}_6.png', 'rb')
+        django_file_1 = File(image_file_1)
+        cafe_wordcloud.view.save(f'{name}_6.png', django_file_1, save=True)
+
+        image_file_1 = open(f'media/wordcloud/{name}_7.png', 'rb')
+        django_file_1 = File(image_file_1)
+        cafe_wordcloud.parking.save(f'{name}_7.png', django_file_1, save=True)
+
+        cafe = Cafe.objects.filter(name = name)
+        cafe_wordcloud.cafe = cafe[0]
+        cafe_wordcloud.save()
+
+
+        
+        
+
+    
 
 
         
