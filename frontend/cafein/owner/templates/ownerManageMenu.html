@@ -30,11 +30,11 @@
                 <div class="col mb-5 menu-card-width" id="menuDummy" style="display: none">
                     <div class="card h-100">
                         <input type="checkbox" class="menu-cb m-3" id="menu_checkbox_0" name="menu_checkbox_0">
-                        <img id="menu_img_0" class="card-img-top menu_img_size" src="https://dummyimage.com/450x300/dee2e6/6c757d.jpg">
+                        <img id="menu_img_0" class="card-img menu_img_size mx-auto" src="https://dummyimage.com/450x300/dee2e6/6c757d.jpg">
                         <div class="card-body p-4">
                             <div class="text-center">
                                 <h4 class="fw-bolder" id="menu_name_0">카페 아메리카노</h4>
-                                <h5 class="fw-bolder text-gray"><span id="menu_price_0"></span><span>원</span>
+                                <h5 class="text-gray ptd-12"><span id="menu_price_0"></span><span>원</span>
                                 </h5>
                             </div>
                         </div>
@@ -44,13 +44,13 @@
                     {% for menu in cafe_menu %}
                     <div class="col mb-5 menu-card-width" id="menu_{{ forloop.counter }}">
                         <div class="card h-100">
-                            <input type="checkbox" class="mt-0" id="menu_checkbox_{{ forloop.counter }}" name="menu_checkbox" onclick="checkSelectAll()">
-                            <img id="menu_img_{{ forloop.counter }}" class="card-img-top menu_img_size mx-auto" src="{{ menu.image.url }}">
+                            <input type="checkbox" class="menu-cb m-3" id="menu_checkbox_{{ forloop.counter }}" name="menu_checkbox" onclick="checkSelectAll()">
+                            <img id="menu_img_{{ forloop.counter }}" class="card-img menu_img_size mx-auto" src="{{ menu.image.url }}">
                             <div class="card-body p-4">
                                 <div class="text-center">
                                     <h4 class="fw-bolder" id="menu_name_{{ forloop.counter }}">{{ menu.name }}</h4>
-                                    <h5 class="fw-bolder"><span id="menu_price_{{ forloop.counter }}">{{ menu.price }}</span><span>원</span>
-                                    </h5>
+                                    <div class="text-gray ptd-12"><span id="menu_price_{{ forloop.counter }}">{{ menu.price }}</span><span>원</span>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -119,6 +119,7 @@
                     newNode.setAttribute("style", "");
                     newNode.setAttribute("id", "menu_"+menu_length);
                     newNode.getElementsByTagName("input")[0].setAttribute("id", "menu_checkbox_"+menu_length);
+                    newNode.getElementsByTagName("input")[0].setAttribute("name", "menu_checkbox");
                     newNode.getElementsByTagName("img")[0].setAttribute("id", "menu_img_"+menu_length);
                     newNode.getElementsByTagName("img")[0].setAttribute("src", dialog_image.src);
                     newNode.getElementsByTagName("h4")[0].setAttribute("id", "menu_name_"+menu_length);
