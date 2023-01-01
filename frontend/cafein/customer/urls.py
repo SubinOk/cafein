@@ -6,11 +6,11 @@ app_name = 'customer'
 urlpatterns =[
     path('home/', views.customerHome, name='customerHome'),
     path('signup/', views.signup, name='signup'),
-    path('<cafeId>/home', views.cafeHome, name='cafeHome'),
+    path('<int:cafeId>/home', views.cafeHome, name='cafeHome'),
     path('review/', views.cafeReview, name='cafeReview'),
-    path('<cafeId>/createReview', views.createReview, name='createReview'),
-    path('<cafeId>/review/<int:reviewid>', views.cafeReviewDetail, name='cafeReviewDetail'),
-    path('like/<cafeId>', views.cafeLike, name='cafeLike'),
+    path('<int:cafeId>/createReview', views.createReview, name='createReview'),
+    path('<int:cafeId>/review/<int:reviewid>', views.cafeReviewDetail, name='cafeReviewDetail'),
+    path('like/<int:cafeId>', views.cafeLike, name='cafeLike'),
     path('like/', views.index, name='cafeLikeList'),
     path('findCafe/', views.getCafeData, name='getCafeData'),
 ]
