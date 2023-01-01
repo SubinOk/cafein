@@ -32,23 +32,6 @@ class Migration(migrations.Migration):
             },
         ),
         migrations.CreateModel(
-            name='Cafe_wordcloud',
-            fields=[
-                ('word_id', models.AutoField(primary_key=True, serialize=False)),
-                ('price', models.ImageField(blank=True, null=True, upload_to='', verbose_name='price IMAGE')),
-                ('drink', models.ImageField(blank=True, null=True, upload_to='', verbose_name='drink IMAGE')),
-                ('dessert', models.ImageField(blank=True, null=True, upload_to='', verbose_name='dessert IMAGE')),
-                ('service', models.ImageField(blank=True, null=True, upload_to='', verbose_name='service IMAGE')),
-                ('customers', models.ImageField(blank=True, null=True, upload_to='', verbose_name='customers IMAGE')),
-                ('interior', models.ImageField(blank=True, null=True, upload_to='', verbose_name='interior IMAGE')),
-                ('view', models.ImageField(blank=True, null=True, upload_to='', verbose_name='view IMAGE')),
-                ('parking', models.ImageField(blank=True, null=True, upload_to='', verbose_name='parking IMAGE')),
-            ],
-            options={
-                'db_table': 'cafe_wordcloud',
-            },
-        ),
-        migrations.CreateModel(
             name='Cafe_sentiment',
             fields=[
                 ('sentiment_id', models.AutoField(primary_key=True, serialize=False)),
