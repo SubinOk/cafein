@@ -126,16 +126,17 @@ def search(request):
     query = request.GET.get('search')
     cafes = Cafe.objects.filter(name__contains=query)
     cafe_content = []
+    customer = User.objects.filter(email=request.session.get('user'))[0]
     for cafe in cafes:
-        print(cafe)
-        cafe_data = {'cafe': cafe, 'cafe_image': Cafe_image.objects.filter(cafe=cafe)[0]}
+        cafe_data = {
+            'cafe': cafe,
+            'cafe_image': Cafe_image.objects.filter(cafe=cafe)[0],
+        }
         cafe_content.append(cafe_data)
-        
-    print(cafe_content)
     
     results={
         'cafe_content': cafe_content,
         'search_word': query,
         'search_cnt': len(cafes),
     }
-    return render(request, 'search.html', {'results': results})
+    return render(request, 'search.html', {'results': results, 'customer': customer})

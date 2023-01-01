@@ -4,7 +4,7 @@ from django.core.paginator import Paginator
 from django.http import JsonResponse
 
 from customer.forms import customerPostForm, createViewForm
-from cafe.models import Cafe, Cafe_review, Cafe_comment, Cafe_image
+from cafe.models import Cafe, Cafe_review, Cafe_comment, Cafe_image, Cafe_congestion
 from account.models import User
 from django.db.models import Q
 
@@ -30,11 +30,30 @@ def getCafeData(request):
     else:
         last_page = False
     cafe_images = []
+    customer = User.objects.filter(email=request.session.get('user'))[0]
     for cafe_image in cafe_images_page.object_list:
+        cafe_congestion_cnt = Cafe_congestion.objects.get(cafe=cafe_image.cafe).congestion
+        # 40 미만
+        if cafe_congestion_cnt < 40:
+            cafe_congestion = "good"
+        # 70 미만
+        elif cafe_congestion_cnt < 70:
+            cafe_congestion = "soso"
+        # 이외
+        else:
+            cafe_congestion = "bad"
+
+        if customer in cafe_image.cafe.like_users.all():
+            like = True
+        else:
+            like = False
+
         cafe_images.append({
             'cafe': cafe_image.cafe.name,
             'cafe_id': cafe_image.cafe.cafe_id,
-            'image':cafe_image.image.url
+            'image': cafe_image.image.url,
+            'cafe_congestion': cafe_congestion,
+            'like': like
                             })
 
     return JsonResponse({'cafe_images': cafe_images, 'last_page': last_page})
@@ -128,5 +147,8 @@ def cafeLike(request, cafeId):
 
 def index(request):
     customer = User.objects.filter(email=request.session.get('user'))[0]
-    cafe = customer.like_users.all()
-    return render(request, 'cafeLike.html', {'cafe': cafe })
+    cafes = customer.like_users.all()
+    cafe_image = []
+    for cafe in cafes:
+        cafe_image.append(Cafe_image.objects.filter(cafe=cafe)[0])
+    return render(request, 'cafeLike.html', {'cafe_image': cafe_image})

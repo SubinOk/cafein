@@ -481,6 +481,9 @@ body{
 .w-95{
     width:95%;
 }
+.w-px-30{
+    width: 30px;
+}
 
 .cursor{
     cursor:pointer;
@@ -610,7 +613,9 @@ textarea {
     filter: brightness(75%);
     cursor: pointer;
 }
-
+.cus-main-width-250{
+    width: 250px;
+}
 .check_button2{
     width: 150px;
     height: 35px;
@@ -876,4 +881,8 @@ textarea {
 
 .margin_left75{
     margin-left: 75px;
+}
+
+.heart-size{
+    font-size: 30px;
 }
