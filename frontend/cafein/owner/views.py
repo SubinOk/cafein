@@ -216,7 +216,7 @@ def ownerStatistics(request):
     if request.session.get('user'):
         data = request.GET.get('data')
         if data is None:
-            data = "service"
+            data = "price"
         cafe = Cafe.objects.get(user = request.session.get('user'))
         cafe_sentiment = Cafe_sentiment.objects.get(cafe = cafe)
         cafe_rank = Cafe_rank.objects.filter(sentiment=cafe_sentiment.sentiment_id).order_by('rank_id')
