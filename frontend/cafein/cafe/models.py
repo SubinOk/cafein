@@ -32,8 +32,8 @@ class Cafe_menu(models.Model):
     menu_id = models.AutoField(primary_key = True)
     cafe = models.ForeignKey(Cafe, on_delete=models.CASCADE , blank=True, null =True)
     name = models.CharField('메뉴명', max_length=100, null=True)
-    price = models.CharField('가격', max_length=100, null=True)
-    image = models.ImageField('메뉴IMAGE', upload_to='cafe/menu/', blank=True, null=True)
+    price = models.IntegerField('가격', null=True)
+    image = models.ImageField('메뉴IMAGE', max_length=255, upload_to='cafe/menu/', blank=True, null=True)
 
     class Meta:
         db_table = 'cafe_menu'
@@ -127,14 +127,15 @@ class Cafe_congestion(models.Model):
 
 class Cafe_wordcloud(models.Model):
     word_id = models.AutoField(primary_key= True)
-    price = models.ImageField('price IMAGE', blank=True, null=True)
-    drink = models.ImageField('drink IMAGE', blank=True, null=True)
-    dessert = models.ImageField('dessert IMAGE', blank=True, null=True)
-    service = models.ImageField('service IMAGE', blank=True, null=True)
-    customers = models.ImageField('customers IMAGE', blank=True, null=True)
-    interior = models.ImageField('interior IMAGE', blank=True, null=True)
-    view = models.ImageField('view IMAGE', blank=True, null=True)
-    parking = models.ImageField('parking IMAGE', blank=True, null=True)
+    price = models.ImageField('price', upload_to="media/wordcloud/", blank=True, null=True)
+    drink = models.ImageField('drink IMAGE', upload_to="media/wordcloud/",  blank=True, null=True)
+    dessert = models.ImageField('dessert IMAGE', upload_to="media/wordcloud/",  blank=True, null=True)
+    service = models.ImageField('service IMAGE', upload_to="media/wordcloud/",  blank=True, null=True)
+    customers = models.ImageField('customers IMAGE', upload_to="media/wordcloud/",  blank=True, null=True)
+    interior = models.ImageField('interior IMAGE', upload_to="media/wordcloud/",  blank=True, null=True)
+    view = models.ImageField('view IMAGE', upload_to="media/wordcloud/",  blank=True, null=True)
+    parking = models.ImageField('parking IMAGE', upload_to="media/wordcloud/",  blank=True, null=True)
+    cafe = models.ForeignKey(Cafe, on_delete=models.CASCADE , blank=True, null =True)
 
     class Meta:
         db_table = 'cafe_wordcloud'

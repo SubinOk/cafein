@@ -38,9 +38,11 @@
                         {% endif %}
                     </span>
                 </div>
+                {% if contents.cafe_review.image != '' %}
                 <div class="row p-3 border">
                     <img src="{{ contents.cafe_review.image.url }}">
                 </div>
+                {% endif %}
                 <div class="row p-3 border">
                     <span class="col row d-flex align-items-center">
                         <span class="col-2 text-center align-middle display-7" >리뷰 내용</span>

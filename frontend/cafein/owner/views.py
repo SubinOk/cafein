@@ -216,7 +216,7 @@ def ownerStatistics(request):
     if request.session.get('user'):
         data = request.GET.get('data')
         if data is None:
-            data = "service"
+            data = "price"
         cafe = Cafe.objects.get(user = request.session.get('user'))
         cafe_sentiment = Cafe_sentiment.objects.get(cafe = cafe)
         cafe_rank = Cafe_rank.objects.filter(sentiment=cafe_sentiment.sentiment_id).order_by('rank_id')
@@ -272,6 +272,12 @@ def ownerManageMenu(request):
             if request.POST.get('menuList') is None:
                 form = cafeMenuForm(request.POST, request.FILES)
                 if form.is_valid():
+                    if not form.check_menuname():
+                        result = {'result': False, 'error': 'name'}
+                        return JsonResponse({'result': result})
+                    if not form.imagelimit():
+                        result = {'result': False, 'error': 'image'}
+                        return JsonResponse({'result': result})
                     form.save(request.session.get('user'))
                     return JsonResponse({'result': True})
                 return JsonResponse({'result': False})

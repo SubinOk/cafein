@@ -4,16 +4,16 @@
     <main>
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
         <div class="col container">
-            <div class="row justify-content-between">
+            <div class="row2 justify-content-between">
                 <div class="h1 col-11 d-flex align-self-center">리뷰 게시판</div>
-                <div class="col-1">
+                <div class="margin_top10">
                     <div>
-                        <a class="login-button btn btn-outline-brown ms-3" href="/customer/review">뒤로가기</a>
+                        <a class="login-option" href="/customer/review">뒤로가기</a>
                     </div>
                 </div>
             </div>
             <div class=blank></div>
-            <div class="p-5">
+            <div class="">
                 <div class="row p-3 border">
                     <span class="text-center align-middle col-2 display-7">리뷰 제목</span>
                     <span class="text-start align-middle col display-7">{{ contents.cafe_review.title }}</span>
@@ -43,19 +43,16 @@
                     <img src="{{ contents.cafe_review.image.url }}">
                 </div>
                 {% endif %}
-                <div class="row p-3 border">
-                    <span class="col row d-flex align-items-center">
-                        <span class="col-2 text-center align-middle display-7" >리뷰 내용</span>
-                        <span class="col" ></span>
+                <div class="row2 p-3 border">
+                    <span class="align_center w-15">
+                        <span class="display-7 margin_left55" >리뷰 내용</span>
                     </span>
-                    <div class="contents-blank"></div>
-                    <div class="contents-blank"></div>
-                    <p class="review-contents display-7">{{ contents.cafe_review.content }}</p>
+                    <p class="margin_set2 display-7 w-75">{{ contents.cafe_review.content }}</p>
                 </div>
-                <div class="row p-3 border">
-                    <span class="col row d-flex align-items-center">
-                        <span class="col-2 text-center align-middle display-7">댓글</span>
-                        <span class="col"></span>
+                <div class="row2 p-3 border">
+                    <span class="align_center w-15">
+                        <span class="display-7 margin_left75">댓글</span>
+                        <span class="margin_set2 display-7 w-75"></span>
                     </span>
                     <div class="contents-blank"></div>
                     <div class="review-contents" id="review-comment-field">
