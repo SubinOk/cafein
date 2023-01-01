@@ -855,3 +855,25 @@ textarea {
     position: relative;
     display: flex;
 }
+
+
+.margin_top10{
+    margin-top: 10px;
+}
+
+.align_center{
+    align-self: center; 
+}
+
+.margin_left55{
+    margin-left: 55px;
+}
+
+.margin_set2{
+    margin-top: 10px;
+    margin-left: 25px;
+}
+
+.margin_left75{
+    margin-left: 75px;
+}
