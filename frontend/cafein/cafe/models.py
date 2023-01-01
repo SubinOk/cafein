@@ -32,8 +32,8 @@ class Cafe_menu(models.Model):
     menu_id = models.AutoField(primary_key = True)
     cafe = models.ForeignKey(Cafe, on_delete=models.CASCADE , blank=True, null =True)
     name = models.CharField('메뉴명', max_length=100, null=True)
-    price = models.CharField('가격', max_length=100, null=True)
-    image = models.ImageField('메뉴IMAGE', upload_to='cafe/menu/', blank=True, null=True)
+    price = models.IntegerField('가격', null=True)
+    image = models.ImageField('메뉴IMAGE', max_length=255, upload_to='cafe/menu/', blank=True, null=True)
 
     class Meta:
         db_table = 'cafe_menu'
