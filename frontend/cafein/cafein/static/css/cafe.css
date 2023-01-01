@@ -21,6 +21,11 @@ body{
     margin-bottom: 60px;
     font-family: 'Pretendard-Regular';
 }
+
+#wordCloud{
+    width: 320px;
+    height: 320px;
+}
 .page-footer{
     position: absolute;
     left: 0;
@@ -383,6 +388,7 @@ body{
     height: 100px;
     border: 4px;
 }
+
 .wrap{
     height: 120px;
     background-color: #dcdcdc;
