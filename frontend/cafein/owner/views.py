@@ -48,10 +48,10 @@ def ownerHome(request):
             cafe_rank = Cafe_rank.objects.filter(sentiment=cafe_sentiment.sentiment_id).order_by('rank')
             cafe_reviews = Cafe_review.objects.filter(cafe=cafe)[:3]
             return render(request, 'ownerHome.html', {'cafe_sentiment':cafe_sentiment, 'cafe':cafe, 'reviews': cafe_reviews
-                                                      ,'cafe_rank': cafe_rank})
+                                                    ,'cafe_rank': cafe_rank, 'title': '사장 홈',})
         except:
             cafe = Cafe.objects.get(user = request.session.get('user'))
-            return render(request,'ownerHome2.html', {'cafe': cafe})
+            return render(request,'ownerHome2.html', {'cafe': cafe, 'title': '리뷰 분석중',})
     else:
         return redirect('/')
 
@@ -69,19 +69,19 @@ def signup(request):
             form = ownerPostForm(request.POST, request.FILES)
             if form.is_valid():
                 if not form.check_email():
-                    return render_with_error(request, 'signup.html', form, ['email'])
+                    return render_with_error(request, 'signup.html', form, ['email'], '사장 회원가입')
                 if not (form.check_password1() and form.check_password()):
-                    return render_with_error(request, 'signup.html', form, ['password'])
+                    return render_with_error(request, 'signup.html', form, ['password'], '사장 회원가입')
                 if not form.check_phone():
-                    return render_with_error(request, 'signup.html', form, ['phone'])
+                    return render_with_error(request, 'signup.html', form, ['phone'], '사장 회원가입')
                 if not form.check_cafename():
-                    return render_with_error(request, 'signup.html', form, ['name'])
+                    return render_with_error(request, 'signup.html', form, ['name'], '사장 회원가입')
                 if not form.check_cafePhone():
-                    return render_with_error(request, 'signup.html', form, ['cafephone'])
+                    return render_with_error(request, 'signup.html', form, ['cafephone'], '사장 회원가입')
                 if not form.imagelimit():
-                    return render_with_error(request, 'signup.html', form, ['image'])
+                    return render_with_error(request, 'signup.html', form, ['image'], '사장 회원가입')
                 if not form.numlimit():
-                    return render_with_error(request, 'signup.html', form, ['imagelimit'])
+                    return render_with_error(request, 'signup.html', form, ['imagelimit'], '사장 회원가입')
                 
                 name = form.cleaned_data.get("name")
                 phone = form.cleaned_data.get("cafe_phone")
@@ -97,7 +97,7 @@ def signup(request):
                 return redirect('/owner/home')
         else:
             form = ownerPostForm()
-            return render(request, 'signup.html', {'form': form})
+            return render(request, 'signup.html', {'form': form, 'title': '사장 회원가입'})
     return redirect('/')
 
 
@@ -112,11 +112,11 @@ def checkPassword(request):
                 if check_password(password, owner.password):
                     # 위의 체크를 문제없이 통과하면 이후 페이지로 전송
                     form = ownerChangeForm()
-                    return redirect('/owner/change', {'form': form})
+                    return redirect('/owner/change')
                 else:
-                    return render_with_error(request, 'checkPassword.html', '', ['password'])
+                    return render_with_error(request, 'checkPassword.html', '', ['password'], {'title': '비밀번호 확인'})
         else:
-            return render(request, 'checkPassword.html')
+            return render(request, 'checkPassword.html', {'title': '비밀번호 확인'})
     return redirect('/')
 
 
@@ -127,14 +127,14 @@ def ownerChange(request):
             form = ownerChangeForm(request.POST)
             if form.is_valid(): #is_valid 필수로 쓰기
                 if not (form.check_password() and form.check_password1()):
-                    return render_with_error(request, 'ownerChange.html', form, ['password'])
+                    return render_with_error(request, 'ownerChange.html', form, ['password'], '회원 정보 수정')
                 if not form.check_phone():
-                    return render_with_error(request, 'ownerChange.html', form, ['phone'])
+                    return render_with_error(request, 'ownerChange.html', form, ['phone'], '회원 정보 수정')
                 form.update(user_id)
             return redirect('/owner/home/')
         else:
             form = ownerChangeForm()
-            return render(request, 'ownerChange.html', {'form': form})
+            return render(request, 'ownerChange.html', {'form': form, 'title': '회원 정보 수정'})
     else:
         return redirect('/')
 
@@ -154,16 +154,16 @@ def ownerDelete(request):
                 request.session.flush() 
                 return redirect('/')
             else:
-                return render_with_error(request, 'ownerDelete.html', '', ['password'])
+                return render_with_error(request, 'ownerDelete.html', '', ['password'], {'title': '탈퇴하기'})
     else:
-        return render(request, 'ownerDelete.html')
+        return render(request, 'ownerDelete.html', {'title': '탈퇴하기'})
 
 
-def render_with_error(request, html, form, error_type):
+def render_with_error(request, html, form, error_type, title=''):
     error_flg = {}
     for error in error_type:
         error_flg[error] = True
-    return render(request, html, {'form': form, 'error_flg': error_flg})
+    return render(request, html, {'form': form, 'error_flg': error_flg, 'title': title})
         
 
 def ownerManage(request):
@@ -186,14 +186,14 @@ def ownerManage(request):
             }
             if form.is_valid():
                 if not form.check_cafePhone():
-                    return render_with_error(request, 'ownerManage.html', form, ['cafephone'])
+                    return render_with_error(request, 'ownerManage.html', form, ['cafephone'], '카페 관리')
                 form.cafeUpdate(request.session.get('user'), cafe_name, update_image)
             return redirect('/owner/home')
         else:
             cafeform = Cafe.objects.filter(user_id=request.session.get('user'))
             imageform = Cafe_image.objects.filter(cafe_id=cafeform[0].cafe_id)
             form = ownerManageForm(instance=cafeform[0])
-            return render(request, 'ownerManage.html', {'form': form, 'cafe_name': cafeform[0].name, 'imageform': imageform})
+            return render(request, 'ownerManage.html', {'form': form, 'cafe_name': cafeform[0].name, 'imageform': imageform, 'title': '카페 관리'})
     else:
         return redirect('/')
 
@@ -207,7 +207,7 @@ def cafeUpdate(request):
                 form.imageUpdate(user_id)
             return redirect('/owner/home/')
         else:
-            return render(request, 'ownerChange.html')
+            return render(request, 'ownerChange.html', {'title': '회원 정보 수정'})
     else:
         return redirect('/')
 
@@ -221,13 +221,9 @@ def ownerStatistics(request):
         cafe_sentiment = Cafe_sentiment.objects.get(cafe = cafe)
         cafe_rank = Cafe_rank.objects.filter(sentiment=cafe_sentiment.sentiment_id).order_by('rank_id')
             
-        return render(request, 'ownerStatistics.html', {'data': data, 'cafe_rank': cafe_rank, 'cafe_name': cafe.name})
+        return render(request, 'ownerStatistics.html', {'data': data, 'cafe_rank': cafe_rank, 'cafe_name': cafe.name, 'title': '고객 통계'})
     else:
         return redirect('/')
-
-
-def ownerStatisticsDetail(request):
-    return render(request, 'ownerStatisticsDetail.html')
 
 
 def ownerComent(request):
@@ -238,7 +234,7 @@ def ownerComent(request):
     page_number = request.GET.get('page')
     page_reviews = paginator.get_page(page_number)
 
-    return render(request, 'ownerComent.html', {'reviews': page_reviews})
+    return render(request, 'ownerComent.html', {'reviews': page_reviews, 'title': '리뷰 게시판'})
 
 
 def ownerComentDetail(request, reviewid):
@@ -250,7 +246,7 @@ def ownerComentDetail(request, reviewid):
         'cafe_comment': cafe_comment,
     }
     
-    return render(request, 'ownerComentDetail.html', {'contents': contents})
+    return render(request, 'ownerComentDetail.html', {'contents': contents, 'title': '리뷰 게시판'})
 
 
 def ownerCommentUpload(request):
@@ -295,7 +291,7 @@ def ownerManageMenu(request):
             cafe = Cafe.objects.filter(user=User.objects.filter(user_id=user_id)[0])
             cafe_menu = Cafe_menu.objects.filter(cafe=cafe[0])
             menu_form = cafeMenuForm()
-            return render(request, 'ownerManageMenu.html', {'cafe_menu': cafe_menu, 'menu_form': menu_form})
+            return render(request, 'ownerManageMenu.html', {'cafe_menu': cafe_menu, 'menu_form': menu_form, 'title': '카페 관리'})
     else:
         return redirect('/')
     

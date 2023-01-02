@@ -13,7 +13,6 @@ urlpatterns = [
     path('change/', views.ownerChange, name='ownerChange'),
     path('manage/', views.ownerManage, name='ownerManage'),
     path('statistics/', views.ownerStatistics, name='ownerStatistics'),
-    path('statistics/detail', views.ownerStatisticsDetail, name='ownerStatisticsDetail'),
     path('coment/', views.ownerComent, name='ownerComent'),
     path('coment/<int:reviewid>/', views.ownerComentDetail, name='ownerComentDetail'),
     path('upload/', views.ownerCommentUpload, name='ownerCommentUpload'),
