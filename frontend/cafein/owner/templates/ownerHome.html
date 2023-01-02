@@ -29,9 +29,9 @@
                         'height':400,
                         'pieHole': 0.6,
                         'pieSliceText':'label',
-                        'colors': ['#78AAE7', '#E67C92'],
+                        'colors': ['#005E50', '#E2E2E2'],
                         'pieSliceText': 'none',
-                        'legend':'none'
+                        'legend':'bottom',
                 };
                 var chart = new google.visualization.PieChart(document.getElementById('myChart'));
                 chart.draw(data, opt);
@@ -43,24 +43,31 @@
             <div class="container">
                 <div class="contents-blank"></div>
                 <div class="contents-blank"></div>
-                <h1>고객 통계</h1>
+                <div class="blank"></div>
+                <div>
+                    <h1>고객 통계</h1>
+                </div>
                 <div class="contents-blank"></div>
                 <div class="contents-blank"></div>
                 <div class="row2">
                     <div class="col">
-                        <div class="h3 text-bold">고객들의 전체 만족도</div>
+                        <div class="h2" style = "text-align:center">전체 만족도</div>
                         <div id="myChart" class="d-flex justify-content-center"></div>
-                        <div class="h3 text-center">해당 그래프는 90일간의 데이터를 분석한 결과입니다.</div>
                     </div>
                     <div class="col">
-                        <div class="h3 pb-5 text-bold">고객들이 만족한 항목</div>
+                        <div class="h2" style = "text-align:center">카테고리 별 만족도</div>
+                        <div class="blank"></div>
                         <div>
                             <div id="chart"></div>
                         </div>
                     </div>  
                 </div>
-                <div class="blank"></div>     
-                <h2>최근 리뷰</h2>
+            
+                <div class="blank"></div> 
+                <div class="blank"></div>    
+                <div>
+                    <h1>최신 리뷰</h1>
+                </div>
                 <div class="col text-right">
                     <a class="login-option" href="{% url 'owner:ownerComent' %}">상세보기</a>
                 </div>
@@ -142,7 +149,7 @@
                       font: {
                         family: 'Verdana',
                         size: 16,
-                        weight: 600,
+                        weight: 500,
                       },
                     },
                   },

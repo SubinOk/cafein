@@ -4,9 +4,9 @@
     <main>
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
         <div class="col container">
-            <div class="row2 justify-content-between">
-                <div class="h1 col-11 d-flex align-self-center">리뷰 게시판</div>
-            </div>
+            <div class="blank"></div>
+                <h1>상세 리뷰</h1>
+            <div class="contents-blank"></div>
             <div class="contents-blank"></div>
             <div class="text-end">
                 <a class="login-option" href="/customer/review">뒤로가기</a>
@@ -38,7 +38,9 @@
                 </div>
                 {% if contents.cafe_review.image != '' %}
                 <div class="row border-bottom">
+                    <div width="100" style="text-align:center">
                     <img src="{{ contents.cafe_review.image.url }}">
+                    </div>
                 </div>
                 {% endif %}
                 <div class="row border-bottom h-250">
