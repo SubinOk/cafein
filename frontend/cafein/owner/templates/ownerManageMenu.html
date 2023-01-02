@@ -35,7 +35,7 @@
                 <div class="blank"></div>
                 <div class="col mb-5 menu-card-width" id="menuDummy" style="display: none">
                     <div class="card h-100">
-                        <input type="checkbox" class="menu-cb m-3" id="menu_checkbox_0" name="menu_checkbox_0">
+                        <input type="checkbox" class="w-px-15 m-3" id="menu_checkbox_0" name="menu_checkbox_0">
                         <img id="menu_img_0" class="card-img menu_img_size mx-auto" src="https://dummyimage.com/450x300/dee2e6/6c757d.jpg">
                         <div class="card-body p-4">
                             <div class="text-center">
@@ -50,7 +50,7 @@
                     {% for menu in cafe_menu %}
                     <div class="col mb-5 menu-card-width" id="menu_{{ forloop.counter }}">
                         <div class="card h-100">
-                            <input type="checkbox" class="menu-cb m-3" id="menu_checkbox_{{ forloop.counter }}" name="menu_checkbox" onclick="checkSelectAll()">
+                            <input type="checkbox" class="w-px-15 m-3" id="menu_checkbox_{{ forloop.counter }}" name="menu_checkbox" onclick="checkSelectAll()">
                             <img id="menu_img_{{ forloop.counter }}" class="card-img menu_img_size mx-auto" src="{{ menu.image.url }}">
                             <div class="card-body p-4">
                                 <div class="text-center">
