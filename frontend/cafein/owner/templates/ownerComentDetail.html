@@ -4,69 +4,58 @@
     <main>
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
         <div class="col container">
-            <div class="row justify-content-between">
+            <div class="row2 justify-content-between">
                 <div class="h1 col-11 d-flex align-self-center">리뷰 게시판</div>
-                <div class="col-1">
-                    <div>
-                        <a class="login-button btn btn-outline-brown ms-3" href="{% url 'owner:ownerComent' %}">뒤로가기</a>
-                    </div>
-                </div>
             </div>
-            <div class=blank></div>
-            <div class="p-5">
-                <div class="row p-3 border">
-                    <span class="text-center align-middle col-2 display-7">리뷰 제목</span>
-                    <span class="text-start align-middle col display-7">{{ contents.cafe_review.title }}</span>
+            <div class="contents-blank"></div>
+            <div class="text-end">
+                <a class="login-option" href="/customer/review">뒤로가기</a>
+            </div>
+            <div class="mt-3">
+                <div class="row border-bottom border-top">
+                    <span class="text-center align-middle col-2 display-7 bg-light-brown p-4">리뷰 제목</span>
+                    <span class="text-start align-self-center col display-7 p-4">{{ contents.cafe_review.title }}</span>
                 </div>
-                <div class="row p-3 border">
-                    <span class="col row d-flex align-items-center">
-                        <span class="col-4 text-center align-middle display-7" >날짜</span>
-                        <span class="col text-start align-middle col display-7" >{{ contents.cafe_review.date }}</span>
+                <div class="row border-bottom">
+                    <span class="col row px-0">
+                        <span class="col-4 text-center align-middle display-7 bg-light-brown p-4" >날짜</span>
+                        <span class="col text-start align-self-center col display-7 p-4" >{{ contents.cafe_review.date }}</span>
                     </span>
-                    <span class="col row d-flex align-items-center">
-                        <span class="col-4 text-center display-7" >별점</span>
+                    <span class="col row">
+                        <span class="col-4 text-center display-7 bg-light-brown align-self-center p-4" >별점</span>
                         {% if contents.cafe_review.score == 1 %}
-                        <span class="col"><img src="{% static 'img/bean/1bean.png' %}"></span>
+                        <span class="col p-3"><img src="{% static 'img/bean/1bean.png' %}"></span>
                         {% elif contents.cafe_review.score == 2 %}
-                        <span class="col"><img src="{% static 'img/bean/2bean.png' %}"></span>
+                        <span class="col p-3"><img src="{% static 'img/bean/2bean.png' %}"></span>
                         {% elif contents.cafe_review.score == 3 %}
-                        <span class="col"><img src="{% static 'img/bean/3bean.png' %}"></span>
+                        <span class="col p-3"><img src="{% static 'img/bean/3bean.png' %}"></span>
                         {% elif contents.cafe_review.score == 4 %}
-                        <span class="col"><img src="{% static 'img/bean/4bean.png' %}"></span>
+                        <span class="col p-3"><img src="{% static 'img/bean/4bean.png' %}"></span>
                         {% elif contents.cafe_review.score == 5 %}
-                        <span class="col"><img src="{% static 'img/bean/5bean.png' %}"></span>
+                        <span class="col p-3"><img src="{% static 'img/bean/5bean.png' %}"></span>
                         {% endif %}
                     </span>
                 </div>
                 {% if contents.cafe_review.image != '' %}
-                <div class="row p-3 border">
+                <div class="row border-bottom">
                     <img src="{{ contents.cafe_review.image.url }}">
                 </div>
                 {% endif %}
-                <div class="row p-3 border">
-                    <span class="col row d-flex align-items-center">
-                        <span class="col-2 text-center align-middle display-7" >리뷰 내용</span>
-                        <span class="col" ></span>
-                    </span>
-                    <div class="contents-blank"></div>
-                    <div class="contents-blank"></div>
-                    <p class="review-contents display-7">{{ contents.cafe_review.content }}</p>
+                <div class="row border-bottom h-250">
+                    <span class="bg-light-brown col-2 display-7 p-3 d-flex align-content-center flex-wrap justify-content-center" >리뷰 내용</span>
+                    <span class="col text-start align-middle col display-7 p-3">{{ contents.cafe_review.content }}</span>
                 </div>
-                <div class="row p-3 border">
-                    <span class="col row justify-content-between align-items-center">
-                        <span class="col-10 text-start align-middle display-7 comment-padding-left" >댓글</span>
-                        <div id="confirm" class="col-2">
-                            <button class="login-button btn btn-outline-brown ms-3" onclick="changeComment()">수정</button>
-                            <a class="login-button btn btn-outline-brown ms-3" href="{% url 'owner:ownerComent' %}">삭제</a>
-                        </div>
-                        <div id="send" class="col-2 text-center" style="display:none;">
-                            <button class="login-button btn btn-outline-brown ms-3" onclick="sendComment()">등록</button>
-                        </div>
-
+                <div class="row border-bottom">
+                    <span class="bg-light-brown col-2 display-7 p-3 d-flex align-content-center flex-wrap justify-content-center">댓글</span>
+                    <span class="col text-start align-middle col display-7 p-3 review-contents" id="review-comment-field">
+                        <div class="display-7 p-3" id="review-comment">{{ contents.cafe_comment.content }}</div>
                     </span>
-                    <div class="contents-blank"></div>
-                    <div class="review-contents" id="review-comment-field">
-                        <p class="display-7" id="review-comment">{{ contents.cafe_comment.content }}</p>
+                    <div id="confirm" class="col-2 mt-3">
+                        <button class="btn-small m-2 ptd-12" onclick="changeComment()">수정</button>
+                        <button class="btn-small m-2 ptd-12" onclick="deleteComment()">삭제</button>
+                    </div>
+                    <div id="send" class="col-2 mt-3" style="display:none;">
+                        <button class="btn-small m-2 ptd-12" onclick="sendComment()">등록</button>
                     </div>
                 </div>
             </div>

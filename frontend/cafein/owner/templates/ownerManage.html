@@ -8,8 +8,8 @@
                 <h1>카페 관리</h1>
                 <div class="contents-blank"></div>
                 <div class="contents-blank"></div>
-                <div class="text-first menu_change">
-                    <button onclick="location.href='{% url 'owner:ownerManageMenu' %}'" class="login-option margin_right5">메뉴 수정</button>
+                <div class="text-right">
+                    <button onclick="location.href='{% url 'owner:ownerManageMenu' %}'" class="login-option mx-2">메뉴 수정</button>
                 </div>
                 <form action="" method="post" enctype="multipart/form-data">
                     {% csrf_token %}
@@ -95,9 +95,9 @@
                             </script>
                             {% endif %}
                             {{ form.max_occupancy }}
-                            <div class="contents-blank menu_change2"></div>
+                            <div class="contents-blank text-right"></div>
                             <div class=contents-blank></div>
-                            <div class="menu_change2">
+                            <div class="text-right">
                                 <button type="submit" class="border check-button check_button">카페 수정</button>
                             </div>
                         </div>

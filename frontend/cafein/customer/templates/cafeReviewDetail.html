@@ -6,58 +6,50 @@
         <div class="col container">
             <div class="row2 justify-content-between">
                 <div class="h1 col-11 d-flex align-self-center">리뷰 게시판</div>
-                <div class="margin_top10">
-                    <div>
-                        <a class="login-option" href="/customer/review">뒤로가기</a>
-                    </div>
-                </div>
             </div>
-            <div class=blank></div>
-            <div class="">
-                <div class="row p-3 border">
-                    <span class="text-center align-middle col-2 display-7">리뷰 제목</span>
-                    <span class="text-start align-middle col display-7">{{ contents.cafe_review.title }}</span>
+            <div class="contents-blank"></div>
+            <div class="text-end">
+                <a class="login-option" href="/customer/review">뒤로가기</a>
+            </div>
+            <div class="mt-3">
+                <div class="row border-bottom border-top">
+                    <span class="text-center align-middle col-2 display-7 bg-light-brown p-4">리뷰 제목</span>
+                    <span class="text-start align-self-center col display-7 p-4">{{ contents.cafe_review.title }}</span>
                 </div>
-                <div class="row p-3 border">
-                    <span class="col row d-flex align-items-center">
-                        <span class="col-4 text-center align-middle display-7" >날짜</span>
-                        <span class="col text-start align-middle col display-7" >{{ contents.cafe_review.date }}</span>
+                <div class="row border-bottom">
+                    <span class="col row px-0">
+                        <span class="col-4 text-center align-middle display-7 bg-light-brown p-4">날짜</span>
+                        <span class="col text-start align-self-center col display-7 p-4">{{ contents.cafe_review.date }}</span>
                     </span>
-                    <span class="col row d-flex align-items-center">
-                        <span class="col-4 text-center display-7" >별점</span>
+                    <span class="col row">
+                        <span class="col-4 text-center display-7 bg-light-brown align-self-center p-4">별점</span>
                         {% if contents.cafe_review.score == 1 %}
-                        <span class="col"><img src="{% static 'img/bean/1bean.png' %}"></span>
+                        <span class="col p-3"><img src="{% static 'img/bean/1bean.png' %}"></span>
                         {% elif contents.cafe_review.score == 2 %}
-                        <span class="col"><img src="{% static 'img/bean/2bean.png' %}"></span>
+                        <span class="col p-3"><img src="{% static 'img/bean/2bean.png' %}"></span>
                         {% elif contents.cafe_review.score == 3 %}
-                        <span class="col"><img src="{% static 'img/bean/3bean.png' %}"></span>
+                        <span class="col p-3"><img src="{% static 'img/bean/3bean.png' %}"></span>
                         {% elif contents.cafe_review.score == 4 %}
-                        <span class="col"><img src="{% static 'img/bean/4bean.png' %}"></span>
+                        <span class="col p-3"><img src="{% static 'img/bean/4bean.png' %}"></span>
                         {% elif contents.cafe_review.score == 5 %}
-                        <span class="col"><img src="{% static 'img/bean/5bean.png' %}"></span>
+                        <span class="col p-3"><img src="{% static 'img/bean/5bean.png' %}"></span>
                         {% endif %}
                     </span>
                 </div>
                 {% if contents.cafe_review.image != '' %}
-                <div class="row p-3 border">
+                <div class="row border-bottom p-3 h-250">
                     <img src="{{ contents.cafe_review.image.url }}">
                 </div>
                 {% endif %}
-                <div class="row2 p-3 border">
-                    <span class="align_center w-15">
-                        <span class="display-7 margin_left55" >리뷰 내용</span>
-                    </span>
-                    <p class="margin_set2 display-7 w-75">{{ contents.cafe_review.content }}</p>
+                <div class="row border-bottom h-250">
+                    <span class="bg-light-brown col-2 display-7 p-3 d-flex align-content-center flex-wrap justify-content-center">리뷰 내용</span>
+                    <span class="col text-start align-middle col display-7 p-3">{{ contents.cafe_review.content }}</span>
                 </div>
-                <div class="row2 p-3 border">
-                    <span class="align_center w-15">
-                        <span class="display-7 margin_left75">댓글</span>
-                        <span class="margin_set2 display-7 w-75"></span>
-                    </span>
-                    <div class="contents-blank"></div>
-                    <div class="review-contents" id="review-comment-field">
-                        <p class="display-7" id="review-comment">{{ contents.cafe_comment.content }}</p>
-                    </div>
+                <div class="row border-bottom">
+                        <span class="bg-light-brown col-2 display-7 p-3 d-flex align-content-center flex-wrap justify-content-center">댓글</span>
+                        <span class="col text-start align-middle col display-7 p-3 review-contents" id="review-comment-field">
+                            <div class="display-7 p-3" id="review-comment">{{ contents.cafe_comment.content }}</div>
+                        </span>
                 </div>
             </div>
         </div>
