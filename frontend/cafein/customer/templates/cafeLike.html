@@ -7,13 +7,13 @@
             {% for cafe_image in cafe_image %}
                 <div class="col-4 px-5 pb-5">
                     <div class="d-flex justify-content-center">
-                        <img class="cus-main-image-size border rounded-5" onclick="location.href='/customer/{{ cafe_image.cafe.cafe_id }}/home'" src="{{ cafe_image.image.url }}">
+                        <img class="cus-main-image-size border rounded-5" onclick="location.href='/customer/{{ cafe_image.cafe_image.cafe.cafe_id }}/home'" src="{{ cafe_image.cafe_image.image.url }}">
                     </div>
                     <div class="d-flex justify-content-center">
                         <div class="d-flex h3 pt-3 cus-main-width-250 justify-content-between align-items-center">
-                            <div class="w-85 truncate">{{ cafe_image.cafe.name }}</div>
+                            <div class="w-85 truncate">{{ cafe_image.cafe_image.cafe.name }}</div>
                             <div class="w-15 d-flex">
-                                <img class="w-px-30" src="/static/img/congestion/{% if cafe_image.cafe.congestion < 40 %}good{% elif cafe_image.cafe.congestion < 70 %}soso{% else %}bad{% endif %}.png">
+                                <img class="w-px-30" src="/static/img/congestion/{% if cafe_image.cafe_congestion < 40 %}good{% elif cafe_image.cafe_congestion < 70 %}soso{% else %}bad{% endif %}.png">
                             </div>
                         </div>
                     </div>

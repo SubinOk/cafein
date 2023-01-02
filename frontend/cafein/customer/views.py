@@ -148,7 +148,14 @@ def cafeLike(request, cafeId):
 def index(request):
     customer = User.objects.filter(email=request.session.get('user'))[0]
     cafes = customer.like_users.all()
-    cafe_image = []
+    cafe_images = []
+
     for cafe in cafes:
-        cafe_image.append(Cafe_image.objects.filter(cafe=cafe)[0])
-    return render(request, 'cafeLike.html', {'cafe_image': cafe_image})
+        cafe_image = Cafe_image.objects.filter(cafe=cafe)[0]
+        cafe_congestion = Cafe_congestion.objects.get(cafe=cafe_image.cafe).congestion
+
+        cafe_images.append({
+            'cafe_image': cafe_image,
+            'cafe_congestion': cafe_congestion,
+                            })
+    return render(request, 'cafeLike.html', {'cafe_image': cafe_images})

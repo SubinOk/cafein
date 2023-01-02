@@ -15,7 +15,7 @@
                     <div class="d-flex h3 pt-3 cus-main-width-250 justify-content-between align-items-center">
                         <div class="w-75 truncate">{{ cafe.cafe_image.cafe.name }}</div>
                         <div class="w-25 d-flex">
-                            <img class="w-px-30" src="/static/img/congestion/{% if cafe.cafe_image.cafe.congestion < 40 %}good{% elif cafe.cafe_image.cafe.congestion < 70 %}soso{% else %}bad{% endif %}.png">
+                            <img class="w-px-30" src="/static/img/congestion/{% if cafe.cafe_congestion < 40 %}good{% elif cafe.cafe_congestion < 70 %}soso{% else %}bad{% endif %}.png">
                             {% if customer in cafe.cafe_image.cafe.like_users.all %}
                                 <i class="fa-sharp fa-solid fa-heart heart-size"></i>
                             {% else %}
