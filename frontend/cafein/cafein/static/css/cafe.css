@@ -150,6 +150,14 @@ h1 {
     height: 250px;
 }
 
+.mh-70{
+    min-height: 70px;
+}
+
+.mh-250{
+    min-height: 250px;
+}
+
 
 /* ----- 4. buttons ----- */
 .btn-outline-brown {
@@ -183,17 +191,12 @@ h1 {
 
 .btn-small{
     width: 50px;
-    height: 24px;
+    height: 30px;
     color: var(--main-color);
     background-color: white;
     border: solid 2px var(--main-color);
-    border-radius: 10px;
+    border-radius: 15px;
     text-decoration: none;
-}
-
-.btn-container{
-    display: flex;
-    justify-content: flex-end;
 }
 
 .signup-button{
@@ -342,6 +345,11 @@ h1 {
     height: 200px;
 }
 
+.img-review{
+    max-width: 400px;
+    max-height: 400px;
+}
+
 
 /* ----- 7. text ----- */
 .text-muted{
@@ -356,10 +364,6 @@ h1 {
 .error-message{
     color: red;
     font-size: 10px;
-}
-
-.display-7{
-    font-size: 1.5rem;
 }
 
 .heart-size{
@@ -605,8 +609,14 @@ textarea {
 }
 
 .review-contents{
-    padding: 0px 100px 10px 100px;
+    max-width: 850px;
     word-wrap: break-word;
+}
+
+.review-container{
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
 }
 
 .fixed-header {
