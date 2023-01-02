@@ -23,7 +23,7 @@
                     <th scope="row" class="text-center align-middle">{{ forloop.counter }}</th>
                     <td class="text-center align-middle">{{ review.cafe.cafe_id }}</td>
                     <td class="text-center align-middle">{{ review.date }}</td>
-                    <td class="text-center align-middle">{{ review.content }}</td>
+                    <td class="text-center align-middle">{{ review.title }}</td>
                     <td class="text-center align-middle"><img id="score_{{ forloop.counter }}">
                         <script>
                             document.getElementById('score_{{ forloop.counter }}').src = "{% static ''%}" + "img/bean/" + "{{ review.score }}" + "bean.png";
