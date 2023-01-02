@@ -10,7 +10,7 @@ from django.db.models import Q
 
 def customerHome(request):
     if request.session.get('user'):
-        return render(request, 'customerHome.html')
+        return render(request, 'customerHome.html', {'title': '고객홈'})
     else:
         return redirect('/')
     
@@ -64,11 +64,11 @@ def signup(request):
             form = customerPostForm(request.POST, request.FILES)
             if form.is_valid():
                 if not form.check_email():
-                    return render_with_error(request, 'signup2.html', form, ['email'])
+                    return render_with_error(request, 'signup2.html', form, ['email'], '고객 회원가입')
                 if not (form.check_password1() and form.check_password()):
-                    return render_with_error(request, 'signup2.html', form, ['password'])
+                    return render_with_error(request, 'signup2.html', form, ['password'], '고객 회원가입')
                 if not form.check_phone():
-                    return render_with_error(request, 'signup2.html', form, ['phone'])
+                    return render_with_error(request, 'signup2.html', form, ['phone'], '고객 회원가입')
                 
                 form.save()
                 # Save 성공시에는 Redirect
@@ -77,7 +77,7 @@ def signup(request):
                 return redirect('/customer/home')
         else:
             form = customerPostForm()
-            return render(request, 'signup2.html', {'form': form})
+            return render(request, 'signup2.html', {'form': form, 'title': '고객 회원가입'})
     return redirect('/')
 
 def cafeHome(request, cafeId):
@@ -88,7 +88,7 @@ def cafeHome(request, cafeId):
         customer = User.objects.filter(email=request.session.get('user'))[0]
         cafe_reviews = Cafe_review.objects.filter(cafe=cafe)[:3]
         cafe_menu = Cafe_menu.objects.filter(cafe=cafe)
-    return render(request, 'cafeHome.html', {'cafe': cafe, 'customer':customer, 'reviews':cafe_reviews, 'cafe_menu': cafe_menu})
+    return render(request, 'cafeHome.html', {'cafe': cafe, 'customer':customer, 'reviews':cafe_reviews, 'cafe_menu': cafe_menu, 'title': cafe.name+' 홈'})
 
 def cafeReview(request):
     
@@ -99,7 +99,7 @@ def cafeReview(request):
     page_number = request.GET.get('page')
     page_reviews = paginator.get_page(page_number)
 
-    return render(request, 'cafeReview.html', {'reviews': page_reviews})
+    return render(request, 'cafeReview.html', {'reviews': page_reviews, 'title': '리뷰 게시판'})
 
 def cafeReviewDetail(request, cafeId, reviewid):
     cafe = Cafe.objects.get(cafe_id=cafeId)
@@ -111,7 +111,7 @@ def cafeReviewDetail(request, cafeId, reviewid):
         'cafe_comment': cafe_comment,
         'cafeId': cafeId,
     }
-    return render(request, 'cafeReviewDetail.html', {'contents': contents})
+    return render(request, 'cafeReviewDetail.html', {'contents': contents, 'title': '리뷰 게시판'})
 
 def createReview(request, cafeId):
     if request.method == 'POST':
@@ -129,13 +129,13 @@ def createReview(request, cafeId):
             return redirect('/customer/'+str(cafeReview.cafe.cafe_id)+'/review/'+str(cafeReview.review_id))
     else:
         form = createViewForm()
-        return render(request, 'cafeCreateReview.html', {'form': form})
+        return render(request, 'cafeCreateReview.html', {'form': form, 'title': '리뷰 작성'})
 
-def render_with_error(request, html, form, error_type):
+def render_with_error(request, html, form, error_type, title=''):
     error_flg = {}
     for error in error_type:
         error_flg[error] = True
-    return render(request, html, {'form': form, 'error_flg': error_flg})
+    return render(request, html, {'form': form, 'error_flg': error_flg, 'title': title})
 
 def cafeLike(request, cafeId):
     cafe = get_object_or_404(Cafe, cafe_id=cafeId)
@@ -160,4 +160,4 @@ def index(request):
             'cafe_image': cafe_image,
             'cafe_congestion': cafe_congestion,
                             })
-    return render(request, 'cafeLike.html', {'cafe_image': cafe_images})
+    return render(request, 'cafeLike.html', {'cafe_image': cafe_images, 'title': '즐겨찾는 카페'})
