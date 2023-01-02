@@ -1,5 +1,10 @@
 {% extends "layout.html" %}
 {% load static %}
+{% block banner %}
+<div class="d-flex justify-content-center backgroud_color">
+    <img class="img_set" src="{% static '/img/customer_main_banner/owner_home_banner.png' %}">
+</div>
+{% endblock %}
 {% block content %}
     <main>
         <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
@@ -33,6 +38,8 @@
         </script>
         <div>
             <div class="container">
+                <div class="contents-blank"></div>
+                <div class="contents-blank"></div>
                 <h1>고객 통계</h1>
                 <div class="contents-blank"></div>
                 <div class="contents-blank"></div>
