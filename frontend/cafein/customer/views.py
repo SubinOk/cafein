@@ -120,6 +120,7 @@ def createReview(request, cafeId):
             cafeReview = form.save()
             cafeReview.image = request.FILES.get('image')
             cafeReview.cafe = Cafe.objects.get(cafe_id=cafeId)
+            cafeReview.score = request.POST.get('bean_score')
             cafeReview.comment = Cafe_comment.objects.create(
                 review=cafeReview,
                 writer=User.objects.get(user_id=cafeReview.cafe.user)

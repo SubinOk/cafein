@@ -1,18 +1,73 @@
 {% extends "layout.html" %}
+{% load static %}
 {% block title %}
     {{ title }}
 {% endblock %}
 {% block content %}
 <main>
+    <script src="https://code.jquery.com/jquery-3.7.2.min.js"></script>
     <div class="h1 col-11 d-flex align-self-center">리뷰 작성</div>
     <div class="contents-blank"></div>
     <div class="container">
         <form action="" method="POST" enctype="multipart/form-data">
             {% csrf_token %}
-            {{ form.as_table }}
+            <span>리뷰 제목</span>
+            {{ form.title }}
+            <span class="ps-4">별점</span>
+            <div class="dropdown">
+                <img id='bean' src="{% static '/img/bean/1bean.png' %}"/>
+                <div class="dropdown-content" id="dropdown-content">
+                    <div>
+                        <img class="hover-bean" onclick="setBeanScore(1)" src="{% static '/img/bean/1bean.png' %}" alt="Option 1" />
+                    </div>
+                    <div>
+                        <img class="hover-bean" onclick="setBeanScore(2)" src="{% static '/img/bean/2bean.png' %}" alt="Option 2" />
+                    </div>
+                    <div>
+                        <img class="hover-bean" onclick="setBeanScore(3)" src="{% static '/img/bean/3bean.png' %}" alt="Option 3" />
+                    </div>
+                    <div>
+                        <img class="hover-bean" onclick="setBeanScore(4)" src="{% static '/img/bean/4bean.png' %}" alt="Option 2" />
+                    </div>
+                    <div>
+                        <img class="hover-bean" onclick="setBeanScore(5)" src="{% static '/img/bean/5bean.png' %}" alt="Option 2" />
+                    </div>
+                </div>
+            </div>
+            <div>리뷰 내용</div>
+            {{ form.content }}
             <input type="file" name="image">
+            <input type="hidden" name="bean_score" id="bean_score" value="1">
             <button type="submit">등록</button>
         </form>
     </div>
+    <style>
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .dropdown-content {
+            display: none;
+            background-color: #ffffff;
+            position: absolute;
+            z-index: 1;
+        }
+
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+
+        .hover-bean:hover{
+            background-color: #3c6255;
+        }
+    </style>
+
+    <script>
+        function setBeanScore(number){
+            document.getElementById('bean').src = '/static/img/bean/'+number+'bean.png';
+            document.getElementById('bean_score').value = number;
+        }
+    </script>
 </main>
 {% endblock %}
