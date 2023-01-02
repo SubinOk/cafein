@@ -122,7 +122,7 @@
     position: relative;
     left: 39px;
     bottom: 16px;
-    animation: spin 6s infinite;
+    animation: spin 10s infinite;
 }
 
 @keyframes spin{
@@ -148,16 +148,16 @@
     border-radius: 0 0 15px 15px;
     position: relative;
     margin: auto;
-    bottom: -5px;
+    bottom: -4px;
     visibility: hidden;
-    animation: pour 6s 4s infinite;
+    animation: pour 10s infinite;
 }
 
 @keyframes pour{
     0%{
         visibility: visible;
     }
-    100%{
+    60%, 100%{
         transform: translateY(30px);
     }
 }
@@ -169,12 +169,15 @@
     position: relative;
     margin: auto;
     top: 50px;
-    animation: rise-steam 4s 5s infinite;
+    animation: rise-steam 10s infinite ease-out;
 }
 
 @keyframes rise-steam{
+    50%{
+        visibility: visible;
+    }
     100%{
-        transform: translateY(-75px);
+        transform: translateY(-80px);
     }
 }
 .steam:before{
@@ -194,14 +197,20 @@
     position: relative;
     bottom: 35px;
     left: 18px;
-    visibility: hidden;
-    animation: drop 3s 6.1s infinite;
+    animation: drop 10s infinite ease-in-out;
 }
 
 @keyframes drop{
-    100%{
+    0%{
+        opacity: 0;
+    }
+    61%{
+        opacity: 1;
         visibility: visible;
+    }
+    90%, 100%{
         transform: translateY(25px);
+        opacity: 0;
     }
 }
 .back{

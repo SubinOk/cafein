@@ -3,25 +3,33 @@
 {{ title }}
 {% endblock %}
 {% block content %}
-<h1> 리뷰를 분석중입니다...</h1>
 
-<div class="container w-25">
-    <div class="row beans">
+<div class="container2">
+    <h1 class="text-center"> 리뷰를 분석중입니다</h1>
+    <div class="upper">
+        <div class="timer"></div>
+        <div class="upper-btn"></div>
     </div>
-    <div class="row grinder">
+    <div class="filter">
+        <div class="filter-base"></div>
+        <div class="handle"></div>
+        <div class="coffee"></div>
+        <div class="steam"></div>
+        <div class="coffee-drop"></div>
     </div>
-    <div class="row grinder_bottom">
+    <div class="back">
+        <div class="tray"></div>
+        <div class="cup"></div>
     </div>
-    <div class="row v60">
+    <div class="lower">
+        <div class="lower-btn"></div>
     </div>
-    <div class="row drip">
-    </div>
-    <div class="row cup">
-    </div>
-  </div>
+</div>
+
+
+
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<h1> 리뷰를 분석중입니다...</h1><br/>
 <script>
     $(document).ready(function() {
         var intervalId = setInterval(function() {
