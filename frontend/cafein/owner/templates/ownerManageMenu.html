@@ -24,7 +24,10 @@
                 <div class="d-flex justify-content-end align-items-center">
                     <button class="login-option mx-1 mb-0 px-2" id="menuUpdateDetails">메뉴 추가</button>
                     <button class="login-option mx-1 mb-0 px-2" onclick="removeMenu()">선택 메뉴 삭제</button>
-                    <input type="checkbox" class="mt-0 mx-2" value='selectall' name="selectall" onclick="selectAll(this)"/><p class="mb-0 mx-2 text-gray ptd-14">전체 선택</p>
+                    <div class="mx-1 px-2">
+                        <input type="checkbox" id='selectall' name="selectall" onclick="selectAll(this)"/>
+                        <label for="selectall" class="mb-0 px-2 text-gray ptd-14">전체 선택</label>
+                    </div>
                 </div>
                 <div class="blank"></div>
                 <div class="col mb-5 menu-card-width" id="menuDummy" style="display: none">
@@ -40,7 +43,7 @@
                         </div>
                     </div>
                 </div>
-                <div id="showMenuField" class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
+                <div id="showMenuField" class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-flex-start">
                     {% for menu in cafe_menu %}
                     <div class="col mb-5 menu-card-width" id="menu_{{ forloop.counter }}">
                         <div class="card h-100">
@@ -58,7 +61,7 @@
                     {% endfor %}
                 </div>
             </div>
-            <dialog id="newMenuDialog">
+            <dialog id="newMenuDialog" class="dialog-box">
                 <form method="dialog">
                     <div class="row p-5">
                         <div class="col pe-4">

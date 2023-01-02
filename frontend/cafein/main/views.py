@@ -21,7 +21,7 @@ from django.contrib.auth import (
 from django.utils.translation import gettext_lazy as _
 
 from account.models import User
-from cafe.models import Cafe, Cafe_image
+from cafe.models import Cafe, Cafe_image, Cafe_congestion
 
 from .forms import UserloginPostForm
 
@@ -131,7 +131,10 @@ def search(request):
         cafe_data = {
             'cafe': cafe,
             'cafe_image': Cafe_image.objects.filter(cafe=cafe)[0],
+            'cafe_congestion': Cafe_congestion.objects.get(cafe=cafe).congestion
         }
+        
+        print(cafe_data)
         cafe_content.append(cafe_data)
     
     results={
