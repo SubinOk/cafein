@@ -46,7 +46,7 @@ def ownerHome(request):
             cafe = Cafe.objects.get(user = request.session.get('user'))
             cafe_sentiment = Cafe_sentiment.objects.get(cafe = cafe)
             cafe_rank = Cafe_rank.objects.filter(sentiment=cafe_sentiment.sentiment_id).order_by('rank')
-            cafe_reviews = Cafe_review.objects.filter(cafe=Cafe.objects.get(user_id=request.session.get('user')))[:3]
+            cafe_reviews = Cafe_review.objects.filter(cafe=cafe)[:3]
             return render(request, 'ownerHome.html', {'cafe_sentiment':cafe_sentiment, 'cafe':cafe, 'reviews': cafe_reviews
                                                       ,'cafe_rank': cafe_rank})
         except:
