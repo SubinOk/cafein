@@ -808,7 +808,7 @@ textarea {
 }
 
 .h-250{
-    height: 250px;
+    min-height: 250px;
 }
 
 .truncate {
@@ -866,6 +866,17 @@ textarea {
 
 .img_set{
     height: 250px;
+}
+
+.img-review{
+    max-width: 400px;
+    max-height: 400px;
+}
+
+.review-container{
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
 }
 
 .backgroud_color{

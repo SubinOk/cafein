@@ -36,19 +36,19 @@
                         {% endif %}
                     </span>
                 </div>
-                {% if contents.cafe_review.image != '' %}
-                <div class="row border-bottom p-3 h-250">
-                    <img src="{{ contents.cafe_review.image.url }}">
-                </div>
-                {% endif %}
                 <div class="row border-bottom h-250">
                     <span class="bg-light-brown col-2 display-7 p-3 d-flex align-content-center flex-wrap justify-content-center">리뷰 내용</span>
-                    <span class="col text-start align-middle col display-7 p-3">{{ contents.cafe_review.content }}</span>
+                    <div class="col review-container">
+                        {% if contents.cafe_review.image != '' %}
+                            <img class="img-review" src="{{ contents.cafe_review.image.url }}">
+                        {% endif %}
+                        <span class="text-start align-middle display-7 p-3">{{ contents.cafe_review.content }}</span>
+                    </div>
                 </div>
                 <div class="row border-bottom">
                         <span class="bg-light-brown col-2 display-7 p-3 d-flex align-content-center flex-wrap justify-content-center">댓글</span>
                         <span class="col text-start align-middle col display-7 p-3 review-contents" id="review-comment-field">
-                            <div class="display-7 p-3" id="review-comment">{{ contents.cafe_comment.content }}</div>
+                            <div class="display-7 p-3 align-self-center " id="review-comment">{{ contents.cafe_comment.content }}</div>
                         </span>
                 </div>
             </div>
