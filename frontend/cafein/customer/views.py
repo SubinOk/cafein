@@ -4,7 +4,7 @@ from django.core.paginator import Paginator
 from django.http import JsonResponse
 
 from customer.forms import customerPostForm, createViewForm
-from cafe.models import Cafe, Cafe_review, Cafe_comment, Cafe_image, Cafe_congestion
+from cafe.models import Cafe, Cafe_review, Cafe_comment, Cafe_image, Cafe_congestion, Cafe_menu
 from account.models import User
 from django.db.models import Q
 
@@ -86,7 +86,9 @@ def cafeHome(request, cafeId):
     else:
         cafe = Cafe.objects.get(cafe_id=cafeId)
         customer = User.objects.filter(email=request.session.get('user'))[0]
-    return render(request, 'cafeHome.html', {'cafe': cafe, 'customer':customer})
+        cafe_reviews = Cafe_review.objects.filter(cafe=cafe)[:3]
+        cafe_menu = Cafe_menu.objects.filter(cafe=cafe)
+    return render(request, 'cafeHome.html', {'cafe': cafe, 'customer':customer, 'reviews':cafe_reviews, 'cafe_menu': cafe_menu})
 
 def cafeReview(request):
     
