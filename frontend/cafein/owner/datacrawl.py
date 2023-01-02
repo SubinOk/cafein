@@ -18,12 +18,17 @@ def findCafe(phone,name):
     headers = {
         "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/102.0.5005.141 Whale/3.15.136.29 Safari/537.36", 
     }
-    response = requests.get(url, headers=headers)
+    while True:
+        response = requests.get(url, headers=headers)
+        if response.ok:
+            break
+        time.sleep(5)
+    
     places = response.json()['result']['site']['list']
     for place in places:
         if place['name'] == name:
             return place['id'][1:]
-
+    
 
 def dateCal(str):
     date = str.split(" ")
