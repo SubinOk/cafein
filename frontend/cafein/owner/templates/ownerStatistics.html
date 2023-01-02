@@ -50,7 +50,8 @@
         }
 
         function showWordCloud(id){
-            url = '/media/wordcloud/' + '{{ cafe_name }}' + '_' + id + '.png';
+
+            url = '/media/wordcloud/' + '{{ cafe_name }}'.replaceAll(' ', '_') + '_' + id + '.png';
             document.getElementById("wordCloud").src = url;
         }
 
