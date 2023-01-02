@@ -3,39 +3,67 @@
 {% block content %}
 <script src="https://kit.fontawesome.com/875cfd8d24.js" crossorigin="anonymous"></script>
 <main>
-    <div class="container">
-        <div class="row justify-content-between" id="target">
-            <div class="h1 col-11 d-flex align-self-center">{{ cafe.name }}</div>
-        </div>
-        <div class="col-1">
-            <div>
-                <a class="login-button btn btn-outline-brown ms-3" href="/customer/{{ cafe.cafe_id }}/createReview">리뷰 작성</a>
-            </div>
-            <div>
-                <a href="/customer/like/{{ cafe.cafe_id }}">
-                    {% if customer in cafe.like_users.all %}
-                    <i class="fa-sharp fa-solid fa-heart"></i>
-                    {% else %}
-                    <i class="fa-regular fa-heart"></i>
-                    {% endif %}
-                </a>
-            </div>
-        </div>
-        <div class="contents-blank"></div>
-        <div class="container">
-            <div class="nav-scroller py-1 mb-2">
-                <div>{{ cafe.address }}</div>
-                <div>{{ cafe.cafe_phone }}</div>
-            </div>
-            <div class="contents-blank"></div>
-        </div>
-    </div>
-
+    
+{% comment %} 
     <div class="container">
         {% for i in cafe.cafe_image_set.all %}
             <img src="{{i.image.url}}" /><br/>
         {% endfor %}
+    </div> {% endcomment %}
+    <div class="row">
+        <div id="carouselExampleIndicators" class="carousel slide col" data-bs-ride="carousel">
+            <div class="carousel-inner">
+                {% for i in cafe.cafe_image_set.all %}
+                <div class="carousel-item {% if forloop.counter == 1 %}active{% endif %}">
+                    <img src="{{i.image.url}}" class="d-block w-100"style="height:315px">
+                </div>
+                {% endfor %}
+            </div>
+            <div class="carousel-indicators">
+                <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
+                <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
+        </div>
+        <div class="col">
+            <div class="container">
+                <div class="row justify-content-between" id="target">
+                    <div class="h1 col-11 d-flex align-self-center">{{ cafe.name }}</div>
+                </div>
+                <div class="col-1">
+                    <div>
+                        <a class="login-button btn btn-outline-brown ms-3" href="/customer/{{ cafe.cafe_id }}/createReview">리뷰 작성</a>
+                    </div>
+                    <div>
+                        <a href="/customer/like/{{ cafe.cafe_id }}">
+                            {% if customer in cafe.like_users.all %}
+                            <i class="fa-sharp fa-solid fa-heart"></i>
+                            {% else %}
+                            <i class="fa-regular fa-heart"></i>
+                            {% endif %}
+                        </a>
+                    </div>
+                </div>
+                <div class="contents-blank"></div>
+                <div class="container">
+                    <div class="nav-scroller py-1 mb-2">
+                        <div>{{ cafe.address }}</div>
+                        <div>{{ cafe.cafe_phone }}</div>
+                    </div>
+                    <div class="contents-blank"></div>
+                </div>
+            </div>
+        </div>
     </div>
+
 
     <div id="showMenuField" class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
         {% for menu in cafe_menu %}
