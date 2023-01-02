@@ -1,8 +1,18 @@
 from django.db import models
 from account.models import User
 from django.core.validators import MinValueValidator, MaxValueValidator
+from django.core.files.storage import FileSystemStorage
+from django.conf import settings
+import os
 
-
+class OverwriteStorage(FileSystemStorage):
+    #파일에 같은 이름이 존재하는 경우에 ovewrite하기
+    def get_available_name(self, name,max_length = None):
+        if self.exists(name):
+            print(name)
+            os.remove(os.path.join(settings.MEDIA_ROOT, name))
+        return name
+        
 
 class Cafe(models.Model):
 
@@ -127,17 +137,16 @@ class Cafe_congestion(models.Model):
 
 class Cafe_wordcloud(models.Model):
     word_id = models.AutoField(primary_key= True)
-    price = models.ImageField('price', upload_to="media/wordcloud/", blank=True, null=True)
-    drink = models.ImageField('drink IMAGE', upload_to="media/wordcloud/",  blank=True, null=True)
-    dessert = models.ImageField('dessert IMAGE', upload_to="media/wordcloud/",  blank=True, null=True)
-    service = models.ImageField('service IMAGE', upload_to="media/wordcloud/",  blank=True, null=True)
-    customers = models.ImageField('customers IMAGE', upload_to="media/wordcloud/",  blank=True, null=True)
-    interior = models.ImageField('interior IMAGE', upload_to="media/wordcloud/",  blank=True, null=True)
-    view = models.ImageField('view IMAGE', upload_to="media/wordcloud/",  blank=True, null=True)
-    parking = models.ImageField('parking IMAGE', upload_to="media/wordcloud/",  blank=True, null=True)
+    price = models.ImageField('price', upload_to="wordcloud/", blank=True, null=True,storage=OverwriteStorage())
+    drink = models.ImageField('drink IMAGE', upload_to="wordcloud/",  blank=True, null=True,storage=OverwriteStorage())
+    dessert = models.ImageField('dessert IMAGE', upload_to="wordcloud/",  blank=True, null=True,storage=OverwriteStorage())
+    service = models.ImageField('service IMAGE', upload_to="wordcloud/",  blank=True, null=True,storage=OverwriteStorage())
+    customers = models.ImageField('customers IMAGE', upload_to="wordcloud/",  blank=True, null=True,storage=OverwriteStorage())
+    interior = models.ImageField('interior IMAGE', upload_to="wordcloud/",  blank=True, null=True,storage=OverwriteStorage())
+    view = models.ImageField('view IMAGE', upload_to="wordcloud/",  blank=True, null=True,storage=OverwriteStorage())
+    parking = models.ImageField('parking IMAGE', upload_to="wordcloud/",  blank=True, null=True,storage=OverwriteStorage())
     cafe = models.ForeignKey(Cafe, on_delete=models.CASCADE , blank=True, null =True)
 
     class Meta:
         db_table = 'cafe_wordcloud'
 
-    

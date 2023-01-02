@@ -22,6 +22,7 @@ def findCafe(phone,name):
         response = requests.get(url, headers=headers)
         if response.ok:
             break
+        print(response.status_code)
         time.sleep(5)
     
     places = response.json()['result']['site']['list']
