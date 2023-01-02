@@ -3,7 +3,6 @@
 {% block content %}
 <main>
     <div class="col container">
-        <div class="blank"></div>
         <h1>리뷰 게시판</h1>
         <div class="contents-blank"></div>
         <div class="contents-blank"></div>
@@ -22,7 +21,7 @@
                 {% for review in reviews %}
                 <tr class="cursor ptd-14" onclick="moveDetailPage('{{ review.cafe.cafe_id }}', {{ review.review_id }})">
                     <th scope="row" class="text-center align-middle">{{ forloop.counter }}</th>
-                    <td class="text-center align-middle">{{ review.cafe.name }}</td>
+                    <td class="text-center align-middle">{{ review.cafe.cafe_id }}</td>
                     <td class="text-center align-middle">{{ review.date }}</td>
                     <td class="text-center align-middle">{{ review.title }}</td>
                     <td class="text-center align-middle"><img id="score_{{ forloop.counter }}">

@@ -1,5 +1,8 @@
 {% extends "layout.html" %}
 {% load static %}
+{% block title %}
+{{ title }}
+{% endblock %}
 {% block banner %}
 <div class="d-flex justify-content-center backgroud_color">
     <img class="img_set" src="{% static '/img/customer_main_banner/owner_home_banner.png' %}">
@@ -29,9 +32,9 @@
                         'height':400,
                         'pieHole': 0.6,
                         'pieSliceText':'label',
-                        'colors': ['#005E50', '#E2E2E2'],
+                        'colors': ['#78AAE7', '#E67C92'],
                         'pieSliceText': 'none',
-                        'legend':'bottom',
+                        'legend':'none'
                 };
                 var chart = new google.visualization.PieChart(document.getElementById('myChart'));
                 chart.draw(data, opt);
@@ -43,10 +46,7 @@
             <div class="container">
                 <div class="contents-blank"></div>
                 <div class="contents-blank"></div>
-                <div class="blank"></div>
-                <div>
-                    <h1>고객 통계</h1>
-                </div>
+                <h1>고객 통계</h1>
                 <div class="contents-blank"></div>
                 <div class="contents-blank"></div>
                 <div class="row">
@@ -61,12 +61,8 @@
                         </div>
                     </div>  
                 </div>
-            
-                <div class="blank"></div> 
-                <div class="blank"></div>    
-                <div>
-                    <h1>최신 리뷰</h1>
-                </div>
+                <div class="blank"></div>
+                <h2>최근 리뷰</h2>
                 <div class="col text-right">
                     <a class="login-option" href="{% url 'owner:ownerComent' %}">상세보기</a>
                 </div>
@@ -148,7 +144,7 @@
                       font: {
                         family: 'Verdana',
                         size: 16,
-                        weight: 500,
+                        weight: 600,
                       },
                     },
                   },

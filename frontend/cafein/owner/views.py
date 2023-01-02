@@ -22,20 +22,22 @@ from django.contrib.auth.hashers import check_password
 
 #모델
 from account.models import User
-from cafe.models import Cafe, Cafe_image, Cafe_review, Cafe_comment, Cafe_menu, Cafe_sentiment, Cafe_rank
+from cafe.models import Cafe, Cafe_image, Cafe_review, Cafe_comment, Cafe_menu, Cafe_sentiment, Cafe_rank, Cafe_wordcloud
 
-# # 웹크롤링
-from . import preprocess
-from . import datacrawl
-from . import model
-from . import getkeywords
 from . import main
 
-import pandas as pd
-from datetime import datetime
+# 멀티프로세스
 from multiprocessing import Process
 import os
 
+# 워드클라우드
+from wordcloud import WordCloud
+from PIL import Image
+import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
+
+from matplotlib.colors import LinearSegmentedColormap
 
 MINIMUM_PASSWORD_LENGTH = 8
 
