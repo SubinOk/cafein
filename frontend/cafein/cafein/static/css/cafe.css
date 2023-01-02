@@ -875,3 +875,8 @@ textarea {
 h1 {
     font-weight: bold;
 }
+
+.selected-nav-menu{
+    font-weight: bold;
+    color: var(--main-color);
+}
