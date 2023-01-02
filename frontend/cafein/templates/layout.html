@@ -96,11 +96,13 @@
             </div>
         </div>
     </header>
-    <div class="content-margin-top {% if main != 'main' %}px-250{% endif %}">
-        {% if main != 'main' %}
-        {% endif %}
-        {% block content %}
+    <div class="content-margin-top">
+        {% block banner %}
         {% endblock %}
+        <div class="{% if main != 'main' %}px-250{% endif %}">
+            {% block content %}
+            {% endblock %}
+        </div>
     </div>
     <div class="page-footer text-muted">
         Copyright © 2022 Aivle School 2nd

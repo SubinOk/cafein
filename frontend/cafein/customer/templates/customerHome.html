@@ -1,9 +1,16 @@
 {% extends "layout.html" %}
 {% load static %}
+{% block banner %}
+<div class="d-flex justify-content-center backgroud_color">
+    <img class="img_set" src="{% static '/img/customer_main_banner/customer_home_banner.png' %}">
+</div>
+{% endblock %}
 {% block content %}
 <main>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://kit.fontawesome.com/875cfd8d24.js" crossorigin="anonymous"></script>
+    <div class="contents-blank"></div>
+    <div class="contents-blank"></div>
     <div class="container">
         <div class="contents-blank"></div>
         <div class="row" id="cafe_list">

@@ -896,3 +896,11 @@ textarea {
 .heart-size{
     font-size: 30px;
 }
+
+.img_set{
+    height: 250px;
+}
+
+.backgroud_color{
+    background-color: #fbf7f2;
+}
