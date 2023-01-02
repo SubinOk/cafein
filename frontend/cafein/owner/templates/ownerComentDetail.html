@@ -78,29 +78,39 @@
         }
 
         function sendComment(){
-            submitComment()
-
             const reviewComment = document.getElementById('review-comment').value;
             document.getElementById('review-comment-field').innerHTML = "";
-            const review = document.createElement("p");
-            review.setAttribute("class", "display-7");
+            const review = document.createElement("div");
+            review.setAttribute("class", "display-7 p-3");
             review.setAttribute("id", "review-comment");
             review.innerHTML = reviewComment
             document.getElementById("review-comment-field").appendChild(review);
             document.getElementById('confirm').style.display = '';
             document.getElementById('send').style.display = 'none';
+
+            submitComment(reviewComment)
         }
 
         function deleteComment(){
-            console.log('대충 삭제에 대한 내용')
+            const reviewComment = "";
+            document.getElementById('review-comment-field').innerHTML = "";
+            const review = document.createElement("div");
+            review.setAttribute("class", "display-7 p-3");
+            review.setAttribute("id", "review-comment");
+            review.innerHTML = reviewComment
+            document.getElementById("review-comment-field").appendChild(review);
+            document.getElementById('confirm').style.display = '';
+            document.getElementById('send').style.display = 'none';
+
+            submitComment(reviewComment)
         }
 
-        function submitComment(){
+        function submitComment(reviewComment){
             $.ajax({
                 url: '/owner/upload/',
                 type: 'POST',
                 data: {
-                    'review-comment': document.getElementById('review-comment').value,
+                    'review-comment': reviewComment,
                     'comment-id': {{ contents.cafe_comment.comment_id }},
                 },
                 beforeSend: function(data) {
