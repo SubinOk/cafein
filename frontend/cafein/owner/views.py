@@ -22,20 +22,22 @@ from django.contrib.auth.hashers import check_password
 
 #모델
 from account.models import User
-from cafe.models import Cafe, Cafe_image, Cafe_review, Cafe_comment, Cafe_menu, Cafe_sentiment, Cafe_rank
+from cafe.models import Cafe, Cafe_image, Cafe_review, Cafe_comment, Cafe_menu, Cafe_sentiment, Cafe_rank,Cafe_wordcloud
 
-# # 웹크롤링
-from . import preprocess
-from . import datacrawl
-from . import model
-from . import getkeywords
 from . import main
 
-import pandas as pd
-from datetime import datetime
+# 멀티프로세스
 from multiprocessing import Process
 import os
 
+# 워드클라우드
+from wordcloud import WordCloud
+from PIL import Image
+import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
+
+from matplotlib.colors import LinearSegmentedColormap
 
 MINIMUM_PASSWORD_LENGTH = 8
 
@@ -48,7 +50,7 @@ def ownerHome(request):
             cafe_rank = Cafe_rank.objects.filter(sentiment=cafe_sentiment.sentiment_id).order_by('rank')
             cafe_reviews = Cafe_review.objects.filter(cafe=cafe)[:3]
             return render(request, 'ownerHome.html', {'cafe_sentiment':cafe_sentiment, 'cafe':cafe, 'reviews': cafe_reviews
-                                                      ,'cafe_rank': cafe_rank})
+                                                    ,'cafe_rank': cafe_rank})
         except:
             cafe = Cafe.objects.get(user = request.session.get('user'))
             return render(request,'ownerHome2.html', {'cafe': cafe})
@@ -307,3 +309,5 @@ def checkCafeData(request):
         return JsonResponse({'result': True})
     else:
         return JsonResponse({'result': False})
+
+
