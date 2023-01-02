@@ -3,13 +3,6 @@
 {% block content %}
 <script src="https://kit.fontawesome.com/875cfd8d24.js" crossorigin="anonymous"></script>
 <main>
-    
-{% comment %} 
-    <div class="container">
-        {% for i in cafe.cafe_image_set.all %}
-            <img src="{{i.image.url}}" /><br/>
-        {% endfor %}
-    </div> {% endcomment %}
     <div class="row">
         <div id="carouselExampleIndicators" class="carousel slide col" data-bs-ride="carousel">
             <div class="carousel-inner">
@@ -85,7 +78,8 @@
 
     <div>
     <h2>최근 리뷰</h2>
-                <div class="col menu_change2">
+                <div class="col d-flex justify-content-between">
+                    <a class="login-option" href="/customer/{{ cafe.cafe_id }}/createReview">리뷰 작성</a>
                     <a class="login-option" href="{% url 'owner:ownerComent' %}">상세보기</a>
                 </div>
                 <div class="contents-blank"></div>
