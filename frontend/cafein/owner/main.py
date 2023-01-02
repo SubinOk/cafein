@@ -15,6 +15,9 @@ import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 
+#워드클라우드 모델 불러오기
+from cafe.models import Cafe_wordcloud,Cafe
+
 def crawl(name, number):
 
         cafeName = name
@@ -81,6 +84,7 @@ def crawl(name, number):
                 df_category.loc[i] = row
         
         df_category.to_csv("cafein/files/df_category.csv",index=False)
+
         os.system(f'python manage.py sentiment')
 
         # 워드클라우드
@@ -101,7 +105,10 @@ def crawl(name, number):
         colors = ['#744C2E', '#583A23', '#825634', '#DFC4AF','#C39068']
         cmap = LinearSegmentedColormap.from_list('my_cmap',colors,gamma=2)
 
+        
+        cafe_wordcloud = Cafe_wordcloud()
         for i in range(8):
+
                 wordCloud = WordCloud(
                 font_path = "H2HDRM", # 폰트 지정
                 width = 400, # 워드 클라우드의 너비 지정
@@ -111,4 +118,23 @@ def crawl(name, number):
                 colormap= cmap
                 ).generate_from_frequencies(wc_list[i]) # 워드 클라우드 빈도수 지정
                 
-                wordCloud.to_file(filename=f"media/wordcloud/{cafeName}_{i}.png")
+                if i == 0:
+                        cafe_wordcloud.price.save(f'{cafeName}_0.png', wordCloud, save=True)
+                elif i == 1:
+                        cafe_wordcloud.drink.save(f'{cafeName}_1.png', wordCloud, save=True)
+                elif i == 2:
+                        cafe_wordcloud.dessert.save(f'{cafeName}_2.png', wordCloud, save=True)
+                elif i == 3:
+                        cafe_wordcloud.service.save(f'{cafeName}_3.png', wordCloud, save=True)
+                elif i == 4:
+                        cafe_wordcloud.customers.save(f'{cafeName}_4.png', wordCloud, save=True)
+                elif i == 5:
+                        cafe_wordcloud.interior.save(f'{cafeName}_5.png', wordCloud, save=True)
+                elif i == 6:
+                        cafe_wordcloud.view.save(f'{cafeName}_6.png', wordCloud, save=True)  
+                else :
+                        cafe_wordcloud.parking.save(f'{cafeName}_7.png', wordCloud, save=True)  
+
+        cafe = Cafe.objects.filter(name = cafeName)
+        cafe_wordcloud.cafe = cafe[0]
+        cafe_wordcloud.save()        

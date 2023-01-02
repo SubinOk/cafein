@@ -24,17 +24,6 @@ class ownerManageForm(forms.ModelForm):
                                                             'placeholder': '전화번호 ("-" 없이 작성)'}),
         }
 
-    # 카페 이미지 추가해야함 
-    # image = forms.ImageField()
-
-    # 이미지업로드 횟수 3장 제한
-    # def numlimit(self):
-    #     image = self.files.getlist("image")
-    #     if len(image) <= 3:
-    #         return True
-    #     else:
-    #         return False
-
     # 카페번호 '-'없이 숫자만 입력하도록 
     def check_cafePhone(self):
         cafe_phone = self.cleaned_data.get("cafe_phone")
