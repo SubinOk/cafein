@@ -13,12 +13,15 @@ class Command(BaseCommand):
         df = pd.read_csv('cafein/files/result/temp.csv', names = column, header=0)
         df = df.fillna(0)
         cafe = Cafe.objects.filter(name = name)
+        congestion = Cafe_congestion.objects.filter(cafe__in = cafe)
         cong = df.iloc[0,0]
         max =cafe[0].max_occupancy
-        congestion = Cafe_congestion.objects.filter(cafe = cafe)
-        #혼잡도 값 수정
-        congestion[0].congestion = (cong / max* 100.0)
-        congestion[0].save()
+        
+       #혼잡도 값 수정
+        congestion_value = cong / max* 100.0
+        congestion.congestion= congestion_value
+        congestion.save()
+
 
 
 
