@@ -307,6 +307,7 @@ def review_update(request):
         name = cafe.name
         number = cafe.cafe_phone
         reviewUpdate.crawl(name,number)
+        return render(request, 'ownerHome.html')
     else:
         return redirect('/')
     
