@@ -83,6 +83,10 @@ h1 {
     padding-bottom: 0px;
 }
 
+.p-6{
+    padding: 6rem!important;
+}
+
 .ml-25{
     margin-left: 25px;
 }
@@ -133,6 +137,7 @@ h1 {
 .w-85{
     width:85%;
 }
+
 
 .w-px-15{
     width:15px;
