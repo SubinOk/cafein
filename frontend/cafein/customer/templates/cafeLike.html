@@ -10,7 +10,7 @@
         <div class="blank"></div>
         <div class="row" id="cafe_list">
             {% for cafe_image in cafe_image %}
-                <div class="col-3 mr-5 mb-6 d-flex justify-content-center flex-column">
+                <div class="col-3 mr-7 mb-6 d-flex justify-content-center flex-column">
                     <div class>
                         <img class="cus-main-image-size rounded-5" onclick="location.href='/customer/{{ cafe_image.cafe_image.cafe.cafe_id }}/home'" src="{{ cafe_image.cafe_image.image.url }}">
                     </div>
