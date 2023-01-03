@@ -1,9 +1,8 @@
 from django import forms
 from account.models import User
 from cafe.models import Cafe, Cafe_image, Cafe_menu
-import bcrypt
 import re
-
+import os
 class ownerManageForm(forms.ModelForm):
     class Meta:
         model = Cafe
@@ -54,6 +53,8 @@ class ownerManageForm(forms.ModelForm):
             cafe.datail_add = address2
             cafe.cafe_phone = cafe_phone
             cafe.save()
+            os.system(f'python manage.py congestion')
+
 
             for idx in range(len(image['images'])):
                 if idx < len(cafe_image):
