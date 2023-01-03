@@ -1,8 +1,9 @@
 from django import forms
 from account.models import User
-from cafe.models import Cafe, Cafe_image, Cafe_menu
+from cafe.models import Cafe, Cafe_image, Cafe_menu,Cafe_congestion
 import re
 import os
+import pandas as pd
 class ownerManageForm(forms.ModelForm):
     class Meta:
         model = Cafe
@@ -42,7 +43,6 @@ class ownerManageForm(forms.ModelForm):
         cafe_phone = self.cleaned_data.get("cafe_phone")
         # 카페이미지
         image = images
-
         try:
             cafe = Cafe.objects.get(user_id=user_id)
             cafe_image = Cafe_image.objects.filter(cafe=cafe)
@@ -53,8 +53,7 @@ class ownerManageForm(forms.ModelForm):
             cafe.datail_add = address2
             cafe.cafe_phone = cafe_phone
             cafe.save()
-            os.system(f'python manage.py congestion')
-
+        
 
             for idx in range(len(image['images'])):
                 if idx < len(cafe_image):
@@ -74,6 +73,18 @@ class ownerManageForm(forms.ModelForm):
                         new_cafe_image.image = image['images'][idx]
                         new_cafe_image.cafe = cafe
                         new_cafe_image.save()
+            
+            column = ['people']
+            df = pd.read_csv('cafein/files/result/temp.csv', names = column, header=0)
+            congestion = Cafe_congestion.objects.filter(cafe = cafe)[0]
+            cong = df.iloc[0,0]
+            max = human
+            
+            #혼잡도 값 수정
+            congestion_value = cong / max* 100.0
+            congestion.congestion= congestion_value
+            congestion.save()
+
         except:
             return False
 
