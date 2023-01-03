@@ -162,3 +162,13 @@ def index(request):
             'cafe_congestion': cafe_congestion,
                             })
     return render(request, 'cafeLike.html', {'cafe_image': cafe_images, 'title': '즐겨찾는 카페'})
+
+def cafeIdReview(request, cafeId):
+    cafe_reviews = Cafe_review.objects.filter(cafe=Cafe.objects.get(cafe_id=cafeId)).order_by('-date')
+
+    paginator = Paginator(cafe_reviews, 2)
+
+    page_number = request.GET.get('page')
+    page_reviews = paginator.get_page(page_number)
+
+    return render(request, 'cafeReview.html', {'reviews': page_reviews, 'title': '리뷰 게시판'})

@@ -211,6 +211,16 @@ h1 {
     text-decoration: none;
 }
 
+.btn-middle{
+    width: 100px;
+    height: 30px;
+    color: var(--main-color);
+    background-color: white;
+    border: solid 2px var(--main-color);
+    border-radius: 15px;
+    text-decoration: none;
+}
+
 .signup-button{
     margin: 20px;
     color: var(--main-color);
