@@ -706,6 +706,10 @@ textarea {
 
 #chart {
     height: 400px;
-    width: 600px;
+    width: 550px;
     margin: 0 auto;
   }
+
+.chart-background-color{
+    background-color: #f8f8f8;
+}
