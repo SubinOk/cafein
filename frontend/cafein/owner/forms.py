@@ -308,10 +308,10 @@ class cafeMenuForm(forms.ModelForm):
         }
 
     # 메뉴 이름 같은 게 있는지 확인하기 
-    def check_menuname(self):
+    def check_menuname(self, user_id):
         menuname = self.cleaned_data.get("name")
         try:
-            Cafe_menu.objects.get(name=menuname)
+            Cafe_menu.objects.get(cafe=Cafe.objects.get(user_id=user_id), name=menuname)
             return False
         except Cafe_menu.DoesNotExist:
             return True

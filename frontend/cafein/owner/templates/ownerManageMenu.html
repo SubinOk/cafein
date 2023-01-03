@@ -84,7 +84,7 @@
                             <div class="contents-blank"></div>
                             <div>
                                 <button class = "login-option" id="confirmBtn" value="add">등록</button>
-                                <button class = "login-option" value="cancel" onclick="document.getElementById('newMenuDialog').close()">취소</button>
+                                <button class = "login-option" id="cancelBtn" value="cancel">취소</button>
                             </div>
                         </div>
                     </div>
@@ -102,22 +102,23 @@
                         alert("The <dialog> API is not supported by this browser");
                     }
                 });
-                newMenuDialog.addEventListener('close', function checkMenuDetail() {
+                document.getElementById('confirmBtn').addEventListener('click', function checkMenuDetail() {
                     // 닫았을 때 처리 방식
                     // newMenuDialog.returnValue << 무슨 버튼으로 입력했는지 확인 가능
                     // 닫았을때 취소랑 등록 버튼에 따라서 변경할수 있게 생성
-                    if(newMenuDialog.returnValue == "add") {
-                        const menuDetail = {
-                            'name': document.getElementById('id_name').value,
-                            'price': document.getElementById('id_price').value,
-                            'image': document.getElementById('id_image').files[0],
-                        };
-                        // newMenuDialog.showModal();
-                        // 입력 데이터에 대한 체크도 필요할것으로 판단됨 어떤식으로 입력할지는 모르니
-                        sendMenuDetails(menuDetail);
-                    }else{
-                        dialogClear();
-                    }
+                    const menuDetail = {
+                        'name': document.getElementById('id_name').value,
+                        'price': document.getElementById('id_price').value,
+                        'image': document.getElementById('id_image').files[0],
+                    };
+                    // newMenuDialog.showModal();
+                    // 입력 데이터에 대한 체크도 필요할것으로 판단됨 어떤식으로 입력할지는 모르니
+                    sendMenuDetails(menuDetail);
+                });
+
+                document.getElementById('cancelBtn').addEventListener('click', function closeMenuDialog() {
+                    dialogClear();
+                    newMenuDialog.close();
                 });
 
                 function addMenu(menuDetails){

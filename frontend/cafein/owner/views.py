@@ -264,7 +264,7 @@ def ownerManageMenu(request):
             if request.POST.get('menuList') is None:
                 form = cafeMenuForm(request.POST, request.FILES)
                 if form.is_valid():
-                    if not form.check_menuname():
+                    if not form.check_menuname(request.session.get('user')):
                         result = {'result': False, 'error': 'name'}
                         return JsonResponse({'result': result})
                     if not form.imagelimit():
