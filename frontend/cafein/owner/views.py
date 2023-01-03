@@ -25,19 +25,13 @@ from account.models import User
 from cafe.models import Cafe, Cafe_image, Cafe_review, Cafe_comment, Cafe_menu, Cafe_sentiment, Cafe_rank, Cafe_wordcloud
 
 from . import main
+from . import reviewUpdate
 
 # 멀티프로세스
 from multiprocessing import Process
 import os
 
-# 워드클라우드
-from wordcloud import WordCloud
-from PIL import Image
-import matplotlib.pyplot as plt
-import numpy as np
-import pandas as pd
 
-from matplotlib.colors import LinearSegmentedColormap
 
 MINIMUM_PASSWORD_LENGTH = 8
 
@@ -305,3 +299,14 @@ def checkCafeData(request):
         return JsonResponse({'result': True})
     else:
         return JsonResponse({'result': False})
+    
+def review_update(request):
+    if request.session.get('user'):
+        user_id = request.session.get('user')
+        cafe = Cafe.objects.filter(user=User.objects.filter(user_id=user_id)[0])[0]
+        name = cafe.name
+        number = cafe.cafe_phone
+        reviewUpdate.crawl(name,number)
+    else:
+        return redirect('/')
+    

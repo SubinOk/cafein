@@ -18,4 +18,5 @@ urlpatterns = [
     path('upload/', views.ownerCommentUpload, name='ownerCommentUpload'),
     path('menu/', views.ownerManageMenu, name='ownerManageMenu'),
     path('checkCafeData/', views.checkCafeData, name='checkCafeData '),
+    path('cafeDataUpdata/', views.review_update, name='review_update '),
 ]
