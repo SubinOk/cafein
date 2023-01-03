@@ -83,34 +83,39 @@
     <h2>최근 리뷰</h2>
                 <div class="col d-flex justify-content-between">
                     <a class="login-option" href="/customer/{{ cafe.cafe_id }}/createReview">리뷰 작성</a>
-                    <a class="login-option" href="{% url 'owner:ownerComent' %}">상세보기</a>
-                </div>
-                <div class="contents-blank"></div>
-                <div class="">
-                    <table class="table-brown p-4 ptd-15 w-100">
-                        <thead>
-                        <tr>
-                            <th scope="col" class="w-5 text-center">번호</th>
-                            <th scope="col" class="w-15 text-center">날짜</th>
-                            <th scope="col" class="w-55 text-center">리뷰 제목</th>
-                            <th scope="col" class="text-center">별점</th>
-                        </tr>
-                        </thead>
-                    <tbody>
-                    {% for review in reviews %}
-                    <tr class="cursor" onclick="moveDetailPage({{ review.review_id }})">
-                        <th scope="row" class="text-center align-middle">{{ forloop.counter }}</th>
-                        <td class="text-center align-middle">{{ review.date|date:"Y/m/d" }}</td>
-                        <td class="text-center align-middle">{{ review.content }}</td>
-                        <td class="text-center align-middle"><img id="score_{{ forloop.counter }}">
-                            <script>
-                                document.getElementById('score_{{ forloop.counter }}').src = "{% static ''%}" + "img/bean/" + "{{ review.score }}" + "bean.png";
-                            </script>
-                        </td>
-                    </tr>
-                    {% endfor %}
-                    </tbody>
-                </table>
+            <a class="login-option" href="{% url 'owner:ownerComent' %}">상세보기</a>
+        </div>
+        <div class="contents-blank"></div>
+        <div class="">
+            <table class="table-brown p-4 ptd-15 w-100">
+                <thead>
+                <tr>
+                    <th scope="col" class="w-5 text-center">번호</th>
+                    <th scope="col" class="w-15 text-center">날짜</th>
+                    <th scope="col" class="w-55 text-center">리뷰 제목</th>
+                    <th scope="col" class="text-center">별점</th>
+                </tr>
+                </thead>
+            <tbody>
+            {% for review in reviews %}
+            <tr class="cursor" onclick="moveDetailPage({{ review.review_id }})">
+                <th scope="row" class="text-center align-middle">{{ forloop.counter }}</th>
+                <td class="text-center align-middle">{{ review.date|date:"Y/m/d" }}</td>
+                <td class="text-center align-middle">{{ review.content }}</td>
+                <td class="text-center align-middle"><img id="score_{{ forloop.counter }}">
+                    <script>
+                        document.getElementById('score_{{ forloop.counter }}').src = "{% static ''%}" + "img/bean/" + "{{ review.score }}" + "bean.png";
+                    </script>
+                </td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
     </div>
+    <script>
+        function moveDetailPage( pageid ){
+            window.location.assign('/customer/{{ cafe.cafe_id }}/review/' + pageid);
+        }
+    </script>
 </main>
 {% endblock %}
