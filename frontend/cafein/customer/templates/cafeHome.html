@@ -41,9 +41,9 @@
                     <div>
                         <a href="/customer/like/{{ cafe.cafe_id }}">
                             {% if customer in cafe.like_users.all %}
-                            <i class="fa-sharp fa-solid fa-heart"></i>
+                            <i class="fa-sharp fa-solid fa-heart heart-like"></i>
                             {% else %}
-                            <i class="fa-regular fa-heart"></i>
+                            <i class="fa-regular fa-heart heart-unlike"></i>
                             {% endif %}
                         </a>
                     </div>
