@@ -45,21 +45,21 @@
             for (var i = 0; i < cafe_images.length; i++) {
                 const cafe_congestion = '/static/img/congestion/' + cafe_images[i].cafe_congestion + '.png';
 
-                html += '<div class="col-4 px-5 pb-5">';
-                html += '<div class="d-flex justify-content-center">';
-                html += '<img class="cus-main-image-size border rounded-5"';
+                html += '<div class="col-3 mx-5 mb-6 d-flex justify-content-center flex-column">';
+                html += '<div class="">';
+                html += '<img class="cus-main-image-size rounded-5"';
                 html += 'onclick="location.href=\'/customer/' + cafe_images[i].cafe_id + '/home\'" ';
                 html += 'src="' + cafe_images[i].image + '">';
                 html += '</div>';
-                html += '<div class="d-flex justify-content-center">';
+                html += '<div class="">';
                 html += '<div class="d-flex h3 pt-3 cus-main-width-250 justify-content-between align-items-center">';
-                html += '<div class="w-75 truncate">' + cafe_images[i].cafe + '</div>';
-                html += '<div class="w-25 d-flex">';
-                html += '<img class="w-px-30" src="'+ cafe_congestion +'">';
+                html += '<div class="w-70 truncate">' + cafe_images[i].cafe + '</div>';
+                html += '<div class="w-30 d-flex">';
+                html += '<img class="w-px-30 mx-2" src="'+ cafe_congestion +'">';
                 if (cafe_images[i].like){
-                    html += '<i class="fa-sharp fa-solid fa-heart heart-size"></i>';
+                    html += '<div class="fa-solid heart-size heart-like">&hearts;</div>';
                 }else{
-                    html += '<i class="fa-regular fa-heart heart-size"></i>';
+                    html += '<div class="fa-regular heart-size heart-unlike">&hearts;</div>';
                 }
                 html += '</div>';
                 html += '</div>';

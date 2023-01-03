@@ -10,11 +10,11 @@
         <div class="blank"></div>
         <div class="row" id="cafe_list">
             {% for cafe_image in cafe_image %}
-                <div class="col-4 px-5 pb-5">
-                    <div class="d-flex justify-content-center">
-                        <img class="cus-main-image-size border rounded-5" onclick="location.href='/customer/{{ cafe_image.cafe_image.cafe.cafe_id }}/home'" src="{{ cafe_image.cafe_image.image.url }}">
+                <div class="col-3 mr-5 mb-6 d-flex justify-content-center flex-column">
+                    <div class>
+                        <img class="cus-main-image-size rounded-5" onclick="location.href='/customer/{{ cafe_image.cafe_image.cafe.cafe_id }}/home'" src="{{ cafe_image.cafe_image.image.url }}">
                     </div>
-                    <div class="d-flex justify-content-center">
+                    <div class>
                         <div class="d-flex h3 pt-3 cus-main-width-250 justify-content-between align-items-center">
                             <div class="w-85 truncate">{{ cafe_image.cafe_image.cafe.name }}</div>
                             <div class="w-15 d-flex">
