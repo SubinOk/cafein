@@ -5,7 +5,7 @@
 {% endblock %}
 {% block banner %}
 <div class="d-flex justify-content-center bg-light-brown">
-    <img class="h-250" src="{% static '/img/customer_main_banner/customer_home_banner.png' %}">
+    <img class="h-250" src="{% static '/img/customer_main_banner/customer_home_banner2.png' %}">
 </div>
 {% endblock %}
 {% block content %}
@@ -54,13 +54,8 @@
                 html += '<div class="">';
                 html += '<div class="d-flex h3 pt-3 cus-main-width-250 justify-content-between align-items-center">';
                 html += '<div class="w-70 truncate">' + cafe_images[i].cafe + '</div>';
-                html += '<div class="w-30 d-flex">';
+                html += '<div class="w-30 d-flex justify-content-end">';
                 html += '<img class="w-px-30 mx-2" src="'+ cafe_congestion +'">';
-                if (cafe_images[i].like){
-                    html += '<div class="fa-solid heart-size heart-like">&hearts;</div>';
-                }else{
-                    html += '<div class="fa-regular heart-size heart-unlike">&hearts;</div>';
-                }
                 html += '</div>';
                 html += '</div>';
                 html += '</div>';
