@@ -21,7 +21,6 @@ class Command(BaseCommand):
         cafe_sentiment=Cafe_sentiment.objects.filter(cafe = cafe[0])[0]
         cafe_sentiment.delete()
 
-        print(1)
         #긍부정 저장
         objs = (Cafe_sentiment(
             total = row[1],
@@ -35,13 +34,10 @@ class Command(BaseCommand):
             Cafe_sentiment.objects.bulk_create(batch, batch_size)
         sentiment = Cafe_sentiment.objects.filter(cafe = cafe[0])
 
-        print(2)
-
         cafe_rank=Cafe_rank.objects.filter(sentiment = sentiment[0])
         print(cafe_rank)
         cafe_rank.delete()
 
-        print(3)
         #리뷰 순위 저장
         rank = (Cafe_rank(
             category = row[0],
@@ -58,7 +54,6 @@ class Command(BaseCommand):
                 break
             Cafe_rank.objects.bulk_create(batch, batch_size)
 
-        print(4)
         df = pd.read_csv('cafein/files/result/temp.csv', names = column, header=0)
         df = df.fillna(0)
         cafe = Cafe.objects.filter(name = name)
@@ -67,7 +62,6 @@ class Command(BaseCommand):
         cafe_congestion=Cafe_congestion.objects.filter(cafe =cafe[0])[0]
         cafe_congestion.delete()
 
-        print(5)
         #혼잡도 저장
         objs = (Cafe_congestion(
             congestion = (row[0] / max* 100.0),
@@ -77,7 +71,6 @@ class Command(BaseCommand):
             batch = list(islice(objs, batch_size))
             if not batch:
                 break
-            Cafe_congestion.objects.bulk_create(batch, batch_size)
-        print(6)    
+            Cafe_congestion.objects.bulk_create(batch, batch_size)  
 
         
