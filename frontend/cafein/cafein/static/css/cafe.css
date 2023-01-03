@@ -427,6 +427,11 @@ textarea {
     font-size: 16px;
 }
 
+.ptd-22{
+    font-family: 'Pretendard-Regular';
+    font-size: 22px;
+}
+
 /* ----- 8. backgronds ----- */
 .bg-light-brown{
     background-color: var(--side-color);

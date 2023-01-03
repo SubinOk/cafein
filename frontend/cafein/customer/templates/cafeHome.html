@@ -7,10 +7,11 @@
 <script src="https://kit.fontawesome.com/875cfd8d24.js" crossorigin="anonymous"></script>
 <main>
     <div class="row">
+        <div class="contents-blank"></div>
         <div class="col">
             <div class="container">
                 <div class="row justify-content-between" id="target">
-                    <div class="h1 col-11 d-flex align-self-center">{{ cafe.name }}
+                    <h1 class="col-11 d-flex align-self-center">{{ cafe.name }}
                         &nbsp; <a href="/customer/like/{{ cafe.cafe_id }}">
                             {% if customer in cafe.like_users.all %}
                             <i class="fa-sharp fa-solid fa-heart heart-like"></i>
@@ -18,7 +19,7 @@
                             <i class="fa-regular fa-heart heart-unlike"></i>
                             {% endif %}
                         </a>
-                    </div>
+                    </h1>
                 </div>
                 <div class="contents-blank"></div>
                 <div class="container">
@@ -34,11 +35,13 @@
             <div class="carousel-inner">
                 {% for i in cafe.cafe_image_set.all %}
                 <div class="carousel-item {% if forloop.counter == 1 %}active{% endif %}">
-                    <img src="{{i.image.url}}" class="d-block w-100"style="height:315px">
+                    <div class="d-flex justify-content-center">
+                        <img src="{{i.image.url}}" class="d-block w-75"style="height:250px">
+                    </div>
                 </div>
                 {% endfor %}
             </div>
-            <div class="carousel-indicators">
+            <div class="carousel-indicators w-75">
                 {% for i in cafe.cafe_image_set.all %}
                 {% if forloop.counter == 1 %}
                 <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
@@ -80,11 +83,13 @@
     </div>
 
     <div>
-    <div class="blank"></div>
-    <h2>최근 리뷰</h2>
-        <div class="d-flex justify-content-end">
-            <button class="btn-middle m-2 ptd-14 pe-3" onclick=(location.href="/customer/{{ cafe.cafe_id }}/createReview")>리뷰 작성</button>
-            <button class="btn-middle m-2 ptd-14" onclick=(location.href="/customer/{{ cafe.cafe_id }}/cafeReview")>상세보기</button>
+        <div class="blank"></div>
+        <div class="d-flex justify-content-between align-items-center">
+            <div class="ptd-22">최근 리뷰</div>
+            <div class="d-flex justify-content-end">
+                <button class="btn-middle m-2 ptd-14 pe-3" onclick=(location.href="/customer/{{ cafe.cafe_id }}/createReview")>리뷰 작성</button>
+                <button class="btn-middle m-2 ptd-14" onclick=(location.href="/customer/{{ cafe.cafe_id }}/cafeReview")>상세보기</button>
+            </div>
         </div>
         <div class="contents-blank"></div>
         <div class="">
