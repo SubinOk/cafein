@@ -32,9 +32,10 @@
                         'height':400,
                         'pieHole': 0.6,
                         'pieSliceText':'label',
-                        'colors': ['#78AAE7', '#E67C92'],
+                        'colors': ['#005E50', '#E2E2E2'],
                         'pieSliceText': 'none',
-                        'legend':'none'
+                        'legend':'bottom',
+                        'fontSize': 15
                 };
                 var chart = new google.visualization.PieChart(document.getElementById('myChart'));
                 chart.draw(data, opt);
@@ -46,20 +47,31 @@
             <div class="container">
                 <div class="contents-blank"></div>
                 <div class="contents-blank"></div>
+                <div class="contents-blank"></div>
+                
                 <h1>고객 통계</h1>
                 <div class="contents-blank"></div>
-                <div class="contents-blank"></div>
                 <div class="row">
-                    <div class="col-6">
-                        <div class="h3 text-bold">전체 만족도</div>
-                        <div id="myChart" class="d-flex justify-content-center"></div>
-                    </div>
-                    <div class="col-6">
-                        <div class="h3 pb-5 text-bold">카테고리 별 만족도</div>
-                        <div>
-                            <div id="chart"></div>
+                    
+                      <div class="col-6" style ='width : 520px;'>
+                          <div class="contents-blank"></div>
+                          <div>
+                            <h2>전체 만족도</h2>
+                          </div>
+                          <div class="contents-blank"></div>
+                          <div id="myChart"></div>
+                      </div>
+                      <div class="col-6">
+                          <div class="contents-blank"></div>
+                          <div>
+                          <h2>카테고리 별 만족도</h2>
+                          </div>
+                          <div class="blank"></div>
+                          <div>
+                              <div id="chart"></div>
+                          </div>
                         </div>
-                    </div>  
+                      
                 </div>
                 <div class="blank"></div>
                 <h1>최근 리뷰</h1>
@@ -82,7 +94,7 @@
                     <tr class="cursor" onclick="moveDetailPage({{ review.review_id }})">
                         <th scope="row" class="text-center align-middle">{{ forloop.counter }}</th>
                         <td class="text-center align-middle">{{ review.date|date:"Y/m/d" }}</td>
-                        <td class="text-center align-middle">{{ review.content }}</td>
+                        <td class="text-center align-middle">{{ review.title }}</td>
                         <td class="text-center align-middle"><img id="score_{{ forloop.counter }}">
                             <script>
                                 document.getElementById('score_{{ forloop.counter }}').src = "{% static ''%}" + "img/bean/" + "{{ review.score }}" + "bean.png";
@@ -142,7 +154,7 @@
                   argumentAxis: {
                     label: {
                       font: {
-                        family: 'Verdana',
+                        family: 'Pretendard-Regular',
                         size: 16,
                         weight: 600,
                       },

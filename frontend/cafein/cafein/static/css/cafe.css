@@ -686,3 +686,9 @@ textarea {
     font-weight: bold;
     color: var(--main-color);
 }
+
+#chart {
+    height: 400px;
+    width: 600px;
+    margin: 0 auto;
+  }
