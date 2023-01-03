@@ -13,6 +13,7 @@ urlpatterns =[
     path('like/<int:cafeId>', views.cafeLike, name='cafeLike'),
     path('like/', views.index, name='cafeLikeList'),
     path('findCafe/', views.getCafeData, name='getCafeData'),
+    path('<int:cafeId>/cafeReview/', views.cafeIdReview, name='cafeIdReview'),
 ]
 
 # urlpatterns = [

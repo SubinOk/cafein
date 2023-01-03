@@ -211,6 +211,16 @@ h1 {
     text-decoration: none;
 }
 
+.btn-middle{
+    width: 100px;
+    height: 30px;
+    color: var(--main-color);
+    background-color: white;
+    border: solid 2px var(--main-color);
+    border-radius: 15px;
+    text-decoration: none;
+}
+
 .signup-button{
     margin: 20px;
     color: var(--main-color);
@@ -415,6 +425,11 @@ textarea {
 .ptd-16{
     font-family: 'Pretendard-Regular';
     font-size: 16px;
+}
+
+.ptd-22{
+    font-family: 'Pretendard-Regular';
+    font-size: 22px;
 }
 
 /* ----- 8. backgronds ----- */
