@@ -87,7 +87,7 @@ def cafeHome(request, cafeId):
         cafe = Cafe.objects.get(cafe_id=cafeId)
         customer = User.objects.filter(email=request.session.get('user'))[0]
         cafe_reviews = Cafe_review.objects.filter(cafe=cafe).order_by('-date')[:3]
-        cafe_menu = Cafe_menu.objects.filter(cafe=cafe)
+        cafe_menu = Cafe_menu.objects.filter(cafe=cafe)[:3]
     return render(request, 'cafeHome.html', {'cafe': cafe, 'customer':customer, 'reviews':cafe_reviews, 'cafe_menu': cafe_menu, 'title': cafe.name+' 홈'})
 
 def cafeReview(request):

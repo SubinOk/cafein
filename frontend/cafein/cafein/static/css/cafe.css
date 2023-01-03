@@ -741,3 +741,8 @@ textarea {
 .review_update:hover{
     cursor: pointer;
 }
+
+.cafe-home-menu-size{
+    height: 150px;
+    width: 150px;
+}
