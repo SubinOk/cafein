@@ -39,7 +39,7 @@ class Command(BaseCommand):
                 width = 400, # 워드 클라우드의 너비 지정
                 height = 400, # 워드클라우드의 높이 지정
                 max_font_size=100, # 가장 빈도수가 높은 단어의 폰트 사이즈 지정
-                background_color = 'white',# 배경색 지정
+                background_color = '#f8f8f8',# 배경색 지정
                 colormap= cmap
                 ).generate_from_frequencies(wc_list[i]) # 워드 클라우드 빈도수 지정
                 image_file = BytesIO()
