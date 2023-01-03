@@ -7,10 +7,9 @@
 
 :root {
     --main-color:#583A23;
-    --side-color: #fbf8f4;
+    --side-color: #fbf7f2;
     --point-color: #3c6255;
-    --bg-color: #fbf7f2;
-
+    
     --light-gray: #8c8c8c;
     --medium-gray: #757575;
     --dark-gray: #666666;
@@ -421,10 +420,6 @@ textarea {
 /* ----- 8. backgronds ----- */
 .bg-light-brown{
     background-color: var(--side-color);
-}
-
-.banner-bg{
-    background-color: var(--bg-color);
 }
 
 .cursor{
