@@ -87,3 +87,6 @@ class createViewForm(forms.ModelForm):
     class Meta:
         model = Cafe_review
         fields = ['title', 'content']
+        widgets = {
+            'title': forms.TextInput(attrs={'class': 'form-control'}),
+        }
