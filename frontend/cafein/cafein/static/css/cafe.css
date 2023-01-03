@@ -713,3 +713,8 @@ textarea {
 .chart-background-color{
     background-color: #f8f8f8;
 }
+
+.review_update{
+    height: 20px;
+    width: 20px;
+}
