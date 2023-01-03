@@ -737,3 +737,7 @@ textarea {
     height: 20px;
     width: 20px;
 }
+
+.review_update:hover{
+    cursor: pointer;
+}
