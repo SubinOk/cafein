@@ -1,6 +1,5 @@
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
-import bcrypt
 
 class MyAccountManager(BaseUserManager):
 
@@ -19,16 +18,15 @@ class MyAccountManager(BaseUserManager):
 
     def create_superuser(self, email,user_id, password):
         user = self.create_user(
-           email = self.normalize_email(email),
-           user_id = user_id,
-           password = password,
+            email = self.normalize_email(email),
+            user_id = user_id,
+            password = password,
         )
         user.is_admin = True
         #user.is_staff = True
         user.is_superuser = True
         user.save(using=self._db)
         return user
-     
 
 class User(AbstractBaseUser):
     
@@ -40,9 +38,8 @@ class User(AbstractBaseUser):
 
     is_admin    = models.BooleanField(default=False) # 관리자 권한 여부 (기본값은 False)
     is_active   = models.BooleanField(default=True)  # 활성화 여부 (기본값은 True)
-    #is_staff    = models.BooleanField(default=False)
     is_superuser = models.BooleanField(default=False)
- 
+
     # 사장 손님 구분
     is_owner = models.BooleanField(default=False) 
     
@@ -75,6 +72,4 @@ class User(AbstractBaseUser):
         return self.email
 
     objects = MyAccountManager() 
-    
- 
 
