@@ -225,7 +225,7 @@ def ownerStatistics(request):
 def ownerComent(request):
     cafe_reviews = Cafe_review.objects.filter(cafe=Cafe.objects.get(user_id=request.session.get('user'))).order_by('-date')
 
-    paginator = Paginator(cafe_reviews, 2)
+    paginator = Paginator(cafe_reviews, 5)
 
     page_number = request.GET.get('page')
     page_reviews = paginator.get_page(page_number)
