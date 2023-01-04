@@ -2,8 +2,8 @@ from django import forms
 from account.models import User
 from cafe.models import Cafe, Cafe_image, Cafe_menu,Cafe_congestion
 import re
-import os
 import pandas as pd
+
 class ownerManageForm(forms.ModelForm):
     class Meta:
         model = Cafe
@@ -53,7 +53,6 @@ class ownerManageForm(forms.ModelForm):
             cafe.datail_add = address2
             cafe.cafe_phone = cafe_phone
             cafe.save()
-        
 
             for idx in range(len(image['images'])):
                 if idx < len(cafe_image):
@@ -90,6 +89,7 @@ class ownerManageForm(forms.ModelForm):
 
         except:
             return False
+
 
 class ownerChangeForm(forms.ModelForm):
     password2 = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': '비밀번호확인'}))
@@ -283,7 +283,6 @@ class ownerPostForm(forms.ModelForm):
         user.save()
         make=user
     
-
         cafe = Cafe.objects.create(
             name=name,
             max_occupancy=human,
@@ -330,7 +329,6 @@ class cafeMenuForm(forms.ModelForm):
                 if True in is_allowed_extension:
                     return True
         return False
-    
 
     def save(self, user_id):
         cafe = Cafe.objects.get(user_id=user_id)

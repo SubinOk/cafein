@@ -1,40 +1,22 @@
 from django.core.paginator import Paginator
-from django.shortcuts import render, get_object_or_404, redirect
-from django.template.loader import render_to_string
-from django.core.mail import EmailMessage
+from django.shortcuts import render, redirect
 
 from .forms import ownerPostForm, ownerChangeForm, ownerManageForm, cafeMenuForm
 
-#403 오류해결
-from django.views.decorators.csrf import csrf_exempt
-from django.utils.decorators import method_decorator
-
-#추가
-import re
-import json
-import bcrypt
-import jwt
-from django.views           import View
-from django.http            import JsonResponse, HttpResponse
-from django.db.models       import Q
-from django.core.mail.message import EmailMessage
+from django.http            import JsonResponse
 from django.contrib.auth.hashers import check_password
 
 #모델
 from account.models import User
-from cafe.models import Cafe, Cafe_image, Cafe_review, Cafe_comment, Cafe_menu, Cafe_sentiment, Cafe_rank, Cafe_wordcloud
+from cafe.models import Cafe, Cafe_image, Cafe_review, Cafe_comment, Cafe_menu, Cafe_sentiment, Cafe_rank
 
 from . import main
 from . import reviewUpdate
 
 # 멀티프로세스
 from multiprocessing import Process
-import os
-
-
 
 MINIMUM_PASSWORD_LENGTH = 8
-
 
 def ownerHome(request):
     if request.session.get('user'):
@@ -51,15 +33,16 @@ def ownerHome(request):
     else:
         return redirect('/')
 
-
 def signup(request):
-    # 등록된 이메일, 이메일 형식 확인
-    # 두개의 password가 일치한지에 대한 validation
-    # 영어(대소문자), 숫자, 특수문자 포함하고 8~25자리수를 허용
-    # 전화번호 '-'없이 숫자만 입력하도록
-    # 카페 이름 같은 게 있는지 확인하기
-    # 전화번호 '-'없이 숫자만 입력하도록 
-    # 4MB 용량제한 & 확장자 제한
+    """
+        등록된 이메일, 이메일 형식 확인
+        두개의 password가 일치한지에 대한 validation
+        영어(대소문자), 숫자, 특수문자 포함하고 8~25자리수를 허용
+        전화번호 '-'없이 숫자만 입력하도록
+        카페 이름 같은 게 있는지 확인하기
+        전화번호 '-'없이 숫자만 입력하도록 
+        4MB 용량제한 & 확장자 제한
+    """
     if not(request.session.get('user')):
         if request.method == 'POST':
             form = ownerPostForm(request.POST, request.FILES)
@@ -96,7 +79,6 @@ def signup(request):
             return render(request, 'signup.html', {'form': form, 'title': '사장 회원가입'})
     return redirect('/')
 
-
 def checkPassword(request):
     if request.session.get('user'):
         if request.method == 'POST':
@@ -115,7 +97,6 @@ def checkPassword(request):
             return render(request, 'checkPassword.html', {'title': '비밀번호 확인'})
     return redirect('/')
 
-
 def ownerChange(request):
     if request.session.get('user'):
         if request.method == 'POST':
@@ -133,7 +114,6 @@ def ownerChange(request):
             return render(request, 'ownerChange.html', {'form': form, 'title': '회원 정보 수정'})
     else:
         return redirect('/')
-
 
 def ownerDelete(request):
     if request.method == 'POST':
@@ -154,13 +134,11 @@ def ownerDelete(request):
     else:
         return render(request, 'ownerDelete.html', {'title': '탈퇴하기'})
 
-
 def render_with_error(request, html, form, error_type, title=''):
     error_flg = {}
     for error in error_type:
         error_flg[error] = True
     return render(request, html, {'form': form, 'error_flg': error_flg, 'title': title})
-        
 
 def ownerManage(request):
     if request.session.get('user'):
@@ -217,7 +195,6 @@ def cafeUpdate(request):
     else:
         return redirect('/')
 
-
 def ownerStatistics(request):
     if request.session.get('user'):
         data = request.GET.get('data')
@@ -231,7 +208,6 @@ def ownerStatistics(request):
     else:
         return redirect('/')
 
-
 def ownerComent(request):
     cafe_reviews = Cafe_review.objects.filter(cafe=Cafe.objects.get(user_id=request.session.get('user'))).order_by('-date')
 
@@ -241,7 +217,6 @@ def ownerComent(request):
     page_reviews = paginator.get_page(page_number)
 
     return render(request, 'ownerComent.html', {'reviews': page_reviews, 'title': '리뷰 게시판'})
-
 
 def ownerComentDetail(request, reviewid):
     cafe_review = Cafe_review.objects.get(review_id=reviewid)
@@ -254,7 +229,6 @@ def ownerComentDetail(request, reviewid):
     
     return render(request, 'ownerComentDetail.html', {'contents': contents, 'title': '리뷰 게시판'})
 
-
 def ownerCommentUpload(request):
     if request.method == 'POST':
         review_comment = request.POST.get('review-comment')
@@ -266,7 +240,6 @@ def ownerCommentUpload(request):
         return JsonResponse({'result': True})
     else:
         return JsonResponse({'result': False})
-
 
 def ownerManageMenu(request):
     if request.session.get('user'):
@@ -300,7 +273,6 @@ def ownerManageMenu(request):
             return render(request, 'ownerManageMenu.html', {'cafe_menu': cafe_menu, 'menu_form': menu_form, 'title': '카페 관리'})
     else:
         return redirect('/')
-    
     
 def checkCafeData(request):
     cafe = Cafe.objects.get(cafe_id=request.GET.get('cafe_id'))
