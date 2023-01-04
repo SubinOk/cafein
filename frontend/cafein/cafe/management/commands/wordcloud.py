@@ -1,8 +1,5 @@
 from wordcloud import WordCloud
 from django.core.management.base import BaseCommand
-from PIL import Image
-import matplotlib.pyplot as plt
-import numpy as np
 import pandas as pd
 from cafe.models import Cafe,Cafe_wordcloud
 from io import BytesIO
@@ -16,7 +13,6 @@ class Command(BaseCommand):
         cafeName = cafeName.replace("_", " ") 
         # 워드클라우드
         data = wordlist 
-        
         data = data.fillna(0)
         
         # 카테고리별 df -> wc

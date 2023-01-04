@@ -2,7 +2,6 @@ import pandas as pd
 from itertools import islice
 from django.core.management.base import BaseCommand
 from cafe.models import Cafe_sentiment,Cafe,Cafe_rank,Cafe_congestion
-from django.core.files import File
 
 class Command(BaseCommand):
     def handle(self, *args, **options):
