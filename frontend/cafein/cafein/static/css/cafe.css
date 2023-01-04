@@ -585,6 +585,26 @@ textarea {
     height: 20px;
     padding-right: 10px;
 }
+/*cafeCreateReview*/
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown-content {
+    display: none;
+    background-color: #ffffff;
+    position: absolute;
+    z-index: 1;
+}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+.hover-bean:hover{
+    background-color: #DCDCDC	;
+}
 
 .dropdown-item{
     padding: 7px 20px;
