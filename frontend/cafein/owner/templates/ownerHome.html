@@ -13,7 +13,6 @@
         <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
         <script src="https://cdn3.devexpress.com/jslib/22.2.3/js/dx.all.js"></script>
-
         <script type="text/javascript">
             google.charts.load('current', {'packages':['corechart']});
             google.charts.setOnLoadCallback(drawChart);
@@ -41,8 +40,6 @@
                 var chart = new google.visualization.PieChart(document.getElementById('myChart'));
                 chart.draw(data, opt);
             }
-        
-            
         </script>
         <div>
             <div class="container">
@@ -54,67 +51,59 @@
                           고객 통계 &nbsp;<img onclick=(location.href='/owner/cafeDataUpdata') class="review_update mb-2" src="/static/img/review_update.png">
                       </h1>
                   </div>
-                  <div class="col">
-                  <div><a href=""></a></div>
-                  </div>
-              </div>
-              <div class="contents-blank"></div>
-              <div class="contents-blank"></div>
-                <div class="row chart-background-color rounded-5 p-5">
-                    
-                      <div class="col-5">
-                          <div class="contents-blank"></div>
-                          <div>
-                            <h2>전체 만족도</h2>
-                          </div>
-                          <div class="contents-blank"></div>
-                          <div id="myChart"></div>
-                      </div>
-                      <div class="col-5">
-                          <div class="contents-blank"></div>
-                          <div>
-                          <h2>카테고리 별 만족도</h2>
-                          </div>
-                          <div class="blank"></div>
-                          <div>
-                              <div id="chart"></div>
-                          </div>
+            </div>
+            <div class="contents-blank"></div>
+            <div class="contents-blank"></div>
+            <div class="row chart-background-color rounded-5 p-5">
+                    <div class="col-5">
+                        <div class="contents-blank"></div>
+                        <div>
+                          <h2>전체 만족도</h2>
                         </div>
-                        
-                      
+                        <div class="contents-blank"></div>
+                        <div id="myChart"></div>
+                    </div>
+                    <div class="col-5">
+                        <div class="contents-blank"></div>
+                        <div>
+                        <h2>카테고리 별 만족도</h2>
+                        </div>
+                        <div class="blank"></div>
+                        <div id="chart"></div>
+                    </div>
                 </div>
-                <div class="blank"></div>
-                <h1>최근 리뷰</h1>
-                <div class="col text-right">
-                    <a class="login-option" href="{% url 'owner:ownerComent' %}">상세보기</a>
-                </div>
-                <div class="contents-blank"></div>
-                <div class="">
-                    <table class="table-brown p-4 ptd-15 w-100">
-                        <thead>
+            </div>
+            <div class="blank"></div>
+            <h1>최근 리뷰</h1>
+            <div class="col text-right">
+                <a class="login-option" href="{% url 'owner:ownerComent' %}">상세보기</a>
+            </div>
+            <div class="contents-blank"></div>
+            <div class="">
+                <table class="table-brown p-4 ptd-15 w-100">
+                    <thead>
                         <tr>
                             <th scope="col" class="w-5 text-center">번호</th>
                             <th scope="col" class="w-15 text-center">날짜</th>
                             <th scope="col" class="w-55 text-center">리뷰 제목</th>
                             <th scope="col" class="text-center">별점</th>
                         </tr>
-                        </thead>
+                    </thead>
                     <tbody>
-                    {% for review in reviews %}
-                    <tr class="cursor" onclick="moveDetailPage({{ review.review_id }})">
-                        <th scope="row" class="text-center align-middle">{{ review.review_id }}</th>
-                        <td class="text-center align-middle">{{ review.date|date:"Y/m/d" }}</td>
-                        <td class="text-center align-middle">{{ review.title }}</td>
-                        <td class="text-center align-middle"><img id="score_{{ forloop.counter }}">
-                            <script>
-                                document.getElementById('score_{{ forloop.counter }}').src = "{% static ''%}" + "img/bean/" + "{{ review.score }}" + "bean.png";
-                            </script>
-                        </td>
-                    </tr>
-                    {% endfor %}
+                        {% for review in reviews %}
+                        <tr class="cursor" onclick="moveDetailPage({{ review.review_id }})">
+                            <th scope="row" class="text-center align-middle">{{ review.review_id }}</th>
+                            <td class="text-center align-middle">{{ review.date|date:"Y/m/d" }}</td>
+                            <td class="text-center align-middle">{{ review.title }}</td>
+                            <td class="text-center align-middle"><img id="score_{{ forloop.counter }}">
+                                <script>
+                                    document.getElementById('score_{{ forloop.counter }}').src = "{% static ''%}" + "img/bean/" + "{{ review.score }}" + "bean.png";
+                                </script>
+                            </td>
+                        </tr>
+                        {% endfor %}
                     </tbody>
                 </table>
-                </div>
                 <div class="contents-blank"></div>
                 <div class="contents-blank"></div>
             </div>
@@ -127,61 +116,61 @@
 
             $(() => {
                 $('#chart').dxChart({
-                  dataSource: dataSource.reverse(),
-                  rotated: true,
-                  barGroupWidth: 30,
-                  commonSeriesSettings: {
-                    type: 'stackedbar',
-                    argumentField: 'category',
-                  },
-                  series: [{
-                    valueField: 'satisfaction',
-                    name: '만족',
-                    color: '#3c6255',
-                  }, {
-                    valueField: 'unsatisfaction',
-                    name: '불만족',
-                    color: '#e8a149',
-                  }],
-                  tooltip: {
-                    enabled: true,
-                    customizeTooltip() {
-                      return {
-                        text: Math.abs(this.valueText),
-                      };
+                    dataSource: dataSource.reverse(),
+                    rotated: true,
+                    barGroupWidth: 30,
+                    commonSeriesSettings: {
+                        type: 'stackedbar',
+                        argumentField: 'category',
                     },
-                  },
-                  valueAxis: {
-                    label: {
-                      customizeText() {
-                        return `${Math.abs(this.value)}`;
-                      },
+                    series: [{
+                        valueField: 'satisfaction',
+                        name: '만족',
+                        color: '#3c6255',
+                    }, {
+                        valueField: 'unsatisfaction',
+                        name: '불만족',
+                        color: '#e8a149',
+                    }],
+                    tooltip: {
+                        enabled: true,
+                        customizeTooltip() {
+                            return {
+                                text: Math.abs(this.valueText),
+                            };
+                        },
                     },
-                  },
-                  legend: {
-                    visible: false,
-                  },
-                  argumentAxis: {
-                    label: {
-                      font: {
-                        family: 'Pretendard-Regular',
-                        size: 16,
-                        weight: 600,
-                      },
+                    valueAxis: {
+                        label: {
+                            customizeText() {
+                                return `${Math.abs(this.value)}`;
+                            },
+                        },
                     },
-                  },
+                    legend: {
+                        visible: false,
+                    },
+                    argumentAxis: {
+                        label: {
+                            font: {
+                                family: 'Pretendard-Regular',
+                                size: 16,
+                                weight: 600,
+                            },
+                        },
+                    },
                 });
             });
               
             const dataSource = [
-                {% for rank in cafe_rank %}
-                {
-                    category: '{{ rank.category }}',
-                    satisfaction: -{{ rank.positive_cnt }},
-                    unsatisfaction: {{ rank.cnt }} - {{ rank.positive_cnt }},
-                }, 
-                {% endfor %}
-              ];
+            {% for rank in cafe_rank %}
+            {
+                category: '{{ rank.category }}',
+                satisfaction: -{{ rank.positive_cnt }},
+                unsatisfaction: {{ rank.cnt }} - {{ rank.positive_cnt }},
+            }, 
+            {% endfor %}
+            ];
         </script>
     </main>
 {% endblock %}

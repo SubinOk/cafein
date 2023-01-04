@@ -102,6 +102,7 @@
                         alert("The <dialog> API is not supported by this browser");
                     }
                 });
+
                 document.getElementById('confirmBtn').addEventListener('click', function checkMenuDetail() {
                     // 닫았을 때 처리 방식
                     // newMenuDialog.returnValue << 무슨 버튼으로 입력했는지 확인 가능
@@ -147,22 +148,17 @@
                 }
 
                 function checkSelectAll()  {
-                  // 전체 체크박스
-                  const checkboxes 
-                    = document.querySelectorAll('input[name="menu_checkbox"]');
-                  // 선택된 체크박스
-                  const checked 
-                    = document.querySelectorAll('input[name="menu_checkbox"]:checked');
-                  // select all 체크박스
-                  const selectAll 
-                    = document.querySelector('input[name="selectall"]');
-                  
-                  if(checkboxes.length === checked.length)  {
-                    selectAll.checked = true;
-                  }else {
-                    selectAll.checked = false;
-                  }
-                
+                    // 전체 체크박스
+                    const checkboxes = document.querySelectorAll('input[name="menu_checkbox"]');
+                    // 선택된 체크박스
+                    const checked = document.querySelectorAll('input[name="menu_checkbox"]:checked');
+                    // select all 체크박스
+                    const selectAll = document.querySelector('input[name="selectall"]');
+                    if(checkboxes.length === checked.length)  {
+                        selectAll.checked = true;
+                    }else {
+                        selectAll.checked = false;
+                    }
                 }
     
                 function removeMenu(){
@@ -180,6 +176,7 @@
 
                 const id_image = document.getElementById('id_image');
                 const dialog_image = document.getElementById('dialog_image');
+
                 id_image.addEventListener('change', () => {
                     const file = id_image.files[0];
                     const reader = new FileReader();
