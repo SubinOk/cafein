@@ -16,6 +16,7 @@
                     <button onclick="location.href='{% url 'owner:ownerManageMenu' %}'" class="login-option mx-2">메뉴 수정</button>
                 </div>
                 <form action="" method="post" enctype="multipart/form-data">
+                    <input type="hidden" id="represent" name="represent" value="1">
                     {% csrf_token %}
                     <div class=contents-blank></div>
                     <div class='row'>
@@ -24,8 +25,9 @@
                         </div>
                         </div>    
                         <script>
-                            function toggleImg(img) {
-                              document.getElementById("img").src = img;
+                            function toggleImg(img, represent) {
+                                document.getElementById("img").src = img;
+                                document.getElementById("represent").value = represent;
                             }
                         </script>
                             <script>
@@ -35,7 +37,7 @@
                                         var img = document.createElement("img");
                                         img.setAttribute("src", event.target.result);
                                         img.setAttribute("class", "imagebox2");
-                                        img.setAttribute("onclick", "toggleImg('"+event.target.result+"')");
+                                        img.setAttribute("onclick", "toggleImg('"+event.target.result+"', " + id + ")");
                                         document.getElementById("image_container_" + id).innerHTML = "";
                                         document.querySelector("div#"+ 'image_container_' + id).appendChild(img);
                                         document.querySelector("input#"+ 'image_name_' + id).value = event.target.result;
@@ -121,7 +123,7 @@
                         var img = document.createElement("img");
                         img.setAttribute("src", "{{image.image.url}}");
                         img.setAttribute("class", "imagebox2");
-                        img.setAttribute("onclick", "toggleImg('{{image.image.url}}')");
+                        img.setAttribute("onclick", "toggleImg('{{image.image.url}}', {{forloop.counter}})");
                         document.getElementById("image_container_{{ forloop.counter }}").appendChild(img);
                         document.getElementById("image_name_{{ forloop.counter }}").value = "{{image.image.name}}";
                         //image_url.split('/')[-1]

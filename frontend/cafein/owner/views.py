@@ -174,8 +174,18 @@ def ownerManage(request):
             image_1 = request.FILES.get('image_1', '')
             image_2 = request.FILES.get('image_2', '')
             image_3 = request.FILES.get('image_3', '')
-            image_names = [image_name_1, image_name_2, image_name_3]
-            images = [image_1, image_2, image_3]
+            represent = request.POST.get('represent')
+            
+            if represent != '1':
+                if represent == '2':
+                    image_names = [image_name_2, image_name_1, image_name_3]
+                    images = [image_2, image_1, image_3]
+                elif represent == '3':
+                    image_names = [image_name_3, image_name_2, image_name_1]
+                    images = [image_3, image_2, image_1]
+            else:
+                image_names = [image_name_1, image_name_2, image_name_3]
+                images = [image_1, image_2, image_3]
             update_image = {
                 'image_names': image_names,
                 'images': images,

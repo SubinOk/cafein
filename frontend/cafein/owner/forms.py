@@ -58,17 +58,20 @@ class ownerManageForm(forms.ModelForm):
             for idx in range(len(image['images'])):
                 if idx < len(cafe_image):
                     if not cafe_image[idx].image == image['image_names'][idx]:
-                        #
-                        # 입력하는 이미지들의 확장자와 크기 체크하는 부분 추가해줘야함
-                        #
-                        cafe_image[idx].image = image['images'][idx]
-                        cafe_image[idx].cafe = cafe
-                        cafe_image[idx].save()
+                        if image['images'][idx] != '':
+                            cafe_image[idx].image = image['images'][idx]
+                            cafe_image[idx].cafe = cafe
+                            cafe_image[idx].save()
+                        else:
+                            if idx == 0:
+                                change_image = Cafe_image.objects.get(cafe=cafe, image=image['image_names'][idx])
+                                temp = cafe_image[idx].image
+                                cafe_image[idx].image = change_image.image
+                                cafe_image[idx].save()
+                                change_image.image = temp
+                                change_image.save()
                 else:
                     if not image['images'][idx] == '':
-                        #
-                        # 입력하는 이미지들의 확장자와 크기 체크하는 부분 추가해줘야함
-                        #
                         new_cafe_image = Cafe_image()
                         new_cafe_image.image = image['images'][idx]
                         new_cafe_image.cafe = cafe
