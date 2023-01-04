@@ -41,7 +41,7 @@
                     <span class="bg-light-brown col-2 ptd-15 p-3 d-flex align-content-center flex-wrap justify-content-center">리뷰 내용</span>
                     <div class="col review-container">
                         {% if contents.cafe_review.image != '' %}
-                            <img class="img-review" src="{{ contents.cafe_review.image.url }}">
+                        <img class="img-review" src="{{ contents.cafe_review.image.url }}">
                         {% endif %}
                         <span class="text-start align-middle ptd-15 p-3">{{ contents.cafe_review.content }}</span>
                     </div>

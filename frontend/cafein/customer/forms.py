@@ -19,8 +19,10 @@ class customerPostForm(forms.ModelForm):
     phone = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control',
                                                           'placeholder': '전화번호 ("-" 없이 작성)'}))
     
-    # email이 이미 등록되었는지, 그리고 이메일 형식에 맞는지에 대한 validation
     def check_email(self):
+        """
+            email이 이미 등록되었는지, 그리고 이메일 형식에 맞는지에 대한 validation
+        """
         email = self.cleaned_data.get("email")
         customer = User.objects.filter(email=email).first()
         if customer is None:
@@ -33,19 +35,22 @@ class customerPostForm(forms.ModelForm):
             # 필드에 email 값이 db에 존재하는지 확인
             return False
     
-    # 고객 전화번호 '-'없이 숫자만 입력하도록 
     def check_phone(self):
+        """
+            고객 전화번호 '-'없이 숫자만 입력하도록 
+        """
         phone = self.cleaned_data.get("phone")
         pattern = re.compile('^[0]\d{2}\d{3,4}\d{4}$')
         if not pattern.match(phone):
             return False
         return True
-    
 
-    # 입력한 password가 조건에 맞는지에 대한 validation
     def check_password(self):
+        """
+            입력한 password가 조건에 맞는지에 대한 validation
+            영어,숫자,특수문자 포함하고 8~25자리수를 허용
+        """
         password = self.cleaned_data.get("password")
-        # 영어,숫자,특수문자 포함하고 8~25자리수를 허용
         pattern = re.compile('^(?=.*[\d])(?=.*[A-Z])(?=.*[a-z])(?=.*[!@#$%^&*.()])[\w\d!@#$%^&*()]{8,25}$')
         if not pattern.match(password):
             return False
@@ -53,8 +58,10 @@ class customerPostForm(forms.ModelForm):
             return True
 
 
-    # 두개의 password가 일치한지에 대한 validation 
     def check_password1(self):
+        """
+            두개의 password가 일치한지에 대한 validation 
+        """
         password = self.cleaned_data.get("password")
         password2 = self.cleaned_data.get("password2")
         if password != password2:
@@ -62,15 +69,16 @@ class customerPostForm(forms.ModelForm):
         else:
             return True
 
-    # DB 삭제 탈퇴 회원 정보 
     def delete(self):
+        """
+            DB 삭제 탈퇴 회원 정보 
+        """
         email = self.cleaned_data.get("email")
         customer = User.objects.get(user_id=email)
         customer.delete()
 
     # DB에 회원가입 값 저장
     def save(self):
-        # 고객
         email = self.cleaned_data.get("email")
         password = self.cleaned_data.get("password")
         phone = self.cleaned_data.get("phone")

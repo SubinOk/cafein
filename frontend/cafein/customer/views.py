@@ -6,7 +6,6 @@ from django.http import JsonResponse
 from customer.forms import customerPostForm, createViewForm
 from cafe.models import Cafe, Cafe_review, Cafe_comment, Cafe_image, Cafe_congestion, Cafe_menu
 from account.models import User
-from django.db.models import Q
 
 def customerHome(request):
     if request.session.get('user'):
@@ -33,10 +32,10 @@ def getCafeData(request):
     customer = User.objects.filter(email=request.session.get('user'))[0]
     for cafe_image in cafe_images_page.object_list:
         cafe_congestion_cnt = Cafe_congestion.objects.get(cafe=cafe_image.cafe).congestion
-        # 40 미만
+        # 40% 미만
         if cafe_congestion_cnt < 40:
             cafe_congestion = "good"
-        # 70 미만
+        # 70% 미만
         elif cafe_congestion_cnt < 70:
             cafe_congestion = "soso"
         # 이외
@@ -91,7 +90,6 @@ def cafeHome(request, cafeId):
     return render(request, 'cafeHome.html', {'cafe': cafe, 'customer':customer, 'reviews':cafe_reviews, 'cafe_menu': cafe_menu, 'title': cafe.name+' 홈'})
 
 def cafeReview(request):
-    
     cafe_reviews = Cafe_review.objects.all().order_by('-date')
 
     paginator = Paginator(cafe_reviews, 5)
@@ -146,7 +144,6 @@ def cafeLike(request, cafeId):
     else:
         cafe.like_users.add(customer)
     return redirect('/customer/'+str(cafeId)+'/home')
-
 
 def index(request):
     customer = User.objects.filter(email=request.session.get('user'))[0]
