@@ -753,3 +753,15 @@ textarea {
     height: 150px;
     width: 150px;
 }
+
+.sign-in-image-field{
+    position: fixed;
+    z-index: 1;
+    right: 200;
+    bottom: 40%;
+}
+
+.sign-in-image-width{
+    height: 100%;
+    width: 150px;
+}
