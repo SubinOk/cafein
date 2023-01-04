@@ -14,7 +14,23 @@ def customerHome(request):
         return redirect('/')
     
 def getCafeData(request):
-    cafes = Cafe.objects.all()
+    state = request.GET.get('state')
+    cafes = []
+    if state == 'all':
+        cafes = Cafe.objects.all()
+    elif state == 'good':
+        cafes_congestion = Cafe_congestion.objects.filter(congestion__lt=40)
+        for cafe_congestion in cafes_congestion:
+            cafes.append(cafe_congestion.cafe)
+    elif state == 'soso':
+        cafes_congestion = Cafe_congestion.objects.filter(congestion__gte=40, congestion__lt=70)
+        for cafe_congestion in cafes_congestion:
+            cafes.append(cafe_congestion.cafe)
+    else:
+        cafes_congestion = Cafe_congestion.objects.filter(congestion__gte=70)
+        for cafe_congestion in cafes_congestion:
+            cafes.append(cafe_congestion.cafe)
+
     cafe_image = []
     for cafe in cafes:
         cafe_image.append(Cafe_image.objects.filter(cafe=cafe)[0])

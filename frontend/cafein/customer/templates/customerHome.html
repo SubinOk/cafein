@@ -14,34 +14,73 @@
     <script src="https://kit.fontawesome.com/875cfd8d24.js" crossorigin="anonymous"></script>
     <div class="contents-blank"></div>
     <div class="contents-blank"></div>
+    {% comment %} <input type="radio" class="link-secondary btn-check" name="btn-radio" id="btn-radio1" onchange="showData(datas[0], 0)" autocomplete="off" {% if data == 'price' %}checked{% endif %}>
+    <label class="btn btn-outline-brown btn-category ptd-15" for="btn-radio1">#가격</label> {% endcomment %}
+    <dialog id="newMenuDialog" class="dialog-box">
+        <img class="head-logo" src="/static/img/header/logo_main.png">
+    </dialog>
+    <div class="d-flex justify-content-end">
+        <div role="group">
+            <div class="btn-group btn-group-toggle" data-toggle="buttons" id="btn-radio">
+                <input type="radio" class="btn-check" value="all" autocomplete="off" name="btn-radio" id="btn-radio1" onchange="getCafeData('all')" checked> 
+                <label class="btn btn-outline-secondary d-flex align-items-center" for="btn-radio1">전체 보기</label>
+                <input type="radio" class="btn-check" value="good" autocomplete="off" name="btn-radio" id="btn-radio2" onchange="getCafeData('good')">
+                <label class="btn btn-outline-secondary" for="btn-radio2">
+                    <img src="{% static '/img/congestion/good.png' %}" style="height:25px">
+                </label>
+                <input type="radio" class="btn-check" value="soso" autocomplete="off" name="btn-radio" id="btn-radio3" onchange="getCafeData('soso')">
+                <label class="btn  btn-outline-secondary" for="btn-radio3">
+                    <img src="{% static '/img/congestion/soso.png' %}" style="height:25px">
+                </label>
+                <input type="radio" class="btn-check" value="bad" autocomplete="off" name="btn-radio" id="btn-radio4" onchange="getCafeData('bad')">
+                <label class="btn btn-outline-secondary" for="btn-radio4">
+                    <img src="{% static '/img/congestion/bad.png' %}" style="height:25px">
+                </label>
+            </div>
+        </div>
+    </div>
+    <div class="contents-blank"></div>
+    <div class="contents-blank"></div>
     <div class="container">
         <div class="contents-blank"></div>
         <div class="row" id="cafe_list">
         </div>
         <div class="d-flex justify-content-center">
-            <a id="nextPage" onclick='getCafeData()'>
+            <a id="nextPage" onclick='getCafeData(send_state)'>
                 <img src="{% static '/img/arrow.png' %}">
             </a>
         </div>
     </div>
     <script>
         var page = 1;
-        function getCafeData(){
+        send_state = "all";
+        change_flg = false;
+        function getCafeData(state){
+            document.getElementById('newMenuDialog').showModal();
+            if( send_state != state ){
+                send_state = state;
+                change_flg = true;
+                page = 1;
+            }
+
             $.ajax({
-                url: '/customer/findCafe/?page='+page,
+                url: '/customer/findCafe/?page='+page+'&state='+state,
                 type: 'GET',
-                response: {},
                 success: function(response) {
                     showCafeList(response)
                     page = page + 1;
+                    document.getElementById('newMenuDialog').close();
                 }
-            }); 
+            });
         }
-        getCafeData()
+        getCafeData('all')
 
         function showCafeList(response){
             var cafe_images = response.cafe_images;
             var html = '';
+
+            console.log(cafe_images)
+
             for (var i = 0; i < cafe_images.length; i++) {
                 const cafe_congestion = '/static/img/congestion/' + cafe_images[i].cafe_congestion + '.png';
 
@@ -61,7 +100,13 @@
                 html += '</div>';
                 html += '</div>';
             }
-            $('#cafe_list').append(html);
+            if (change_flg == true){
+                $('#cafe_list').empty();
+                $('#cafe_list').append(html);
+                change_flg = false;
+            }else{
+                $('#cafe_list').append(html);
+            }
 
             if (response.last_page == true){
                 document.getElementById('nextPage').style.display = "none";
