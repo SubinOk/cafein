@@ -1,8 +1,6 @@
 import pandas as pd
-from itertools import islice
 from django.core.management.base import BaseCommand
 from cafe.models import Cafe,Cafe_congestion
-from django.core.files import File
 
 class Command(BaseCommand):
     def handle(self, *args, **options):
@@ -17,7 +15,7 @@ class Command(BaseCommand):
         cong = df.iloc[0,0]
         max =cafe[0].max_occupancy
         
-       #혼잡도 값 수정
+        #혼잡도 값 수정
         congestion_value = cong / max* 100.0
         congestion.congestion= congestion_value
         congestion.save()

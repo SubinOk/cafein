@@ -1,40 +1,22 @@
 from django.core.paginator import Paginator
-from django.shortcuts import render, get_object_or_404, redirect
-from django.template.loader import render_to_string
-from django.core.mail import EmailMessage
+from django.shortcuts import render, redirect
 
 from .forms import ownerPostForm, ownerChangeForm, ownerManageForm, cafeMenuForm
 
-#403 오류해결
-from django.views.decorators.csrf import csrf_exempt
-from django.utils.decorators import method_decorator
-
-#추가
-import re
-import json
-import bcrypt
-import jwt
-from django.views           import View
-from django.http            import JsonResponse, HttpResponse
-from django.db.models       import Q
-from django.core.mail.message import EmailMessage
+from django.http            import JsonResponse
 from django.contrib.auth.hashers import check_password
 
 #모델
 from account.models import User
-from cafe.models import Cafe, Cafe_image, Cafe_review, Cafe_comment, Cafe_menu, Cafe_sentiment, Cafe_rank, Cafe_wordcloud
+from cafe.models import Cafe, Cafe_image, Cafe_review, Cafe_comment, Cafe_menu, Cafe_sentiment, Cafe_rank
 
 from . import main
 from . import reviewUpdate
 
 # 멀티프로세스
 from multiprocessing import Process
-import os
-
-
 
 MINIMUM_PASSWORD_LENGTH = 8
-
 
 def ownerHome(request):
     if request.session.get('user'):
@@ -51,15 +33,16 @@ def ownerHome(request):
     else:
         return redirect('/')
 
-
 def signup(request):
-    # 등록된 이메일, 이메일 형식 확인
-    # 두개의 password가 일치한지에 대한 validation
-    # 영어(대소문자), 숫자, 특수문자 포함하고 8~25자리수를 허용
-    # 전화번호 '-'없이 숫자만 입력하도록
-    # 카페 이름 같은 게 있는지 확인하기
-    # 전화번호 '-'없이 숫자만 입력하도록 
-    # 4MB 용량제한 & 확장자 제한
+    """
+        등록된 이메일, 이메일 형식 확인
+        두개의 password가 일치한지에 대한 validation
+        영어(대소문자), 숫자, 특수문자 포함하고 8~25자리수를 허용
+        전화번호 '-'없이 숫자만 입력하도록
+        카페 이름 같은 게 있는지 확인하기
+        전화번호 '-'없이 숫자만 입력하도록 
+        4MB 용량제한 & 확장자 제한
+    """
     if not(request.session.get('user')):
         if request.method == 'POST':
             form = ownerPostForm(request.POST, request.FILES)
@@ -96,7 +79,6 @@ def signup(request):
             return render(request, 'signup.html', {'form': form, 'title': '사장 회원가입'})
     return redirect('/')
 
-
 def checkPassword(request):
     if request.session.get('user'):
         if request.method == 'POST':
@@ -115,7 +97,6 @@ def checkPassword(request):
             return render(request, 'checkPassword.html', {'title': '비밀번호 확인'})
     return redirect('/')
 
-
 def ownerChange(request):
     if request.session.get('user'):
         if request.method == 'POST':
@@ -133,7 +114,6 @@ def ownerChange(request):
             return render(request, 'ownerChange.html', {'form': form, 'title': '회원 정보 수정'})
     else:
         return redirect('/')
-
 
 def ownerDelete(request):
     if request.method == 'POST':
@@ -154,13 +134,11 @@ def ownerDelete(request):
     else:
         return render(request, 'ownerDelete.html', {'title': '탈퇴하기'})
 
-
 def render_with_error(request, html, form, error_type, title=''):
     error_flg = {}
     for error in error_type:
         error_flg[error] = True
     return render(request, html, {'form': form, 'error_flg': error_flg, 'title': title})
-        
 
 def ownerManage(request):
     if request.session.get('user'):
@@ -174,8 +152,18 @@ def ownerManage(request):
             image_1 = request.FILES.get('image_1', '')
             image_2 = request.FILES.get('image_2', '')
             image_3 = request.FILES.get('image_3', '')
-            image_names = [image_name_1, image_name_2, image_name_3]
-            images = [image_1, image_2, image_3]
+            represent = request.POST.get('represent')
+            
+            if represent != '1':
+                if represent == '2':
+                    image_names = [image_name_2, image_name_1, image_name_3]
+                    images = [image_2, image_1, image_3]
+                elif represent == '3':
+                    image_names = [image_name_3, image_name_2, image_name_1]
+                    images = [image_3, image_2, image_1]
+            else:
+                image_names = [image_name_1, image_name_2, image_name_3]
+                images = [image_1, image_2, image_3]
             update_image = {
                 'image_names': image_names,
                 'images': images,
@@ -207,7 +195,6 @@ def cafeUpdate(request):
     else:
         return redirect('/')
 
-
 def ownerStatistics(request):
     if request.session.get('user'):
         data = request.GET.get('data')
@@ -221,17 +208,15 @@ def ownerStatistics(request):
     else:
         return redirect('/')
 
-
 def ownerComent(request):
     cafe_reviews = Cafe_review.objects.filter(cafe=Cafe.objects.get(user_id=request.session.get('user'))).order_by('-date')
 
-    paginator = Paginator(cafe_reviews, 2)
+    paginator = Paginator(cafe_reviews, 5)
 
     page_number = request.GET.get('page')
     page_reviews = paginator.get_page(page_number)
 
     return render(request, 'ownerComent.html', {'reviews': page_reviews, 'title': '리뷰 게시판'})
-
 
 def ownerComentDetail(request, reviewid):
     cafe_review = Cafe_review.objects.get(review_id=reviewid)
@@ -244,7 +229,6 @@ def ownerComentDetail(request, reviewid):
     
     return render(request, 'ownerComentDetail.html', {'contents': contents, 'title': '리뷰 게시판'})
 
-
 def ownerCommentUpload(request):
     if request.method == 'POST':
         review_comment = request.POST.get('review-comment')
@@ -256,7 +240,6 @@ def ownerCommentUpload(request):
         return JsonResponse({'result': True})
     else:
         return JsonResponse({'result': False})
-
 
 def ownerManageMenu(request):
     if request.session.get('user'):
@@ -291,7 +274,6 @@ def ownerManageMenu(request):
     else:
         return redirect('/')
     
-    
 def checkCafeData(request):
     cafe = Cafe.objects.get(cafe_id=request.GET.get('cafe_id'))
     cafe_sentiment = Cafe_sentiment.objects.filter(cafe=cafe)
@@ -307,7 +289,12 @@ def review_update(request):
         name = cafe.name
         number = cafe.cafe_phone
         reviewUpdate.crawl(name,number)
-        return render(request, 'ownerHome.html')
+        cafe = Cafe.objects.get(user = request.session.get('user'))
+        cafe_sentiment = Cafe_sentiment.objects.get(cafe = cafe)
+        cafe_rank = Cafe_rank.objects.filter(sentiment=cafe_sentiment.sentiment_id).order_by('rank')
+        cafe_reviews = Cafe_review.objects.filter(cafe=cafe).order_by('-date')[:3]
+        return render(request, 'ownerHome.html', {'cafe_sentiment':cafe_sentiment, 'cafe':cafe, 'reviews': cafe_reviews
+                                                    ,'cafe_rank': cafe_rank, 'title': '사장 홈',})
     else:
         return redirect('/')
     

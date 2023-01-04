@@ -38,13 +38,12 @@
                         </div>
                         <div class="p-4">
                             <div class="text-center">
-                                <h4 class="fw-bolder" id="menu_name_{{ forloop.counter }}">{{ menu.name }}</h4>
+                                <h4 class="text-gray" id="menu_name_{{ forloop.counter }}">{{ menu.name }}</h4>
                             </div>
                         </div>
                     </div>
                     {% endfor %}
                 </div>
-
             </div>
         </div>
         <div id="carouselExampleIndicators" class="carousel slide col" data-bs-ride="carousel">
@@ -101,7 +100,7 @@
             <tbody>
             {% for review in reviews %}
             <tr class="cursor" onclick="moveDetailPage({{ review.review_id }})">
-                <th scope="row" class="text-center align-middle">{{ forloop.counter }}</th>
+                <th scope="row" class="text-center align-middle">{{ review.review_id }}</th>
                 <td class="text-center align-middle">{{ review.date|date:"Y/m/d" }}</td>
                 <td class="text-center align-middle">{{ review.content }}</td>
                 <td class="text-center align-middle"><img id="score_{{ forloop.counter }}">

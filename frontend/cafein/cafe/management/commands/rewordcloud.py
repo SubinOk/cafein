@@ -1,8 +1,5 @@
 from wordcloud import WordCloud
 from django.core.management.base import BaseCommand
-from PIL import Image
-import matplotlib.pyplot as plt
-import numpy as np
 import pandas as pd
 from cafe.models import Cafe,Cafe_wordcloud
 from io import BytesIO
@@ -15,8 +12,7 @@ class Command(BaseCommand):
         cafeName = df_total.iloc[0,0]
         cafeName = cafeName.replace("_", " ") 
         # 워드클라우드
-        data = wordlist 
-        
+        data = wordlist     
         data = data.fillna(0)
         
         # 카테고리별 df -> wc
@@ -34,8 +30,9 @@ class Command(BaseCommand):
 
         #디비 삭제
         cafe = Cafe.objects.filter(name = cafeName)[0]
-        cafe_wordcloud=Cafe_wordcloud.objects.filter(cafe =cafe)[0]
+        cafe_wordcloud=Cafe_wordcloud.objects.filter(cafe = cafe)[0]
         cafe_wordcloud.delete()
+        
         cafe_wordcloud = Cafe_wordcloud()
         for i in range(8):
                 wordCloud = WordCloud(

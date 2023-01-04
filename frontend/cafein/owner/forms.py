@@ -2,8 +2,8 @@ from django import forms
 from account.models import User
 from cafe.models import Cafe, Cafe_image, Cafe_menu,Cafe_congestion
 import re
-import os
 import pandas as pd
+
 class ownerManageForm(forms.ModelForm):
     class Meta:
         model = Cafe
@@ -53,22 +53,24 @@ class ownerManageForm(forms.ModelForm):
             cafe.datail_add = address2
             cafe.cafe_phone = cafe_phone
             cafe.save()
-        
 
             for idx in range(len(image['images'])):
                 if idx < len(cafe_image):
                     if not cafe_image[idx].image == image['image_names'][idx]:
-                        #
-                        # 입력하는 이미지들의 확장자와 크기 체크하는 부분 추가해줘야함
-                        #
-                        cafe_image[idx].image = image['images'][idx]
-                        cafe_image[idx].cafe = cafe
-                        cafe_image[idx].save()
+                        if image['images'][idx] != '':
+                            cafe_image[idx].image = image['images'][idx]
+                            cafe_image[idx].cafe = cafe
+                            cafe_image[idx].save()
+                        else:
+                            if idx == 0:
+                                change_image = Cafe_image.objects.get(cafe=cafe, image=image['image_names'][idx])
+                                temp = cafe_image[idx].image
+                                cafe_image[idx].image = change_image.image
+                                cafe_image[idx].save()
+                                change_image.image = temp
+                                change_image.save()
                 else:
                     if not image['images'][idx] == '':
-                        #
-                        # 입력하는 이미지들의 확장자와 크기 체크하는 부분 추가해줘야함
-                        #
                         new_cafe_image = Cafe_image()
                         new_cafe_image.image = image['images'][idx]
                         new_cafe_image.cafe = cafe
@@ -87,6 +89,7 @@ class ownerManageForm(forms.ModelForm):
 
         except:
             return False
+
 
 class ownerChangeForm(forms.ModelForm):
     password2 = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': '비밀번호확인'}))
@@ -280,7 +283,6 @@ class ownerPostForm(forms.ModelForm):
         user.save()
         make=user
     
-
         cafe = Cafe.objects.create(
             name=name,
             max_occupancy=human,
@@ -327,7 +329,6 @@ class cafeMenuForm(forms.ModelForm):
                 if True in is_allowed_extension:
                     return True
         return False
-    
 
     def save(self, user_id):
         cafe = Cafe.objects.get(user_id=user_id)

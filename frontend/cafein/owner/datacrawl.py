@@ -1,5 +1,4 @@
 import pandas as pd
-import os
 import requests
 from bs4 import BeautifulSoup
 
@@ -44,27 +43,26 @@ def clickMore(driver, days=90):
     now = datetime.now()
 
     while True: 
-            try: 
-                driver.find_element(By.TAG_NAME, 'body').send_keys(Keys.END)
-                time.sleep(1)
-                driver.find_element(By.TAG_NAME, 'body').send_keys(Keys.PAGE_UP)
-                time.sleep(1) 
-                
-                date = driver.find_element(By.CSS_SELECTOR, '.eCPGL > li:nth-last-child(1) > div:nth-last-child(1) > span > span:nth-last-child(1)').text
-                
-                dt = dateCal(date)
-                diff = (now-dt).total_seconds()//86400
-                
-                if diff > days: # 맨 마지막 리뷰 일자가 90일 이전이면 멈춤
-                    break
-                
-                driver.find_element(By.CSS_SELECTOR, '.lfH3O > a').click()
-                time.sleep(2)           
-                
-                
-            except NoSuchElementException: 
-                print('-더보기 버튼 모두 클릭 완료-') 
-                break 
+        try: 
+            driver.find_element(By.TAG_NAME, 'body').send_keys(Keys.END)
+            time.sleep(1)
+            driver.find_element(By.TAG_NAME, 'body').send_keys(Keys.PAGE_UP)
+            time.sleep(1) 
+            
+            date = driver.find_element(By.CSS_SELECTOR, '.eCPGL > li:nth-last-child(1) > div:nth-last-child(1) > span > span:nth-last-child(1)').text
+            
+            dt = dateCal(date)
+            diff = (now-dt).total_seconds()//86400
+            
+            if diff > days: # 맨 마지막 리뷰 일자가 90일 이전이면 멈춤
+                break
+            
+            driver.find_element(By.CSS_SELECTOR, '.lfH3O > a').click()
+            time.sleep(2)           
+            
+        except NoSuchElementException: 
+            print('-더보기 버튼 모두 클릭 완료-') 
+            break 
 
 
 def seeDetails(driver, action):
@@ -80,7 +78,6 @@ def seeDetails(driver, action):
 
 def scrapReviews(html, datelist, reviewlist):
     dom = BeautifulSoup(html, 'lxml')
-
     reviews = dom.select('.YeINN > .ZZ4OK > a > span:nth-child(1)')
     dates = dom.select('.YeINN > div:nth-last-child(1) > span > span:nth-last-child(1)')
 
@@ -96,7 +93,6 @@ def scrapReviews(html, datelist, reviewlist):
     # 리뷰가 없는 경우        
     except NoSuchElementException: 
         print("네이버 리뷰 없음" )
-
 
 
 def collectData(cafename, cafenum):

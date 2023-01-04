@@ -44,7 +44,7 @@
                     </span>
                 </div>
                 <div class="row border-bottom">
-                    <span class="text-center ptd-15 bg-light-brown align-self-center p-6 col-2">
+                    <span class="text-center ptd-15 bg-light-brown align-self-center px-5 py-6 col-2">
                     리뷰 내용
                     </span>
                     <span class="text-start align-self-center ptd-15 col">
@@ -59,33 +59,9 @@
                 <div class="d-flex justify-content-end">
                     <button type="submit" class="btn-small m-2 ptd-15">등록</button>
                 </div>
-                
             </form>
         </div>
     </div>
-    
-    <style>
-        .dropdown {
-            position: relative;
-            display: inline-block;
-        }
-
-        .dropdown-content {
-            display: none;
-            background-color: #ffffff;
-            position: absolute;
-            z-index: 1;
-        }
-
-        .dropdown:hover .dropdown-content {
-            display: block;
-        }
-
-        .hover-bean:hover{
-            background-color: #DCDCDC	;
-        }
-    </style>
-
     <script>
         function setBeanScore(number){
             document.getElementById('bean').src = '/static/img/bean/'+number+'bean.png';

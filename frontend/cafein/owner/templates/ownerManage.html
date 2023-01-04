@@ -16,43 +16,13 @@
                     <button onclick="location.href='{% url 'owner:ownerManageMenu' %}'" class="login-option mx-2">메뉴 수정</button>
                 </div>
                 <form action="" method="post" enctype="multipart/form-data">
+                    <input type="hidden" id="represent" name="represent" value="1">
                     {% csrf_token %}
                     <div class=contents-blank></div>
                     <div class='row'>
                         <div class='col-5'>
-                            <div class='imagebox' id='mainimage'>
+                            <div class='imagebox' id='mainimage'></div>
                         </div>
-                        </div>    
-                        <script>
-                            function toggleImg(img) {
-                              document.getElementById("img").src = img;
-                            }
-                        </script>
-                            <script>
-                                function setThumbnail(event, id) {
-                                    var reader = new FileReader();
-                                    reader.onload = function(event) {
-                                        var img = document.createElement("img");
-                                        img.setAttribute("src", event.target.result);
-                                        img.setAttribute("class", "imagebox2");
-                                        img.setAttribute("onclick", "toggleImg('"+event.target.result+"')");
-                                        document.getElementById("image_container_" + id).innerHTML = "";
-                                        document.querySelector("div#"+ 'image_container_' + id).appendChild(img);
-                                        document.querySelector("input#"+ 'image_name_' + id).value = event.target.result;
-                                    };
-                                    reader.readAsDataURL(event.target.files[0]);
-                                }
-                            </script>
-
-                            <meta charset="UTF-8">
-                            <title>jQuery .slideUp() </title>
-                            <script>
-                                $( document ).ready( function() {
-                                  $( '#btn' ).on("click", function() {
-                                    $( '.wrap' ).slideToggle();
-                                  } );
-                                } );
-                            </script>
                         <div class='col'>
                             <input type="text" name="name" value="{{ cafe_name }}" class="form-control" placeholder="카페명" required="" id="id_name">
                             <div class=contents-blank></div>
@@ -107,42 +77,57 @@
                         </div>
                     </div>
                 </form>
-                
-                {% for image in imageform %}
-                    {% if forloop.counter == 1 %}
-                    <script>
-                        var img = document.createElement("img");
-                        img.setAttribute("src", "{{image.image.url}}");
-                        img.setAttribute("id", "img")
-                        document.getElementById("mainimage").appendChild(img);
-                    </script>
-                    {% endif %}
-                    <script>
-                        var img = document.createElement("img");
-                        img.setAttribute("src", "{{image.image.url}}");
-                        img.setAttribute("class", "imagebox2");
-                        img.setAttribute("onclick", "toggleImg('{{image.image.url}}')");
-                        document.getElementById("image_container_{{ forloop.counter }}").appendChild(img);
-                        document.getElementById("image_name_{{ forloop.counter }}").value = "{{image.image.name}}";
-                        //image_url.split('/')[-1]
-                        //document.getElementById("image_{{ forloop.counter }}").setAttribute("value", "{{ image.image.url }}");
-                    </script>
-                {% endfor %}
-                <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
-                <script>
-                window.onload = function(){
-                    document.getElementById("address_kakao").addEventListener("click", function(){ //주소입력칸을 클릭하면
-                        //카카오 지도 발생
-                        new daum.Postcode({
-                            oncomplete: function(data) { //선택시 입력값 세팅
-                                document.getElementById("address_kakao").value = data.address; // 주소 넣기
-                                document.querySelector("input[name=address2]").focus(); //상세입력 포커싱
-                            }
-                        }).open();
-                    });
-                }
-                </script>
             </div>
         </div>
     </main>
+    <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+    <script>
+    {% for image in imageform %}
+        {% if forloop.counter == 1 %}
+            var img = document.createElement("img");
+            img.setAttribute("src", "{{image.image.url}}");
+            img.setAttribute("id", "img")
+            document.getElementById("mainimage").appendChild(img);
+        {% endif %}
+            var img = document.createElement("img");
+            img.setAttribute("src", "{{image.image.url}}");
+            img.setAttribute("class", "imagebox2");
+            img.setAttribute("onclick", "toggleImg('{{image.image.url}}', {{forloop.counter}})");
+            document.getElementById("image_container_{{ forloop.counter }}").appendChild(img);
+            document.getElementById("image_name_{{ forloop.counter }}").value = "{{image.image.name}}";
+    {% endfor %}
+    window.onload = function(){
+        document.getElementById("address_kakao").addEventListener("click", function(){ //주소입력칸을 클릭하면
+            //카카오 지도 발생
+            new daum.Postcode({
+                oncomplete: function(data) { //선택시 입력값 세팅
+                    document.getElementById("address_kakao").value = data.address; // 주소 넣기
+                    document.querySelector("input[name=address2]").focus(); //상세입력 포커싱
+                }
+            }).open();
+        });
+    }
+    function toggleImg(img, represent) {
+        document.getElementById("img").src = img;
+        document.getElementById("represent").value = represent;
+    }
+    function setThumbnail(event, id) {
+        var reader = new FileReader();
+        reader.onload = function(event) {
+            var img = document.createElement("img");
+            img.setAttribute("src", event.target.result);
+            img.setAttribute("class", "imagebox2");
+            img.setAttribute("onclick", "toggleImg('"+event.target.result+"', " + id + ")");
+            document.getElementById("image_container_" + id).innerHTML = "";
+            document.querySelector("div#"+ 'image_container_' + id).appendChild(img);
+            document.querySelector("input#"+ 'image_name_' + id).value = event.target.result;
+        };
+        reader.readAsDataURL(event.target.files[0]);
+    }
+    $( document ).ready( function() {
+        $( '#btn' ).on("click", function() {
+          $( '.wrap' ).slideToggle();
+        } );
+    } );
+    </script>
 {% endblock %}

@@ -23,7 +23,7 @@
                 <tbody>
                 {% for review in reviews %}
                 <tr class="cursor ptd-14" onclick="moveDetailPage({{ review.review_id }})">
-                    <th scope="row" class="text-center align-middle">{{ forloop.counter }}</th>
+                    <th scope="row" class="text-center align-middle">{{ review.review_id }}</th>
                     <td class="text-center align-middle">{{ review.date }}</td>
                     <td class="text-center align-middle">{{ review.title }}</td>
                     <td class="text-center align-middle"><img id="score_{{ forloop.counter }}">

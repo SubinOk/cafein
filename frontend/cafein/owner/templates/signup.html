@@ -94,7 +94,11 @@
             </script>
             {% endif %}
             <div class="contents-blank"></div>
+            <p class="text-gray ptd-13 mb-0 mt-2">&nbsp;※ 카페 대표 이미지를 첨부해 주세요.</p>
             {{ form.image }}
+            <div class="sign-in-image-field">
+                <div id="image-container" class=""></div>
+            </div>
             {% if error_flg.image %}
             <p class="text-danger">&nbsp;4MB 미만의 크기의 이미지파일만 사용 가능합니다.</p>
             {% endif %}
@@ -141,8 +145,29 @@
                     });
                 }
             );
+            const fileInput = document.getElementById('id_image');
+            const imageContainer = document.getElementById('image-container');
+
+            fileInput.addEventListener('change', () => {
+                imageContainer.innerHTML = '';  // Clear the image container
+
+                for (let i = 0; i < fileInput.files.length; i++) {
+                    const file = fileInput.files[i];
+
+                    if (file.type.startsWith('image/')) {  // Check if the file is an image
+                        const reader = new FileReader();
+                        reader.addEventListener('load', () => {  // When the file is read, add an img element to the image container
+                        const img = document.createElement('img');
+                        img.setAttribute('class', 'imagebox sign-in-image-width');
+                        img.src = reader.result;
+                        img.alt = file.name;
+                        imageContainer.appendChild(img);
+                        });
+                        reader.readAsDataURL(file);  // Read the file as a data URL
+                    }
+                }
+            });
         </script>
     </div>
 </main>
-
 {% endblock %}

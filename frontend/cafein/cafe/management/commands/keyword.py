@@ -1,16 +1,12 @@
 import pandas as pd
 from itertools import islice
 from django.core.management.base import BaseCommand
-from cafe.models import Cafe_keyword,Cafe
+from cafe.models import Cafe_keyword
 
 class Command(BaseCommand):
     def handle(self, *args, **options):
-        # test_file = pd.read_excel('cafe\resource\팡팡팡_20221222_wordlist.csv')
-        #print(test_file)
-
         batch_size = 100
         columns = ['price_word', 'price_count','drink_word','drink_count','dessert_word','dessert_count','service_word','service_count','customers_word','customers_count','interior_word','interior_count','view_word','view_count','parking_word','parking_count']
-        #df = pd.read_csv('file path' names=columns, header=0)
         df = pd.read_csv('cafe/resource/팡팡팡_20221222_wordlist.csv', names = columns,header=0)
         df = df.fillna(0)
         objs = (Cafe_keyword(
@@ -30,7 +26,6 @@ class Command(BaseCommand):
             view_count = row[13],
             parking_word = row[14],
             parking_count = row[15]
-            #pk 저장 코드 추가해야함 cafe = Cafe
         ) for _, row in df.iterrows() )
         while True:
             batch = list(islice(objs, batch_size))

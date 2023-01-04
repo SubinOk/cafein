@@ -88,6 +88,11 @@ h1 {
     padding: 6rem!important;
 }
 
+.py-6{
+    padding-top: 6rem;
+    padding-bottom: 6rem;
+}
+
 .ml-25{
     margin-left: 25px;
 }
@@ -580,6 +585,26 @@ textarea {
     height: 20px;
     padding-right: 10px;
 }
+/*cafeCreateReview*/
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown-content {
+    display: none;
+    background-color: #ffffff;
+    position: absolute;
+    z-index: 1;
+}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+.hover-bean:hover{
+    background-color: #DCDCDC	;
+}
 
 .dropdown-item{
     padding: 7px 20px;
@@ -746,5 +771,17 @@ textarea {
 
 .cafe-home-menu-size{
     height: 150px;
+    width: 150px;
+}
+
+.sign-in-image-field{
+    position: fixed;
+    z-index: 1;
+    right: 200;
+    bottom: 40%;
+}
+
+.sign-in-image-width{
+    height: 100%;
     width: 150px;
 }
