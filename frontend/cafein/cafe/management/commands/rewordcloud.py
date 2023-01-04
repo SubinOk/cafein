@@ -34,7 +34,7 @@ class Command(BaseCommand):
 
         #디비 삭제
         cafe = Cafe.objects.filter(name = cafeName)[0]
-        cafe_wordcloud=Cafe_wordcloud.objects.filter(cafe =cafe)[0]
+        cafe_wordcloud=Cafe_wordcloud.objects.filter(cafe = cafe)[0]
         cafe_wordcloud.delete()
         cafe_wordcloud = Cafe_wordcloud()
         for i in range(8):
