@@ -102,7 +102,7 @@
             <tr class="cursor" onclick="moveDetailPage({{ review.review_id }})">
                 <th scope="row" class="text-center align-middle">{{ review.review_id }}</th>
                 <td class="text-center align-middle">{{ review.date|date:"Y/m/d" }}</td>
-                <td class="text-center align-middle">{{ review.content }}</td>
+                <td class="text-center align-middle">{{ review.title }}</td>
                 <td class="text-center align-middle"><img id="score_{{ forloop.counter }}">
                     <script>
                         document.getElementById('score_{{ forloop.counter }}').src = "{% static ''%}" + "img/bean/" + "{{ review.score }}" + "bean.png";
