@@ -80,10 +80,13 @@
                         <a class="login-button btn-wo-shadow ms-3 ptd-16 pt-3 pb-3" href="/login">로그인</a>
                     </div>
                     {% else %}
+                    {% if request.session.is_owner == False %}
                     <form action="{% url 'main:search' %}" method="get">
                         <input placeholder="검색어를 입력하세요." type="Search" id="formSearch" name="search" class="pe-5 form-control searchbox">
                     </form>
+                        
                     <img class="header-icon pe-3" src='/static/img/header/search.png'>
+                    {% endif %}
                     <div class="dropdown">
                         <a class="status-button border-0 btn nav-item nav-link ms-3 btn-wo-shadow" data-bs-toggle="dropdown" aria-expanded="false"><img src="/static/img/header/user-icon.png" class="rounded-circle header-icon"></a>
                         <ul class="dropdown-menu dropdown-menu-end shadow border border-300">
