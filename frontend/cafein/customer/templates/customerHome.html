@@ -19,7 +19,7 @@
     <dialog id="newMenuDialog" class="dialog-box">
         <img class="head-logo" src="/static/img/header/logo_main.png">
     </dialog>
-    <div class="d-flex justify-content-end">
+    <div class="d-flex justify-content-end pe-50">
         <div role="group">
             <div class="btn-group btn-group-toggle" data-toggle="buttons" id="btn-radio">
                 <input type="radio" class="btn-check" value="all" autocomplete="off" name="btn-radio" id="btn-radio1" onchange="getCafeData('all')" checked> 
@@ -43,7 +43,7 @@
     <div class="contents-blank"></div>
     <div class="container">
         <div class="contents-blank"></div>
-        <div class="row" id="cafe_list">
+        <div class="row d-flex justify-content-between" id="cafe_list">
         </div>
         <div class="d-flex justify-content-center">
             <a id="nextPage" onclick='getCafeData(send_state)'>
@@ -84,13 +84,13 @@
             for (var i = 0; i < cafe_images.length; i++) {
                 const cafe_congestion = '/static/img/congestion/' + cafe_images[i].cafe_congestion + '.png';
 
-                html += '<div class="col-3 mx-5 mb-6 d-flex justify-content-center flex-column">';
-                html += '<div class="">';
+                html += '<div class="col-4 mb-6 d-flex justify-content-center flex-column">';
+                html += '<div class="d-flex justify-content-center">';
                 html += '<img class="cus-main-image-size rounded-5"';
                 html += 'onclick="location.href=\'/customer/' + cafe_images[i].cafe_id + '/home\'" ';
                 html += 'src="' + cafe_images[i].image + '">';
                 html += '</div>';
-                html += '<div class="">';
+                html += '<div class="d-flex justify-content-center">';
                 html += '<div class="d-flex h3 pt-3 cus-main-width-250 justify-content-between align-items-center">';
                 html += '<div class="w-70 truncate">' + cafe_images[i].cafe + '</div>';
                 html += '<div class="w-30 d-flex justify-content-end">';
