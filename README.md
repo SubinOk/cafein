@@ -1,6 +1,6 @@
 # cafein
 
-![cafein_poster](img/poster.png) 
+<img src="https://drive.google.com/uc?id=1YDD0phUd3suwHRzUsekv-0qvaSTumHKA" title="cafein_poster"></img>
 
 - 시연 영상 : <https://youtu.be/kITOzcAIfkY>
 
