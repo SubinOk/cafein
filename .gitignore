@@ -3,6 +3,8 @@
 *.pyc
 *.sqlite3
 
+img/
+
 modeling/nlp/model
 modeling/nlp/data
 
